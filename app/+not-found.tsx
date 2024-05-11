@@ -1,40 +1,43 @@
-import { Link, Stack } from 'expo-router';
-import { StyleSheet } from 'react-native';
+import { Link, Stack } from 'expo-router'
+import { StyleSheet }  from 'react-native'
+import { TextAtom }    from '../src/UI/components/atoms/Text.atom'
+import { ViewAtom }    from '../src/UI/components/atoms/View.atom'
 
-import { Text, View } from '@/components/Themed';
 
-export default function NotFoundScreen() {
+
+
+export default function screen() {
   return (
     <>
-      <Stack.Screen options={{ title: 'Oops!' }} />
-      <View style={styles.container}>
-        <Text style={styles.title}>This screen doesn't exist.</Text>
+      <Stack.Screen options={{title: 'Oops!'}}/>
+      <ViewAtom style={styles.container}>
+        <TextAtom style={styles.title}>This screen doesn't exist.</TextAtom>
 
         <Link href="/" style={styles.link}>
-          <Text style={styles.linkText}>Go to home screen!</Text>
+          <TextAtom style={styles.linkText}>Go to home screen!</TextAtom>
         </Link>
-      </View>
+      </ViewAtom>
     </>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
+    flex          : 1,
+    alignItems    : 'center',
     justifyContent: 'center',
-    padding: 20,
+    padding       : 20
   },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  title    : {
+    fontSize  : 20,
+    fontWeight: 'bold'
   },
-  link: {
-    marginTop: 15,
-    paddingVertical: 15,
+  link     : {
+    marginTop      : 15,
+    paddingVertical: 15
   },
-  linkText: {
+  linkText : {
     fontSize: 14,
-    color: '#2e78b7',
-  },
-});
+    color   : '#2e78b7'
+  }
+})
