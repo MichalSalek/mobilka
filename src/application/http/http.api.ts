@@ -33,7 +33,6 @@ export const runOnCatch = (
   } else {
     alert('Something went wrong. ')
     reportIssue(`HTTP ERROR ${errorStatus} ${config.mode} ${config.url}`, {payload: config.payload, error})
-    alert(`HTTP ERROR ${errorStatus} ${config.mode} ${config.url} ${JSON.stringify(config.payload)} ${error}`)
   }
 }
 
@@ -91,7 +90,6 @@ export const defaultHTTPFetcher = async <T = unknown, D = NonNullable<unknown>>(
 
   } catch (error) {
     if (IS_DEVELOPMENT_ENV()) {
-      reportIssue('Development only log:', 'warn')
       reportIssue('HTTP HANDLER CATCH', error as object, 'warn')
     }
   }

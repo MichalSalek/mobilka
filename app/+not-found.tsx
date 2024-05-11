@@ -1,7 +1,7 @@
 import { Link, Stack } from 'expo-router'
-import { StyleSheet }  from 'react-native'
-import { TextAtom }    from '../src/UI/components/atoms/Text.atom'
-import { ViewAtom }    from '../src/UI/components/atoms/View.atom'
+import { StyleSheet } from 'react-native'
+import { TextAtom }   from '../src/UI/components/generic-atoms/Text.atom'
+import { ViewAtom }   from '../src/UI/components/generic-atoms/View.atom'
 
 
 
