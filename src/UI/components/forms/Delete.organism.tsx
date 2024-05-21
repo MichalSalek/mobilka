@@ -1,8 +1,10 @@
 import { ReactElement, useCallback, useState } from 'react'
 import { Pressable }                           from 'react-native'
+import { ENV_VARS }                            from '../../../application/environment/environment.api'
 import { defaultHTTPFetcher }                  from '../../../application/http/http.api'
-import { ENDPOINT_DELETE_USER_POST }      from '../../../domain/http/endpoints.api'
-import { generic_styles }                 from '../../styles/theme'
+import { ENDPOINT_DELETE_USER_POST }           from '../../../READONLY-shared-kernel/application/http/http.endpoints'
+import { REQUEST_DTO_API_V1_USER_DELETE }      from '../../../READONLY-shared-kernel/domain/models/user.dto'
+import { generic_styles }                      from '../../styles/theme'
 import { TextAtom }                            from '../generic-atoms/Text.atom'
 import { TextInputAtom }                       from '../generic-atoms/TextInput.atom'
 import { ViewAtom }                            from '../generic-atoms/View.atom'
@@ -29,7 +31,7 @@ export const DeleteOrganism = (): ReactElement => {
     }
     await defaultHTTPFetcher({
       config         : {
-        url : ENDPOINT_DELETE_USER_POST(),
+        url : ENDPOINT_DELETE_USER_POST({ENV_VARS}),
         mode: 'post',
         payload
       },

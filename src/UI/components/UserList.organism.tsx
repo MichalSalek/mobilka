@@ -1,9 +1,12 @@
 import * as Clipboard                                     from 'expo-clipboard'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { List, Surface }                                  from 'react-native-paper'
+import { ENV_VARS }                                       from '../../application/environment/environment.api'
 import { defaultHTTPFetcher }                             from '../../application/http/http.api'
-import { ENDPOINT_GET_ALL_USER_GET }        from '../../domain/http/endpoints.api'
-import { TextAtom }                         from './generic-atoms/Text.atom'
+import { ENDPOINT_GET_ALL_USER_GET }                      from '../../READONLY-shared-kernel/application/http/http.endpoints'
+import { RESPONSE_DTO_API_V1_USER_GET_ALL }               from '../../READONLY-shared-kernel/domain/models/user.dto'
+import { UserModel }                                      from '../../READONLY-shared-kernel/domain/models/user.model'
+import { TextAtom }                                       from './generic-atoms/Text.atom'
 import { ViewAtom }                                       from './generic-atoms/View.atom'
 
 
@@ -16,7 +19,7 @@ export const UserListOrganism = (): ReactElement => {
   const submitCallback = useCallback(async () => {
     await defaultHTTPFetcher<RESPONSE_DTO_API_V1_USER_GET_ALL>({
       config         : {
-        url : ENDPOINT_GET_ALL_USER_GET(),
+        url : ENDPOINT_GET_ALL_USER_GET({ENV_VARS}),
         mode: 'get'
       },
       successCallback: async (response) => {

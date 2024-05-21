@@ -1,9 +1,8 @@
-import axios, { Axios }          from 'axios'
-import { reportIssue }           from '../../error-tracking/errorHandler.api'
-import { HTTPMethod }            from '../http.config'
+import axios, { Axios }              from 'axios'
+import { HTTPMethod }                from '../../../READONLY-shared-kernel/application/http/http.config'
+import { reportIssue }               from '../../error-tracking/errorHandler.api'
 import { axiosDefaultConfiguration } from './axiosAdapter.config'
 import { HttpError, HttpSuccess }    from './axiosAdapter.types'
-
 
 
 
@@ -30,7 +29,11 @@ export const httpHandlerAction = async <T, D>(
     fireOnCatch
   }: HTTPHandlerAction<D>): Promise<HttpSuccess<T>> => {
   if (!url) {
-    reportIssue('NO URL HTTP ERROR', {payload, url, mode})
+    reportIssue('NO URL HTTP ERROR', {
+      payload,
+      url,
+      mode
+    })
   }
 
   fireOnFetchInit && fireOnFetchInit()

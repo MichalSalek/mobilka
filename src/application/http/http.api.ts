@@ -1,16 +1,13 @@
+import { HTTPMethod }                                                from '../../READONLY-shared-kernel/application/http/http.config'
+import { HTTPMessageDTO }                                            from '../../READONLY-shared-kernel/application/http/http.types'
 import { IS_DEVELOPMENT_ENV }                                        from '../environment/environment.api'
 import { reportIssue }                                               from '../error-tracking/errorHandler.api'
 import { httpHandlerAction }                                         from './axios-adapter/axiosAdapter.api'
 import { HttpError, HttpSuccess }                                    from './axios-adapter/axiosAdapter.types'
-import { HTTPMethod }                                                from './http.config'
 import { DetailedErrorsRecord, ErrorDTO, SuccessWrapperAppInputDTO } from './http.types'
 
 
 
-
-type HTTPMessageDTO = {
-  message: string
-}
 
 type DefaultHTTPFetcherConfig = {
   url: string,
