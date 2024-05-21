@@ -1,12 +1,14 @@
 import { IS_DEVELOPMENT_ENV }                                        from '../environment/environment.api'
 import { reportIssue }                                               from '../error-tracking/errorHandler.api'
-import { httpHandlerAction }                            from './axios-adapter/axiosAdapter.api'
+import { httpHandlerAction }                                         from './axios-adapter/axiosAdapter.api'
 import { HttpError, HttpSuccess }                                    from './axios-adapter/axiosAdapter.types'
 import { HTTPMethod }                                                from './http.config'
 import { DetailedErrorsRecord, ErrorDTO, SuccessWrapperAppInputDTO } from './http.types'
 
 
-export type HTTPMessageDTO = {
+
+
+type HTTPMessageDTO = {
   message: string
 }
 
@@ -32,7 +34,10 @@ export const runOnCatch = (
     config.showErrorMessage && alert(errorMessage)
   } else {
     alert('Something went wrong. ')
-    reportIssue(`HTTP ERROR ${errorStatus} ${config.mode} ${config.url}`, {payload: config.payload, error})
+    reportIssue(`HTTP ERROR ${errorStatus} ${config.mode} ${config.url}`, {
+      payload: config.payload,
+      error
+    })
   }
 }
 
@@ -45,7 +50,7 @@ type DefaultHTTPFetcher<T, D> = {
   errorCallback?: (error: DetailedErrorsRecord | undefined) => void
 }
 
-export const defaultHTTPFetcher = async <T = unknown, D = NonNullable<unknown>>(
+export const defaultHTTPFetcher = async <T = HTTPMessageDTO, D = NonNullable<unknown>>(
   {
     config,
     successCallback,

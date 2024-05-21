@@ -2,9 +2,8 @@ import * as Clipboard                                     from 'expo-clipboard'
 import { ReactElement, useCallback, useEffect, useState } from 'react'
 import { List, Surface }                                  from 'react-native-paper'
 import { defaultHTTPFetcher }                             from '../../application/http/http.api'
-import { ENDPOINT_GET_ALL_USER_GET }                      from '../../domain/http/endpoints.api'
-import { UserModel }                                      from '../../domain/http/user.dto'
-import { TextAtom }                                       from './generic-atoms/Text.atom'
+import { ENDPOINT_GET_ALL_USER_GET }        from '../../domain/http/endpoints.api'
+import { TextAtom }                         from './generic-atoms/Text.atom'
 import { ViewAtom }                                       from './generic-atoms/View.atom'
 
 
@@ -15,7 +14,7 @@ export const UserListOrganism = (): ReactElement => {
   const [ users, setUsers ] = useState<UserModel[]>([])
 
   const submitCallback = useCallback(async () => {
-    await defaultHTTPFetcher<UserModel[]>({
+    await defaultHTTPFetcher<RESPONSE_DTO_API_V1_USER_GET_ALL>({
       config         : {
         url : ENDPOINT_GET_ALL_USER_GET(),
         mode: 'get'
@@ -71,8 +70,8 @@ export const UserListOrganism = (): ReactElement => {
             />
             <List.Item
               title={'name'}
-              description={user.name}
-              onPress={() => clickCallback(user.name ?? '')}
+              description={user.display_name}
+              onPress={() => clickCallback(user.display_name ?? '')}
             />
             <List.Item
               title={'password'}

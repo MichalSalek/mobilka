@@ -5,7 +5,7 @@ import { HTTP_HOST, HTTP_PROTOCOL } from './http.config'
 // DEV CHEATS
 //
 // GET
-export const ENDPOINT_CHECK_WEBAPP_SIMPLY = (appName: string) => `${HTTP_PROTOCOL}${appName}/api/dev-cheats/check-access/get`
+export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCOL}${appName}/api/dev-cheats/check-access/get`
 // POST
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}/api/dev-cheats/check-access/post`
 

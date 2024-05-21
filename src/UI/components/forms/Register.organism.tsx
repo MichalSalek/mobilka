@@ -1,12 +1,11 @@
-import { ReactElement, useCallback, useState }                                 from 'react'
-import { Pressable }                                                           from 'react-native'
-import { defaultHTTPFetcher }                                                  from '../../../application/http/http.api'
-import { ENDPOINT_REGISTER_USER_POST }                                         from '../../../domain/http/endpoints.api'
-import { REQUEST_DTO_API_V1_USER_REGISTER, RESPONSE_DTO_API_V1_USER_REGISTER } from '../../../domain/http/user.dto'
-import { generic_styles }                                                      from '../../styles/theme'
-import { TextAtom }                                                            from '../generic-atoms/Text.atom'
-import { TextInputAtom }                                                       from '../generic-atoms/TextInput.atom'
-import { ViewAtom }                                                            from '../generic-atoms/View.atom'
+import { ReactElement, useCallback, useState } from 'react'
+import { Pressable }                           from 'react-native'
+import { defaultHTTPFetcher }                  from '../../../application/http/http.api'
+import { ENDPOINT_REGISTER_USER_POST }      from '../../../domain/http/endpoints.api'
+import { generic_styles }                   from '../../styles/theme'
+import { TextAtom }                            from '../generic-atoms/Text.atom'
+import { TextInputAtom }                       from '../generic-atoms/TextInput.atom'
+import { ViewAtom }                            from '../generic-atoms/View.atom'
 
 
 
@@ -23,20 +22,19 @@ export const RegisterOrganism = (): ReactElement => {
   const submitCallback = useCallback(async () => {
 
     const payload: REQUEST_DTO_API_V1_USER_REGISTER = {
-      data: {
-        email,
-        password,
-        username,
-        name
-      }
+      email,
+      password,
+      username,
+      display_name: name
     }
-    await defaultHTTPFetcher<REQUEST_DTO_API_V1_USER_REGISTER, RESPONSE_DTO_API_V1_USER_REGISTER>({
+    await defaultHTTPFetcher({
       config         : {
         url : ENDPOINT_REGISTER_USER_POST(),
         mode: 'post',
         payload
       },
-      successCallback: async () => {
+      successCallback: async (response) => {
+        console.log(response)
         setErrors('OK')
       },
       errorCallback  : async (e) => {
