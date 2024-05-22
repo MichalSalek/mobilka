@@ -8,12 +8,17 @@ export type HTTPStatus = 200 | 201 | 302 | 400 | 401 | 404 | 405 | 406 | 500 | 5
 
 export const SERVER_MESSAGES = [
   'GENERAL_ERROR',
-  'NOT_FOUND',
-  'CANNOT_DELETE_USER',
-  'CANNOT_CREATE_USER',
-  'CANNOT_LOGIN',
-
   'SUCCESS',
-  'USER_CREATED'
+
+  'NOT_FOUND',
+
+  'USER_DELETED',
+  'CANNOT_DELETE_USER',
+
+  'USER_CREATED',
+  'CANNOT_CREATE_USER',
+
+  'USER_LOGGED_IN',
+  'CANNOT_LOGIN'
 
 ] as const

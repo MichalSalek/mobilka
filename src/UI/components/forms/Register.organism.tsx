@@ -17,7 +17,6 @@ export const RegisterOrganism = (): ReactElement => {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
   const [ name, setName ] = useState('')
-  const [ username, setUsername ] = useState('')
 
   const [ errors, setErrors ] = useState({})
 
@@ -26,7 +25,6 @@ export const RegisterOrganism = (): ReactElement => {
     const payload: REQUEST_DTO_API_V1_USER_REGISTER = {
       email,
       password,
-      username,
       display_name: name
     }
     await defaultHTTPFetcher({
@@ -54,10 +52,6 @@ export const RegisterOrganism = (): ReactElement => {
         alignItems: 'center',
         paddingTop: 50
       }}>
-      <TextInputAtom
-        onChangeText={(text) => setUsername(text)}
-        placeholder="Username"
-      />
       <TextInputAtom
         onChangeText={(text) => setEmail(text)}
         placeholder="Email"/>

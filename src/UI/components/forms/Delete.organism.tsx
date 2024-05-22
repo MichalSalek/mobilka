@@ -16,8 +16,6 @@ export const DeleteOrganism = (): ReactElement => {
 
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
-  const [ name, setName ] = useState('')
-  const [ username, setUsername ] = useState('')
 
   const [ errors, setErrors ] = useState({})
 
@@ -25,9 +23,7 @@ export const DeleteOrganism = (): ReactElement => {
 
     const payload: REQUEST_DTO_API_V1_USER_DELETE = {
       email,
-      password,
-      username,
-      display_name: name
+      password
     }
     await defaultHTTPFetcher({
       config         : {
@@ -55,15 +51,8 @@ export const DeleteOrganism = (): ReactElement => {
         paddingTop: 50
       }}>
       <TextInputAtom
-        onChangeText={(text) => setUsername(text)}
-        placeholder="Username"
-      />
-      <TextInputAtom
         onChangeText={(text) => setEmail(text)}
         placeholder="Email"/>
-      <TextInputAtom
-        onChangeText={(text) => setName(text)}
-        placeholder="Your display name"/>
       <TextInputAtom
         onChangeText={(text) => setPassword(text)}
         placeholder="Password"

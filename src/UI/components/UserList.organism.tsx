@@ -4,8 +4,8 @@ import { List, Surface }                                  from 'react-native-pap
 import { ENV_VARS }                                       from '../../application/environment/environment.api'
 import { defaultHTTPFetcher }                             from '../../application/http/http.api'
 import { ENDPOINT_GET_ALL_USER_GET }                      from '../../READONLY-shared-kernel/application/http/http.endpoints'
+import { User }                                           from '../../READONLY-shared-kernel/domain/models/models'
 import { RESPONSE_DTO_API_V1_USER_GET_ALL }               from '../../READONLY-shared-kernel/domain/models/user.dto'
-import { UserModel }                                      from '../../READONLY-shared-kernel/domain/models/user.model'
 import { TextAtom }                                       from './generic-atoms/Text.atom'
 import { ViewAtom }                                       from './generic-atoms/View.atom'
 
@@ -14,7 +14,7 @@ import { ViewAtom }                                       from './generic-atoms/
 
 export const UserListOrganism = (): ReactElement => {
 
-  const [ users, setUsers ] = useState<UserModel[]>([])
+  const [ users, setUsers ] = useState<User[]>([])
 
   const submitCallback = useCallback(async () => {
     await defaultHTTPFetcher<RESPONSE_DTO_API_V1_USER_GET_ALL>({
@@ -61,11 +61,6 @@ export const UserListOrganism = (): ReactElement => {
           }}>
           {users.map((user) => <Surface
             key={user.email}>
-            <List.Item
-              title={'username'}
-              description={user.username}
-              onPress={() => clickCallback(user.username)}
-            />
             <List.Item
               title={'email'}
               description={user.email}

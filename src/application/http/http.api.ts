@@ -1,10 +1,9 @@
-import { HTTPMethod }                                                from '../../READONLY-shared-kernel/application/http/http.config'
-import { HTTPMessageDTO }                                            from '../../READONLY-shared-kernel/application/http/http.types'
-import { IS_DEVELOPMENT_ENV }                                        from '../environment/environment.api'
-import { reportIssue }                                               from '../error-tracking/errorHandler.api'
-import { httpHandlerAction }                                         from './axios-adapter/axiosAdapter.api'
-import { HttpError, HttpSuccess }                                    from './axios-adapter/axiosAdapter.types'
-import { DetailedErrorsRecord, ErrorDTO, SuccessWrapperAppInputDTO } from './http.types'
+import { HTTPMethod }                                                                from '../../READONLY-shared-kernel/application/http/http.config'
+import { DetailedErrorsRecord, ErrorDTO, HTTPMessageDTO, SuccessWrapperAppInputDTO } from '../../READONLY-shared-kernel/application/http/http.types'
+import { IS_DEVELOPMENT_ENV }                                                        from '../environment/environment.api'
+import { reportIssue }                                                               from '../error-tracking/errorHandler.api'
+import { httpHandlerAction }                                                         from './axios-adapter/axiosAdapter.api'
+import { HttpError, HttpSuccess }                                                    from './axios-adapter/axiosAdapter.types'
 
 
 
