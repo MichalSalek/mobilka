@@ -16,11 +16,12 @@ const API_ROUTES = {
   CHECK_WEBAPP_SIMPLE: '/api/dev-cheats/check-access/get',
   CHECK_WEBAPP_CROSS : '/api/dev-cheats/check-access/post',
 
-  REGISTER_USER: '/api/v1/user/register/post',
-  LOGIN_USER   : '/api/v1/user/login/post',
-  LOGOUT_USER  : '/api/v1/user/logout/get',
-  DELETE_USER  : '/api/v1/user/delete/post',
-  GET_ALL_USERS: '/api/v1/user/get-all/get'
+  REGISTER_USER   : '/api/v1/user/register/post',
+  LOGIN_USER      : '/api/v1/user/login/post',
+  LOGOUT_USER     : '/api/v1/user/logout/get',
+  DELETE_USER     : '/api/v1/user/delete/post',
+  GET_ALL_USERS   : '/api/v1/user/get-all/get',
+  GET_CURRENT_USER: '/api/v1/user/get-current/get'
 }
 
 
@@ -42,3 +43,4 @@ export const ENDPOINT_LOGIN_USER_POST = (props: EndpointProps) => `${HTTP_PROTOC
 export const ENDPOINT_LOGOUT_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.LOGOUT_USER}`
 export const ENDPOINT_DELETE_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.DELETE_USER}`
 export const ENDPOINT_GET_ALL_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.GET_ALL_USERS}`
+export const ENDPOINT_GET_CURRENT_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.GET_CURRENT_USER}`

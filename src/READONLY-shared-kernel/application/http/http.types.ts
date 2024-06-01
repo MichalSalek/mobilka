@@ -1,9 +1,9 @@
 export type HTTPMessageDTO = {
-  message: string
+  message?: string
 }
 
 export type HTTPRedirectionDTO = {
-  redirection: string
+  redirection?: string
 }
 
 // export type DetailedError = {
@@ -21,9 +21,7 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO<T> = {
-  message: string | null
-} & (T | null)
+export type ErrorDTO<T> = HTTPMessageDTO & HTTPRedirectionDTO & (T | null)
 
 export type SuccessWrapperAppInputDTO <T = undefined> = {
   data: T
