@@ -8,5 +8,5 @@ export const axiosDefaultConfiguration: AxiosRequestConfig = {
   //   username: 'johnnybros',
   //   password: 'brosjohnny'
   // },
-  withCredentials: false
+  withCredentials: true
 }

@@ -6,19 +6,9 @@ export type HTTPMethod = 'post' | 'get'
 
 export type HTTPStatus = 200 | 201 | 302 | 400 | 401 | 404 | 405 | 406 | 500 | 503
 
-export const SERVER_MESSAGES = [
+export const SERVER_MESSAGES_GENERIC = [
   'GENERAL_ERROR',
   'SUCCESS',
 
   'NOT_FOUND',
-
-  'USER_DELETED',
-  'CANNOT_DELETE_USER',
-
-  'USER_CREATED',
-  'CANNOT_CREATE_USER',
-
-  'USER_LOGGED_IN',
-  'CANNOT_LOGIN'
-
 ] as const

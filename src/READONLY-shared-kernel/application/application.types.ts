@@ -1,3 +1,3 @@
-export type IDType = number
+export type IDType = string
 
-export type DateAndTime = string
+export type DateAndTime = Date

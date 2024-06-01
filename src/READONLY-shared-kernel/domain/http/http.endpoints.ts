@@ -1,4 +1,4 @@
-import { HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
+import { HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from '../../application/http/http.config'
 
 
 
@@ -18,6 +18,7 @@ const API_ROUTES = {
 
   REGISTER_USER: '/api/v1/user/register/post',
   LOGIN_USER   : '/api/v1/user/login/post',
+  LOGOUT_USER  : '/api/v1/user/logout/get',
   DELETE_USER  : '/api/v1/user/delete/post',
   GET_ALL_USERS: '/api/v1/user/get-all/get'
 }
@@ -38,6 +39,6 @@ export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL
 //
 export const ENDPOINT_REGISTER_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.REGISTER_USER}`
 export const ENDPOINT_LOGIN_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.LOGIN_USER}`
+export const ENDPOINT_LOGOUT_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.LOGOUT_USER}`
 export const ENDPOINT_DELETE_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.DELETE_USER}`
 export const ENDPOINT_GET_ALL_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.GET_ALL_USERS}`
-

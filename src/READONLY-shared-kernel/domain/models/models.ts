@@ -5,8 +5,6 @@ import { DateAndTime, IDType } from '../../application/application.types'
 
 export enum Role {
   USER_LEVEL_1 = 'USER_LEVEL_1',
-  USER_LEVEL_2 = 'USER_LEVEL_2',
-  USER_LEVEL_3 = 'USER_LEVEL_3',
   ACCOUNT_HOLDER = 'ACCOUNT_HOLDER',
   MASTER_ADMIN = 'MASTER_ADMIN'
 }
@@ -16,10 +14,9 @@ export enum Role {
 
 export type Profile =
   {
+    id: IDType
     created_at: DateAndTime
-    profile_id: IDType
-    created_by_user: User
-    created_by_user_id: number
+    created_by_user_id: IDType
   }
 
 
@@ -36,30 +33,28 @@ export enum SessionMode {
 export type Session =
   {
     created_at: DateAndTime
-    session_id: IDType
-    created_by_user: User
-    created_by_user_id: number
+    session_id: string
+    created_by_user_id: IDType
     session_mode: SessionMode
-  }
-
-export type UserMetadata =
-  {
-    id: IDType
-    user: User
-    user_id: number
-    created_at: DateAndTime
-    is_user_deleted: boolean
-    when_was_deleted: DateAndTime
+    location?: string
+    language?: string
+    user_agent?: string
+    salt: string
   }
 
 export type User =
   {
-    metadata: UserMetadata
     user_id: IDType
     email: string
     display_name: string
     password: string
     role: Role
-    sessions: Session[]
-    profile: Profile
+    created_at: DateAndTime
+    is_user_deleted: boolean
+    when_was_deleted: DateAndTime
   }
+
+export type UserWithRelations = {
+  sessions: Session[]
+  profile: Profile
+} | User
