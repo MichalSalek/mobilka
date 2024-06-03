@@ -16,12 +16,14 @@ const API_ROUTES = {
   CHECK_WEBAPP_SIMPLE: '/api/dev-cheats/check-access/get',
   CHECK_WEBAPP_CROSS : '/api/dev-cheats/check-access/post',
 
-  REGISTER_USER   : '/api/v1/user/register/post',
-  LOGIN_USER      : '/api/v1/user/login/post',
-  LOGOUT_USER     : '/api/v1/user/logout/get',
-  DELETE_USER     : '/api/v1/user/delete/post',
-  GET_ALL_USERS   : '/api/v1/user/get-all/get',
-  GET_CURRENT_USER: '/api/v1/user/get-current/get'
+  USER_REGISTER                : '/api/v1/user/register/',
+  USER_LOGIN                   : '/api/v1/user/login/',
+  USER_LOGOUT                  : '/api/v1/user/logout/',
+  USER_DELETE_ANY              : '/api/v1/user/delete_any/',
+  USER_DELETE_ANY_PROFILE_SCOPE: '/api/v1/user/delete_any_profile_scope/',
+  USER_DELETE_SELF             : '/api/v1/user/delete_self/',
+  USER_GET_ALL                 : '/api/v1/user/get-all/',
+  USER_GET_CURRENT             : '/api/v1/user/get-current/'
 }
 
 
@@ -38,9 +40,11 @@ export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL
 
 // USER
 //
-export const ENDPOINT_REGISTER_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.REGISTER_USER}`
-export const ENDPOINT_LOGIN_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.LOGIN_USER}`
-export const ENDPOINT_LOGOUT_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.LOGOUT_USER}`
-export const ENDPOINT_DELETE_USER_POST = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.DELETE_USER}`
-export const ENDPOINT_GET_ALL_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.GET_ALL_USERS}`
-export const ENDPOINT_GET_CURRENT_USER_GET = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.GET_CURRENT_USER}`
+export const ENDPOINT_USER_REGISTER = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_REGISTER}`
+export const ENDPOINT_USER_LOGIN = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_LOGIN}`
+export const ENDPOINT_USER_LOGOUT = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_LOGOUT}`
+export const ENDPOINT_USER_DELETE_ANY = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_DELETE_ANY}`
+export const ENDPOINT_USER_DELETE_ANY_PROFILE_SCOPE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_DELETE_ANY_PROFILE_SCOPE}`
+export const ENDPOINT_USER_DELETE_SELF = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_DELETE_SELF}`
+export const ENDPOINT_USER_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_ALL}`
+export const ENDPOINT_USER_GET_CURRENT = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_CURRENT}`

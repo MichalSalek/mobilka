@@ -1,4 +1,4 @@
-import { User } from './models'
+import { User, UserClientSafe } from './models'
 
 
 
@@ -17,12 +17,12 @@ export type REQUEST_DTO_API_V1_USER_REGISTER = Pick<User, 'email' | 'password' |
 
 // DELETE
 //
-export type REQUEST_DTO_API_V1_USER_DELETE = Pick<User, 'password' | 'email' | 'display_name'>
+export type REQUEST_DTO_API_V1_USER_DELETE = Pick<User, 'password' | 'email'>
 
 // GET LL
 //
-export type RESPONSE_DTO_API_V1_USER_GET_ALL = Omit<User, 'password'>[]
+export type RESPONSE_DTO_API_V1_USER_GET_ALL = UserClientSafe[]
 
 // GET CURRENT
 //
-export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = Omit<User, 'password'>
+export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = UserClientSafe

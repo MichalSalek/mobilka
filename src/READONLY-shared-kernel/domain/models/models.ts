@@ -3,7 +3,8 @@ import { DateAndTime, IDType } from '../../application/application.types'
 
 
 
-export enum Role {
+export const enum Role {
+  NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   USER_LEVEL_1 = 'USER_LEVEL_1',
   ACCOUNT_HOLDER = 'ACCOUNT_HOLDER',
   MASTER_ADMIN = 'MASTER_ADMIN'
@@ -12,17 +13,32 @@ export enum Role {
 
 
 
+export const ALL_ROLES_COLLECTION = [ Role.USER_LEVEL_1, Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ]
+
+
+
+type DateAndTimeMeta = {
+  created_at: DateAndTime
+  updated_at: DateAndTime | null
+}
+
+type ShallowDeletedModelsMeta = {
+  is_deleted: boolean
+  when_was_deleted: DateAndTime | null
+}
+
+
 export type Profile =
   {
     id: IDType
-    created_at: DateAndTime
     created_by_user_id: IDType
-  }
+
+  } & DateAndTimeMeta & ShallowDeletedModelsMeta
 
 
 
 
-export enum SessionMode {
+export const enum SessionMode {
   STANDARD = 'STANDARD',
   READ_ONLY = 'READ_ONLY'
 }
@@ -32,15 +48,15 @@ export enum SessionMode {
 
 export type Session =
   {
-    created_at: DateAndTime
     session_id: string
     created_by_user_id: IDType
     session_mode: SessionMode
-    location?: string
-    language?: string
-    user_agent?: string
+    location: string | null
+    language: string | null
+    user_agent: string | null
     salt: string
-  }
+    last_used: DateAndTime
+  } & DateAndTimeMeta
 
 export type User =
   {
@@ -49,12 +65,17 @@ export type User =
     display_name: string
     password: string
     role: Role
-    created_at: DateAndTime
-    is_user_deleted: boolean
-    when_was_deleted: DateAndTime
+
+  } & DateAndTimeMeta & ShallowDeletedModelsMeta
+
+export type UserClientSafe = Omit<User, 'password'>
+
+export type UserRelations =
+  {
+    sessions: Session[]
+    profile: Profile
   }
 
-export type UserWithRelations = {
-  sessions: Session[]
-  profile: Profile
-} | User
+export type UserWithRelations = UserRelations | User
+
+export type UserClientSafeWithRelations = UserRelations | UserClientSafe

@@ -1,9 +1,10 @@
-export type HTTPMessageDTO = {
-  message?: string
-}
+import { SERVER_MESSAGES_TYPE } from '../../domain/http/http.config'
 
-export type HTTPRedirectionDTO = {
-  redirection?: string
+
+
+
+export type HTTPMessageDTO = {
+  message?: SERVER_MESSAGES_TYPE
 }
 
 // export type DetailedError = {
@@ -21,8 +22,8 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO<T> = HTTPMessageDTO & HTTPRedirectionDTO & (T | null)
+export type ErrorDTO<T> = HTTPMessageDTO & (T | null)
 
-export type SuccessWrapperAppInputDTO <T = undefined> = {
+export type SuccessWrapperAppInputDTO<T = undefined> = {
   data: T
 } & Partial<HTTPMessageDTO>

@@ -9,6 +9,5 @@ export type HTTPStatus = 200 | 201 | 302 | 400 | 401 | 404 | 405 | 406 | 500 | 5
 export const SERVER_MESSAGES_GENERIC = [
   'GENERAL_ERROR',
   'SUCCESS',
-
-  'NOT_FOUND',
+  'NOT_FOUND'
 ] as const

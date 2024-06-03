@@ -2,7 +2,7 @@ import { ReactElement, useCallback, useState } from 'react'
 import { Pressable }                           from 'react-native'
 import { ENV_VARS }                            from '../../../application/environment/environment.api'
 import { defaultHTTPFetcher }                  from '../../../application/http/http.api'
-import { ENDPOINT_DELETE_USER_POST }           from '../../../READONLY-shared-kernel/application/http/http.endpoints'
+import { ENDPOINT_USER_DELETE_ANY }           from '../../../READONLY-shared-kernel/domain/http/http.endpoints'
 import { REQUEST_DTO_API_V1_USER_DELETE }      from '../../../READONLY-shared-kernel/domain/models/user.dto'
 import { generic_styles }                      from '../../styles/theme'
 import { TextAtom }                            from '../generic-atoms/Text.atom'
@@ -17,7 +17,7 @@ export const DeleteOrganism = (): ReactElement => {
   const [ email, setEmail ] = useState('')
   const [ password, setPassword ] = useState('')
 
-  const [ errors, setErrors ] = useState({})
+  const [ message, setMessage ] = useState({})
 
   const submitCallback = useCallback(async () => {
 
@@ -27,16 +27,15 @@ export const DeleteOrganism = (): ReactElement => {
     }
     await defaultHTTPFetcher({
       config         : {
-        url : ENDPOINT_DELETE_USER_POST({ENV_VARS}),
+        url : ENDPOINT_USER_DELETE_ANY({ENV_VARS}),
         mode: 'post',
         payload
       },
       successCallback: async (response) => {
-        console.log(response)
-        setErrors('OK')
+        setMessage(response.message ?? '')
       },
       errorCallback  : async (e) => {
-        e && setErrors(e)
+        e && setMessage(e)
       }
     })
 
@@ -58,7 +57,7 @@ export const DeleteOrganism = (): ReactElement => {
         placeholder="Password"
       />
 
-      <TextAtom>{JSON.stringify(errors, undefined, 2)}</TextAtom>
+      <TextAtom>{JSON.stringify(message, undefined, 2)}</TextAtom>
 
       <Pressable style={generic_styles.button} onPress={submitCallback}>
         <TextAtom style={generic_styles.text}>DO</TextAtom>
