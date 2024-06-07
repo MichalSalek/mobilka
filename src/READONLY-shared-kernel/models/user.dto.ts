@@ -13,7 +13,7 @@ export type REQUEST_DTO_API_V1_USER_LOGIN = Pick<User, 'password' | 'email'> & R
 
 // REGISTER
 //
-export type REQUEST_DTO_API_V1_USER_REGISTER = Pick<User, 'email' | 'password' | 'display_name'>
+export type REQUEST_DTO_API_V1_USER_CREATE = Pick<User, 'email' | 'password' | 'display_name'>
 
 // DELETE
 //

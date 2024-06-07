@@ -1,11 +1,4 @@
-import { SERVER_MESSAGES_TYPE } from '../../domain/http/http.config'
-
-
-
-
-export type HTTPMessageDTO = {
-  message?: SERVER_MESSAGES_TYPE
-}
+import { ApplicationEventDTO } from '../cqrs/cqrs.types'
 
 // export type DetailedError = {
 //   text: string
@@ -22,8 +15,8 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO<T> = HTTPMessageDTO & (T | null)
+export type ErrorDTO<T> = ApplicationEventDTO & (T | null)
 
 export type SuccessWrapperAppInputDTO<T = undefined> = {
   data: T
-} & Partial<HTTPMessageDTO>
+} & Partial<ApplicationEventDTO>

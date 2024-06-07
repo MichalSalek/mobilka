@@ -1,4 +1,4 @@
-import { DateAndTime, IDType } from '../../application/application.types'
+import { DateAndTime, IDType } from '../application.types'
 
 
 

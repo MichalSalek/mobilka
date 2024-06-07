@@ -1,4 +1,4 @@
-import { REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN, REQUEST_DTO_API_V1_USER_REGISTER } from '../domain/models/user.dto'
+import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user.dto'
 
 
 
@@ -9,7 +9,7 @@ export type ValidationFunction<T> = ((data: T) => GenericValidationResult & unkn
 
 
 
-export type ValidateRegisterDataResult = Partial<REQUEST_DTO_API_V1_USER_REGISTER> & GenericValidationResult
+export type ValidateRegisterDataResult = Partial<REQUEST_DTO_API_V1_USER_CREATE> & GenericValidationResult
 
 export type ValidateLoginDataResult = Partial<REQUEST_DTO_API_V1_USER_LOGIN> & GenericValidationResult
 
@@ -41,7 +41,7 @@ export const VALIDATION_POLICY = {
 
   molecules: {
 
-    validateRegisterData: (data: REQUEST_DTO_API_V1_USER_REGISTER): ValidateRegisterDataResult => {
+    validateRegisterData: (data: REQUEST_DTO_API_V1_USER_CREATE): ValidateRegisterDataResult => {
 
       const returnObject: ValidateRegisterDataResult = {
         __isValid: false,

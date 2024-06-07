@@ -1,5 +1,5 @@
 import { NextRouter }                                 from 'next/router'
-import { ALL_ROLES_COLLECTION, Role, UserClientSafe } from '../domain/models/models'
+import { ALL_ROLES_COLLECTION, Role, UserClientSafe } from '../models/models'
 
 
 
@@ -21,24 +21,28 @@ export type ROUTING_POLICY_RULES =
 
 
 export type ROUTING_POLICY_TYPE = {
-  routesPermissions: { [K in ROUTES]: Role[] }
-  rules: Record<ROUTING_POLICY_RULES, (...args: any[]) => void>
+  permissions: { [K in ROUTES]: Role[] }
+  rulesToHandle: Record<ROUTING_POLICY_RULES, (...args: any[]) => void>
 }
 
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
-  routesPermissions: {
+  permissions: {
 
     // EMPTY ARRAY - Everyone is allowed. Including not logged in.
 
     '/'             : [],
     '/app'          : ALL_ROLES_COLLECTION,
-    '/user/delete'  : [ Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ],
+    '/user/delete'  : ALL_ROLES_COLLECTION,
     '/user/login'   : [],
     '/user/register': []
   },
 
-  rules: {
+  rulesToHandle: {
+
+    // Events fallback for specific handling in other places.
+    // Needs to be special handled in the App.
+
     UNAUTHORIZED_FOR_ROLE: (currentUser: UserClientSafe, currentPathname: ROUTES, action: () => void) => {
       if (!GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
@@ -76,9 +80,9 @@ export const GET_PERMISSION_APPROVAL_FOR_ROUTE = (role: Role | unknown, requeste
   // OR
   // Role is included in requested event permission array.
   Boolean(
-    ROUTING_POLICY.routesPermissions[requestedRoute]?.length === 0
+    ROUTING_POLICY.permissions[requestedRoute]?.length === 0
     ||
-    ROUTING_POLICY.routesPermissions[requestedRoute]?.includes(role as Role)
+    ROUTING_POLICY.permissions[requestedRoute]?.includes(role as Role)
   )
 
 

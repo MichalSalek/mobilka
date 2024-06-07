@@ -2,8 +2,8 @@ import { ReactElement, useCallback, useState } from 'react'
 import { Pressable }                           from 'react-native'
 import { ENV_VARS }                            from '../../../application/environment/environment.api'
 import { defaultHTTPFetcher }                  from '../../../application/http/http.api'
-import { ENDPOINT_USER_REGISTER }         from '../../../READONLY-shared-kernel/domain/http/http.endpoints'
-import { REQUEST_DTO_API_V1_USER_REGISTER }    from '../../../READONLY-shared-kernel/domain/models/user.dto'
+import { ENDPOINT_USER_CREATE }         from '../../../READONLY-shared-kernel/domain/http/http.endpoints'
+import { REQUEST_DTO_API_V1_USER_CREATE }    from '../../../READONLY-shared-kernel/domain/models/user.dto'
 import { generic_styles }                      from '../../styles/theme'
 import { TextAtom }                            from '../generic-atoms/Text.atom'
 import { TextInputAtom }                       from '../generic-atoms/TextInput.atom'
@@ -22,14 +22,14 @@ export const RegisterOrganism = (): ReactElement => {
 
   const submitCallback = useCallback(async () => {
 
-    const payload: REQUEST_DTO_API_V1_USER_REGISTER = {
+    const payload: REQUEST_DTO_API_V1_USER_CREATE = {
       email,
       password,
       display_name: name
     }
     await defaultHTTPFetcher({
       config         : {
-        url : ENDPOINT_USER_REGISTER({ENV_VARS}),
+        url : ENDPOINT_USER_CREATE({ENV_VARS}),
         mode: 'post',
         payload
       },
