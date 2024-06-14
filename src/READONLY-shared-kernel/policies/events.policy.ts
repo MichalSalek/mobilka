@@ -43,8 +43,13 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
       if (event === 'USER_LOGGED_IN') {
         action()
       }
-    }
+    },
 
+    SELF_USER_DELETED: (event, action) => {
+      if (event === 'SELF_USER_DELETED') {
+        action()
+      }
+    }
   }
 } as const
 
