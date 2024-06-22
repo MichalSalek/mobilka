@@ -17,23 +17,46 @@ export const ALL_ROLES_COLLECTION = [ Role.USER_LEVEL_1, Role.ACCOUNT_HOLDER, Ro
 
 
 
-type DateAndTimeMeta = {
-  created_at: DateAndTime
-  updated_at: DateAndTime | null
+type DateAndTimePartial =
+  {
+    created_at: DateAndTime
+    updated_at: DateAndTime | null
+  }
+
+type DeletedModelPartial =
+  {
+    is_deleted: boolean
+    when_was_deleted: DateAndTime | null
+  }
+
+
+
+
+export const enum EventType {
+  ACCOUNT_EVENT_LOG = 'ACCOUNT_EVENT_LOG',
+  LOGIN_EVENT_LOG = 'LOGIN_EVENT_LOG'
 }
 
-type ShallowDeletedModelsMeta = {
-  is_deleted: boolean
-  when_was_deleted: DateAndTime | null
-}
 
 
-export type Profile =
+
+type EventLog =
   {
     id: IDType
     created_by_user_id: IDType
+    created_at: DateAndTime
+    event: string
+    event_type: EventType
+  }
 
-  } & DateAndTimeMeta & ShallowDeletedModelsMeta
+
+export type Account =
+  {
+    id: IDType
+    created_by_user_id: IDType
+    display_name: string
+
+  } & DateAndTimePartial & DeletedModelPartial
 
 
 
@@ -56,7 +79,7 @@ export type Session =
     user_agent: string | null
     salt: string
     last_used: DateAndTime
-  } & DateAndTimeMeta
+  } & DateAndTimePartial
 
 export type User =
   {
@@ -65,15 +88,17 @@ export type User =
     display_name: string
     password: string
     role: Role
+    account_id: string
 
-  } & DateAndTimeMeta & ShallowDeletedModelsMeta
+  } & DateAndTimePartial & DeletedModelPartial
 
 export type UserClientSafe = Omit<User, 'password'>
 
 export type UserRelations =
   {
     sessions: Session[]
-    profile: Profile
+    account: Account
+    event_logs: EventLog[]
   }
 
 export type UserWithRelations = UserRelations | User

@@ -15,7 +15,7 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO<T> = ApplicationEventDTO & (T | null)
+export type ErrorDTO = ApplicationEventDTO & DetailedErrorsRecord
 
 export type SuccessWrapperAppInputDTO<T = undefined> = {
   data: T

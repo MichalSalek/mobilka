@@ -10,6 +10,7 @@ export enum ROUTES {
   USER_DEL = '/user/delete',
   USER_LOG = '/user/login',
   USER_REG = '/user/register',
+  USER_ACCOUNT = '/user/account'
 }
 
 
@@ -31,11 +32,12 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
     // EMPTY ARRAY - Everyone is allowed. Including not logged in.
 
-    '/'             : [],
-    '/app'          : ALL_ROLES_COLLECTION,
-    '/user/delete'  : ALL_ROLES_COLLECTION,
-    '/user/login'   : [],
-    '/user/register': []
+    [ROUTES.HOME]        : [],
+    [ROUTES.APP]         : ALL_ROLES_COLLECTION,
+    [ROUTES.USER_DEL]    : ALL_ROLES_COLLECTION,
+    [ROUTES.USER_LOG]    : [],
+    [ROUTES.USER_REG]    : [],
+    [ROUTES.USER_ACCOUNT]: ALL_ROLES_COLLECTION
   },
 
   rulesToHandle: {

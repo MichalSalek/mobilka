@@ -15,13 +15,13 @@ export type REQUEST_DTO_API_V1_USER_LOGIN_WITH_EXTRA_DATA = REQUEST_DTO_API_V1_U
 
 // REGISTER
 //
-export type REQUEST_DTO_API_V1_USER_CREATE = Pick<User, 'email' | 'password' | 'display_name'>
+export type REQUEST_DTO_API_V1_USER_CREATE = Pick<User, 'password' | 'email' | 'display_name'>
 
 // DELETE
 //
 export type REQUEST_DTO_API_V1_USER_DELETE = Pick<User, 'password' | 'email'>
 
-// GET LL
+// GET ALL
 //
 export type RESPONSE_DTO_API_V1_USER_GET_ALL = UserClientSafe[]
 

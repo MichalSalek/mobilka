@@ -7,6 +7,13 @@ export type GenericValidationResult = { __isValid: boolean }
 
 export type ValidationFunction<T> = ((data: T) => GenericValidationResult & unknown)
 
+const isValidReturnObject = (obj: GenericValidationResult & unknown) =>
+  Object.keys(obj).every((objKey) => {
+    const key = objKey as keyof GenericValidationResult
+    if (objKey === '__isValid') return true
+    return !obj[key]
+  })
+
 
 
 export type ValidateRegisterDataResult = Partial<REQUEST_DTO_API_V1_USER_CREATE> & GenericValidationResult
@@ -49,15 +56,16 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
-      let isEmailValid = VALIDATION_POLICY.atoms.validateEmail(data?.email)
-      if (!isEmailValid) returnObject.email = 'Check and enter correct email address. '
-      isEmailValid = VALIDATION_POLICY.atoms.validateByWhiteSpaces(data?.email)
-      if (!isEmailValid) returnObject.email += 'Remove spaces from email. '
+      if (!VALIDATION_POLICY.atoms.validateEmail(data?.email))
+        returnObject.email += 'Check and enter correct email address. '
 
-      let isPassValid = VALIDATION_POLICY.atoms.validateByMinLength(data?.password, 6)
-      if (!isPassValid) returnObject.password += 'Choose a more secure password - at least 6 characters. '
+      if (!VALIDATION_POLICY.atoms.validateByWhiteSpaces(data?.email))
+        returnObject.email += 'Remove spaces from email. '
 
-      returnObject.__isValid = isEmailValid && isPassValid
+      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.password, 6))
+        returnObject.password += 'Choose a more secure password - at least 6 characters. '
+
+      returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
     },
 
@@ -71,14 +79,13 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
+      if (!data.email)
+        returnObject.email += 'Enter email. '
 
-      let isLoginValid = Boolean(data.email)
-      if (!isLoginValid) returnObject.email += 'Enter email. '
+      if (!data.password)
+        returnObject.password += 'Enter password. '
 
-      let isPassValid = Boolean(data.password)
-      if (!isPassValid) returnObject.password += 'Enter password. '
-
-      returnObject.__isValid = isLoginValid && isPassValid
+      returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
     },
 
@@ -91,14 +98,13 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
+      if (!data.email)
+        returnObject.email += 'Enter email. '
 
-      let isLoginValid = Boolean(data.email)
-      if (!isLoginValid) returnObject.email += 'Enter email. '
+      if (!data.password)
+        returnObject.password += 'Enter password. '
 
-      let isPassValid = Boolean(data.password)
-      if (!isPassValid) returnObject.password += 'Enter password. '
-
-      returnObject.__isValid = isLoginValid && isPassValid
+      returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
     }
 

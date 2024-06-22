@@ -17,7 +17,7 @@ type DefaultHTTPFetcherConfig = {
 }
 
 export const runOnCatch = (
-  error: HttpError<ErrorDTO<DetailedErrorsRecord>>,
+  error: HttpError<ErrorDTO>,
   config: DefaultHTTPFetcherConfig,
   passError: (error: DetailedErrorsRecord | undefined) => void) => {
   const errorMessage: string | null | undefined = error.response?.data?.message
@@ -62,7 +62,7 @@ export const defaultHTTPFetcher = async <T = ApplicationEventDTO, D = NonNullabl
 
   try {
     const response: HttpSuccess<SuccessWrapperAppInputDTO<T> & D> =
-      await httpHandlerAction<SuccessWrapperAppInputDTO<T> & D, ErrorDTO<DetailedErrorsRecord>>
+      await httpHandlerAction<SuccessWrapperAppInputDTO<T> & D, ErrorDTO>
       ({
         url,
         mode,
@@ -76,7 +76,7 @@ export const defaultHTTPFetcher = async <T = ApplicationEventDTO, D = NonNullabl
           //
         },
 
-        fireOnCatch: async (error: HttpError<ErrorDTO<DetailedErrorsRecord>>) => {
+        fireOnCatch: async (error: HttpError<ErrorDTO>) => {
           const configWithDefaults: DefaultHTTPFetcherConfig = {showErrorMessage: true, ...config}
           void runOnCatch(
             error,
