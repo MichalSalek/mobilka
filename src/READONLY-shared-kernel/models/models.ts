@@ -88,11 +88,11 @@ export type User =
     display_name: string
     password: string
     role: Role
-    account_id: string
+    account_id: IDType
 
   } & DateAndTimePartial & DeletedModelPartial
 
-export type UserClientSafe = Omit<User, 'password'>
+export type UserNoSensitive = Omit<User, 'password'>
 
 export type UserRelations =
   {
@@ -103,4 +103,4 @@ export type UserRelations =
 
 export type UserWithRelations = UserRelations | User
 
-export type UserClientSafeWithRelations = UserRelations | UserClientSafe
+export type UserNoSensitiveWithRelations = UserRelations | UserNoSensitive

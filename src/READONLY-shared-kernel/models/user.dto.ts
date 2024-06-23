@@ -1,4 +1,4 @@
-import { User, UserClientSafe } from './models'
+import { User, UserNoSensitive } from './models'
 
 
 
@@ -23,8 +23,8 @@ export type REQUEST_DTO_API_V1_USER_DELETE = Pick<User, 'password' | 'email'>
 
 // GET ALL
 //
-export type RESPONSE_DTO_API_V1_USER_GET_ALL = UserClientSafe[]
+export type RESPONSE_DTO_API_V1_USER_GET_ALL = UserNoSensitive[]
 
 // GET CURRENT
 //
-export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = UserClientSafe
+export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = UserNoSensitive

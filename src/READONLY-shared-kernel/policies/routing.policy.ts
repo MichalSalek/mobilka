@@ -1,5 +1,5 @@
 import { NextRouter }                                 from 'next/router'
-import { ALL_ROLES_COLLECTION, Role, UserClientSafe } from '../models/models'
+import { ALL_ROLES_COLLECTION, Role, UserNoSensitive } from '../models/models'
 
 
 
@@ -45,13 +45,13 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     // Events fallback for specific handling in other places.
     // Needs to be special handled in the App.
 
-    UNAUTHORIZED_FOR_ROLE: (currentUser: UserClientSafe, currentPathname: ROUTES, action: () => void) => {
+    UNAUTHORIZED_FOR_ROLE: (currentUser: UserNoSensitive, currentPathname: ROUTES, action: () => void) => {
       if (!GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     },
 
-    ALREADY_LOGGED_IN: (currentUser: UserClientSafe, currentPathname: ROUTES, action: () => void) => {
+    ALREADY_LOGGED_IN: (currentUser: UserNoSensitive, currentPathname: ROUTES, action: () => void) => {
       if (
         Boolean(currentUser)
         &&
