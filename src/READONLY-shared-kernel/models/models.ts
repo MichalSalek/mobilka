@@ -3,6 +3,7 @@ import { DateAndTime, IDType } from '../application.types'
 
 
 
+
 export const enum Role {
   NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   USER_LEVEL_1 = 'USER_LEVEL_1',
@@ -12,15 +13,13 @@ export const enum Role {
 
 
 
-
-export const ALL_ROLES_COLLECTION = [ Role.USER_LEVEL_1, Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ]
+export const ALL_ROLES_COLLECTION: Role[] = [ Role.USER_LEVEL_1, Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ]
 
 
 
 type DateAndTimePartial =
   {
     created_at: DateAndTime
-    updated_at: DateAndTime | null
   }
 
 type DeletedModelPartial =
@@ -29,7 +28,13 @@ type DeletedModelPartial =
     when_was_deleted: DateAndTime | null
   }
 
-
+type UserMetadataPartial =
+  {
+    client_ip: string | null
+    location: string | null
+    language: string | null
+    user_agent: string | null
+  }
 
 
 export const enum EventType {
@@ -38,16 +43,16 @@ export const enum EventType {
 }
 
 
-
-
-type EventLog =
+export type EventLog =
   {
     id: IDType
     created_by_user_id: IDType
     created_at: DateAndTime
     event: string
     event_type: EventType
-  }
+  } & UserMetadataPartial
+
+export type EventLogNoMetadata = Omit<EventLog, 'id' | 'created_at'>
 
 
 export type Account =
@@ -67,19 +72,14 @@ export const enum SessionMode {
 }
 
 
-
-
 export type Session =
   {
     session_id: string
     created_by_user_id: IDType
     session_mode: SessionMode
-    location: string | null
-    language: string | null
-    user_agent: string | null
     salt: string
     last_used: DateAndTime
-  } & DateAndTimePartial
+  } & DateAndTimePartial & UserMetadataPartial
 
 export type User =
   {
@@ -88,7 +88,7 @@ export type User =
     display_name: string
     password: string
     role: Role
-    account_id: IDType
+    account_id: IDType | null
 
   } & DateAndTimePartial & DeletedModelPartial
 

@@ -5,7 +5,7 @@ import { ENV_VARS }                                       from '../../applicatio
 import { defaultHTTPFetcher }                             from '../../application/http/http.api'
 import { ENDPOINT_USER_GET_ALL }                      from '../../READONLY-shared-kernel/application/http/http.endpoints'
 import { User }                                           from '../../READONLY-shared-kernel/domain/models/models'
-import { RESPONSE_DTO_API_V1_USER_GET_ALL }               from '../../READONLY-shared-kernel/domain/models/user.dto'
+import { RESPONSE_DTO_API_V1_USER_GET_ALL }               from '../../READONLY-shared-kernel/domain/models/user/user.dto'
 import { TextAtom }                                       from './generic-atoms/Text.atom'
 import { ViewAtom }                                       from './generic-atoms/View.atom'
 

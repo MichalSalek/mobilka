@@ -21,7 +21,9 @@ const API_ROUTES = {
   USER_LOGOUT     : '/api/v1/user/logout',
   USER_DELETE     : '/api/v1/user/delete',
   USER_GET_ALL    : '/api/v1/user/get-all',
-  USER_GET_CURRENT: '/api/v1/user/get-current'
+  USER_GET_CURRENT: '/api/v1/user/get-current',
+
+  EVENT_LOG_GET_ALL: '/api/v1/event-log/get-all',
 }
 
 
@@ -44,3 +46,7 @@ export const ENDPOINT_USER_LOGOUT = (props: EndpointProps) => `${HTTP_PROTOCOL}$
 export const ENDPOINT_USER_DELETE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_DELETE}`
 export const ENDPOINT_USER_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_ALL}`
 export const ENDPOINT_USER_GET_CURRENT = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_CURRENT}`
+
+// EVENT LOG
+//
+export const ENDPOINT_EVENT_LOG_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.EVENT_LOG_GET_ALL}`

@@ -19,7 +19,9 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     USER_DELETE_ANY               : [ Role.MASTER_ADMIN ],
     USER_DELETE_ACCOUNT_SCOPE_ONLY: [ Role.MASTER_ADMIN, Role.ACCOUNT_HOLDER ],
     USER_DELETE_SELF_ONLY         : [ Role.USER_LEVEL_1 ],
-    USER_GET_ALL                  : [ Role.MASTER_ADMIN ]
+    USER_GET_ALL                  : [ Role.MASTER_ADMIN ],
+
+    EVENT_LOG_GET_ALL: ALL_ROLES_COLLECTION
   },
 
   eventLogsHandledActions: {
@@ -75,15 +77,15 @@ export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
   allowedEventLogs : [
     'USER_LOGGED_IN',
     'CANNOT_LOGIN'
-  ],
+  ] as const,
   allowedEventTypes: {
     LOGIN_EVENT_LOG  : [
       'USER_LOGGED_IN',
       'CANNOT_LOGIN'
-    ],
-    ACCOUNT_EVENT_LOG: []
+    ] as const,
+    ACCOUNT_EVENT_LOG: [] as const
   }
-}
+} as const
 
 export const GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG = (eventLog: EVENT_LOGS_TYPE | unknown): boolean =>
   // EventLog is included in allowedEventLogs permission array.
@@ -91,8 +93,8 @@ export const GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG = (eventLog: EVENT_LOGS_T
     EVENT_LOGS_POLICY.allowedEventLogs.includes(eventLog as EVENT_LOGS_TYPE)
   )
 
-export const GET_PERMISSION_APPROVAL_FOR_EVENT_TYPE = (eventType: EventType, eventLog: EVENT_LOGS_TYPE | unknown): boolean =>
-  // EventLog is included in allowedEventLogs permission array.
-  Boolean(
-    EVENT_LOGS_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE)
-  )
+export const GET_EVENT_TYPE_FOR_EVENT_LOG = (eventLog: EVENT_LOGS_TYPE | unknown): EventType | undefined => {
+  // Get event category of a given event log.
+  const eventTypes = Object.keys(EVENT_LOGS_POLICY.allowedEventTypes) as EventType[]
+  return eventTypes.find((eventType: EventType) => EVENT_LOGS_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE))
+}
