@@ -1,5 +1,5 @@
 import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user/user.dto'
-
+import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC } from '../models/session/session.dto'
 
 
 
@@ -16,11 +16,14 @@ const isValidReturnObject = (obj: GenericValidationResult & unknown) =>
 
 
 
-export type ValidateRegisterDataResult = Partial<REQUEST_DTO_API_V1_USER_CREATE> & GenericValidationResult
+export type ValidateUserCreateDataResult = Partial<REQUEST_DTO_API_V1_USER_CREATE> & GenericValidationResult
 
-export type ValidateLoginDataResult = Partial<REQUEST_DTO_API_V1_USER_LOGIN> & GenericValidationResult
+export type ValidateUserLoginDataResult = Partial<REQUEST_DTO_API_V1_USER_LOGIN> & GenericValidationResult
 
-export type ValidateDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELETE> & GenericValidationResult
+export type ValidateUserDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELETE> & GenericValidationResult
+
+export type ValidateSessionDeleteDataResult = Partial<REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC> & GenericValidationResult
+
 
 
 export const VALIDATION_POLICY = {
@@ -48,9 +51,9 @@ export const VALIDATION_POLICY = {
 
   molecules: {
 
-    validateRegisterData: (data: REQUEST_DTO_API_V1_USER_CREATE): ValidateRegisterDataResult => {
+    validateUserCreateData: (data: REQUEST_DTO_API_V1_USER_CREATE): ValidateUserCreateDataResult => {
 
-      const returnObject: ValidateRegisterDataResult = {
+      const returnObject: ValidateUserCreateDataResult = {
         __isValid: false,
         email    : '',
         password : ''
@@ -71,9 +74,9 @@ export const VALIDATION_POLICY = {
 
 
 
-    validateLoginData: (data: REQUEST_DTO_API_V1_USER_LOGIN): ValidateLoginDataResult => {
+    validateUserLoginData: (data: REQUEST_DTO_API_V1_USER_LOGIN): ValidateUserLoginDataResult => {
 
-      const returnObject: ValidateLoginDataResult = {
+      const returnObject: ValidateUserLoginDataResult = {
         __isValid: false,
         email    : '',
         password : ''
@@ -90,9 +93,9 @@ export const VALIDATION_POLICY = {
     },
 
 
-    validateDeleteUserData: (data: REQUEST_DTO_API_V1_USER_DELETE): ValidateDeleteDataResult => {
+    validateDeleteUserData: (data: REQUEST_DTO_API_V1_USER_DELETE): ValidateUserDeleteDataResult => {
 
-      const returnObject: ValidateDeleteDataResult = {
+      const returnObject: ValidateUserDeleteDataResult = {
         __isValid: false,
         email    : '',
         password : ''
@@ -103,6 +106,21 @@ export const VALIDATION_POLICY = {
 
       if (!data.password)
         returnObject.password += 'Enter password. '
+
+      returnObject.__isValid = isValidReturnObject(returnObject)
+      return returnObject
+    },
+
+
+    validateDeleteSessionData: (data: REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC): ValidateUserDeleteDataResult => {
+
+      const returnObject: ValidateSessionDeleteDataResult = {
+        __isValid: false,
+        session_id    : ''
+      }
+
+      if (!data.session_id)
+        returnObject.session_id += 'Missing session ID. '
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject

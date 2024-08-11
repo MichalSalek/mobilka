@@ -27,9 +27,9 @@ export const runOnCatch = (
   passError(errorDetailed ?? undefined)
 
   if (errorMessage) {
-    config.showErrorMessage && alert(errorMessage)
+    config.showErrorMessage && pushNewSnackbar(errorMessage)
   } else {
-    alert('Something went wrong. ')
+    pushNewSnackbar('Something went wrong.')
     reportIssue(`HTTP ERROR ${errorStatus} ${config.mode} ${config.url}`, {
       payload: config.payload,
       error

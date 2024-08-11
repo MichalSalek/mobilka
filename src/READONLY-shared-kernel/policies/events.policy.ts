@@ -1,17 +1,20 @@
 import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }  from '../cqrs/events.config'
-import { ALL_ROLES_COLLECTION, EventType, Role } from '../models/models'
-
+import { ALL_ROLES_COLLECTION, EventType, Role, UserNoSensitive }     from '../models/models'
+import { GET_PERMISSION_APPROVAL_FOR_ROUTE, ROUTES } from './routing.policy'
 
 
 
 type EVENTS_POLICY_TYPE = {
   eventsPermissions: Record<EVENT_COMMANDS_TYPE, Role[]>,
-  eventLogsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, action: () => void) => void>
+  eventsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitive | null | undefined, currentPathname: ROUTES, action: () => void) => void>
 }
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
   eventsPermissions: {
     // EMPTY ARRAY - Everyone is allowed. Including not logged in.
+
+    EVENT_LOG_GET_ALL: ALL_ROLES_COLLECTION,
+
     USER_LOGIN                    : [ Role.NOT_LOGGED_IN ],
     USER_CREATE                   : [ Role.MASTER_ADMIN, Role.NOT_LOGGED_IN ], //@todo account holder może zarejestrować - coś jest źle
     USER_LOGOUT                   : ALL_ROLES_COLLECTION,
@@ -21,34 +24,45 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     USER_DELETE_SELF_ONLY         : [ Role.USER_LEVEL_1 ],
     USER_GET_ALL                  : [ Role.MASTER_ADMIN ],
 
-    EVENT_LOG_GET_ALL: ALL_ROLES_COLLECTION
+    SESSION_DELETE_SELF_ONLY: ALL_ROLES_COLLECTION,
+    SESSION_DELETE_ALL      : ALL_ROLES_COLLECTION,
+    SESSION_DELETE_SPECIFIC : ALL_ROLES_COLLECTION,
+    SESSION_GET_ALL         : ALL_ROLES_COLLECTION
+
   },
 
-  eventLogsHandledActions: {
+  eventsHandledActions: {
 
     // Events fallback for specific handling in other places.
     // Needs to be specially handled in the App.
 
-    UNAUTHORIZED: (event, action) => {
-      if (event === 'UNAUTHORIZED') {
+    UNAUTHORIZED: (event, currentUser, currentPathname, action) => {
+      if (event === 'UNAUTHORIZED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     },
 
-    ALREADY_LOGGED: (event, action) => {
-      if (event === 'ALREADY_LOGGED') {
-        action()
-      }
-    },
-
-    USER_LOGGED_IN: (event, action) => {
+    USER_LOGGED_IN: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
         action()
       }
     },
 
-    SELF_USER_DELETED: (event, action) => {
-      if (event === 'SELF_USER_DELETED') {
+    USER_CREATED: (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_CREATED') {
+        action()
+      }
+    },
+
+    ALREADY_LOGGED: (event, currentUser, currentPathname, action) => {
+      if (event === 'ALREADY_LOGGED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+        action()
+      }
+    },
+
+
+    SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
+      if (event === 'SELF_USER_DELETED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     }

@@ -1,4 +1,4 @@
-import { NextRouter }                                 from 'next/router'
+import { NextRouter }                                  from 'next/router'
 import { ALL_ROLES_COLLECTION, Role, UserNoSensitive } from '../models/models'
 
 
@@ -6,6 +6,7 @@ import { ALL_ROLES_COLLECTION, Role, UserNoSensitive } from '../models/models'
 
 export enum ROUTES {
   HOME = '/',
+  PRICING = '/pricing',
   APP = '/app',
   USER_DEL = '/user/delete',
   USER_LOG = '/user/login',
@@ -35,9 +36,11 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     [ROUTES.HOME]        : [],
     [ROUTES.APP]         : ALL_ROLES_COLLECTION,
     [ROUTES.USER_DEL]    : ALL_ROLES_COLLECTION,
-    [ROUTES.USER_LOG]    : [],
-    [ROUTES.USER_REG]    : [],
-    [ROUTES.USER_ACCOUNT]: ALL_ROLES_COLLECTION
+    [ROUTES.USER_LOG]    : [ Role.NOT_LOGGED_IN ],
+    [ROUTES.USER_REG]    : [ Role.NOT_LOGGED_IN ],
+    [ROUTES.USER_ACCOUNT]: ALL_ROLES_COLLECTION,
+    [ROUTES.PRICING]     : []
+
   },
 
   rulesToHandle: {
@@ -47,6 +50,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
     UNAUTHORIZED_FOR_ROLE: (currentUser: UserNoSensitive, currentPathname: ROUTES, action: () => void) => {
       if (!GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+        // @TODO porobić debouncery na wszystkich action() (tu jak i w eventach)
         action()
       }
     },
@@ -58,7 +62,15 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         (
           currentPathname === '/user/register'
           || currentPathname === '/user/login'
+          &&
+         !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)
         )) {
+
+        //@TODO zostawić te logi w politykach, żeby dało się to łatwo debugować na jakiegoś cheata.
+
+        console.log('GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)')
+        console.log(GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname))
+        console.log('currentPathname: ', currentPathname)
         action()
       }
     }
@@ -88,15 +100,30 @@ export const GET_PERMISSION_APPROVAL_FOR_ROUTE = (role: Role | unknown, requeste
   )
 
 
-export const REDIRECT_BY_LOCATION = (route: ROUTES): void => {
+export const REDIRECT_BY_LOCATION = (route: ROUTES): boolean => {
   if (IS_REDIRECTION_NEEDED(route)) {
-    location.replace(location.origin + route)
+    location.replace(location.origin + route + location.search)
+    return true
   }
+  return false
 }
 
 
-export const REDIRECT_BY_NEXT_ROUTER = (route: ROUTES, router: NextRouter): void => {
-  if (IS_REDIRECTION_NEEDED(route)) {
-    void router.replace(route)
+export const REDIRECT_BY_NEXT_ROUTER = (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>): boolean => {
+  let searchParamsString = location.search
+  if (typeof searchParams === 'object' && !!searchParams) {
+    searchParamsString += searchParamsString ? '&' : '?'
+    for (const key in searchParams) {
+      const value = searchParams[key]
+      searchParamsString += `${key}=${value}&`
+    }
+    if (searchParamsString[searchParamsString.length - 1] === '&') {
+      searchParamsString = searchParamsString.slice(0, -1) // Remove & char on the end.
+    }
   }
+  if (IS_REDIRECTION_NEEDED(route)) {
+    void router.replace(route + searchParamsString)
+    return true
+  }
+  return false
 }

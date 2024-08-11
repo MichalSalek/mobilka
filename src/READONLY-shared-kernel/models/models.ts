@@ -3,13 +3,23 @@ import { DateAndTime, IDType } from '../application.types'
 
 
 
-
 export const enum Role {
   NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   USER_LEVEL_1 = 'USER_LEVEL_1',
   ACCOUNT_HOLDER = 'ACCOUNT_HOLDER',
   MASTER_ADMIN = 'MASTER_ADMIN'
 }
+
+
+
+
+export const enum PaymentStatus {
+  UNPAID = 'UNPAID',
+  PAID = 'PAID',
+  IN_PROGRESS = 'IN_PROGRESS',
+  REJECTED = 'REJECTED',
+}
+
 
 
 
@@ -37,10 +47,14 @@ type UserMetadataPartial =
   }
 
 
+
+
 export const enum EventType {
   ACCOUNT_EVENT_LOG = 'ACCOUNT_EVENT_LOG',
   LOGIN_EVENT_LOG = 'LOGIN_EVENT_LOG'
 }
+
+
 
 
 export type EventLog =
@@ -60,7 +74,7 @@ export type Account =
     id: IDType
     created_by_user_id: IDType
     display_name: string
-
+    payment_status: PaymentStatus
   } & DateAndTimePartial & DeletedModelPartial
 
 
@@ -72,6 +86,8 @@ export const enum SessionMode {
 }
 
 
+
+
 export type Session =
   {
     session_id: string
@@ -79,6 +95,7 @@ export type Session =
     session_mode: SessionMode
     salt: string
     last_used: DateAndTime
+    is_active: boolean | null
   } & DateAndTimePartial & UserMetadataPartial
 
 export type User =
@@ -89,6 +106,7 @@ export type User =
     password: string
     role: Role
     account_id: IDType | null
+    has_account: boolean
 
   } & DateAndTimePartial & DeletedModelPartial
 
