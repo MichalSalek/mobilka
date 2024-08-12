@@ -24,7 +24,14 @@ export type ROUTING_POLICY_RULES =
 
 export type ROUTING_POLICY_TYPE = {
   permissions: { [K in ROUTES]: Role[] }
-  rulesToHandle: Record<ROUTING_POLICY_RULES, (...args: any[]) => void>
+  rulesToHandle: Record<ROUTING_POLICY_RULES, (currentUser: UserNoSensitive | undefined | null, currentPathname: ROUTES, action: () => void) => void>
+  utils: {
+    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoute: ROUTES) => boolean
+    GET_ROUTE: (route: ROUTES) => ROUTES
+    IS_REDIRECTION_NEEDED: (redirectionRoute: string, currentPathname?: string) => boolean
+    REDIRECT_BY_LOCATION: (route: ROUTES) => boolean
+    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => boolean
+  }
 }
 
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
@@ -48,14 +55,13 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     // Events fallback for specific handling in other places.
     // Needs to be special handled in the App.
 
-    UNAUTHORIZED_FOR_ROLE: (currentUser: UserNoSensitive, currentPathname: ROUTES, action: () => void) => {
-      if (!GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        // @TODO porobić debouncery na wszystkich action() (tu jak i w eventach)
+    UNAUTHORIZED_FOR_ROLE: (currentUser, currentPathname, action) => {
+      if (!ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     },
 
-    ALREADY_LOGGED_IN: (currentUser: UserNoSensitive, currentPathname: ROUTES, action: () => void) => {
+    ALREADY_LOGGED_IN: (currentUser, currentPathname, action) => {
       if (
         Boolean(currentUser)
         &&
@@ -63,67 +69,56 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
           currentPathname === '/user/register'
           || currentPathname === '/user/login'
           &&
-         !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)
+          !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)
         )) {
-
-        //@TODO zostawić te logi w politykach, żeby dało się to łatwo debugować na jakiegoś cheata.
-
-        console.log('GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)')
-        console.log(GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname))
-        console.log('currentPathname: ', currentPathname)
         action()
       }
+    }
+  },
+
+  utils: {
+    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role = Role.NOT_LOGGED_IN, requestedRoute) =>
+      // Role array of requested event is empty
+      // OR
+      // Role is included in requested event permission array.
+      Boolean(
+        ROUTING_POLICY.permissions[requestedRoute]?.length === 0
+        ||
+        ROUTING_POLICY.permissions[requestedRoute]?.includes(role as Role)
+      ),
+
+    GET_ROUTE: (route) => route,
+
+    IS_REDIRECTION_NEEDED: (redirectionRoute, currentPathname) =>
+      (currentPathname ? currentPathname : location.pathname) !== redirectionRoute,
+
+    REDIRECT_BY_LOCATION: (route) => {
+      if (ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)) {
+        location.replace(location.origin + route + location.search)
+        return true
+      }
+      return false
+    },
+
+    REDIRECT_BY_NEXT_ROUTER: (route, router, searchParams) => {
+      let searchParamsString = location.search
+      if (typeof searchParams === 'object' && !!searchParams) {
+        searchParamsString += searchParamsString ? '&' : '?'
+        for (const key in searchParams) {
+          const value = searchParams[key]
+          searchParamsString += `${key}=${value}&`
+        }
+        if (searchParamsString[searchParamsString.length - 1] === '&') {
+          searchParamsString = searchParamsString.slice(0, -1) // Remove & char on the end.
+        }
+      }
+      if (ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)) {
+        void router.replace(route + searchParamsString)
+        return true
+      }
+      return false
     }
   }
 
 } as const
 
-
-
-
-export const GET_ROUTE = (route: ROUTES) => route
-
-
-
-const IS_REDIRECTION_NEEDED = (redirectionRoute: string, currentPathname?: string): boolean =>
-  (currentPathname ? currentPathname : location.pathname) !== redirectionRoute
-
-
-export const GET_PERMISSION_APPROVAL_FOR_ROUTE = (role: Role | unknown, requestedRoute: ROUTES): boolean =>
-  // Role array of requested event is empty
-  // OR
-  // Role is included in requested event permission array.
-  Boolean(
-    ROUTING_POLICY.permissions[requestedRoute]?.length === 0
-    ||
-    ROUTING_POLICY.permissions[requestedRoute]?.includes(role as Role)
-  )
-
-
-export const REDIRECT_BY_LOCATION = (route: ROUTES): boolean => {
-  if (IS_REDIRECTION_NEEDED(route)) {
-    location.replace(location.origin + route + location.search)
-    return true
-  }
-  return false
-}
-
-
-export const REDIRECT_BY_NEXT_ROUTER = (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>): boolean => {
-  let searchParamsString = location.search
-  if (typeof searchParams === 'object' && !!searchParams) {
-    searchParamsString += searchParamsString ? '&' : '?'
-    for (const key in searchParams) {
-      const value = searchParams[key]
-      searchParamsString += `${key}=${value}&`
-    }
-    if (searchParamsString[searchParamsString.length - 1] === '&') {
-      searchParamsString = searchParamsString.slice(0, -1) // Remove & char on the end.
-    }
-  }
-  if (IS_REDIRECTION_NEEDED(route)) {
-    void router.replace(route + searchParamsString)
-    return true
-  }
-  return false
-}

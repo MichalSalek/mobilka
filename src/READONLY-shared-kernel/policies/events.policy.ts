@@ -1,12 +1,15 @@
 import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }  from '../cqrs/events.config'
 import { ALL_ROLES_COLLECTION, EventType, Role, UserNoSensitive }     from '../models/models'
-import { GET_PERMISSION_APPROVAL_FOR_ROUTE, ROUTES } from './routing.policy'
+import { ROUTING_POLICY, ROUTES } from './routing.policy'
 
 
 
 type EVENTS_POLICY_TYPE = {
   eventsPermissions: Record<EVENT_COMMANDS_TYPE, Role[]>,
   eventsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitive | null | undefined, currentPathname: ROUTES, action: () => void) => void>
+  utils: {
+    GET_PERMISSION_APPROVAL_FOR_EVENT: (role?: Role, requestedEvent?: EVENT_COMMANDS_TYPE) => boolean
+  }
 }
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
@@ -37,7 +40,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     // Needs to be specially handled in the App.
 
     UNAUTHORIZED: (event, currentUser, currentPathname, action) => {
-      if (event === 'UNAUTHORIZED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+      if (event === 'UNAUTHORIZED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     },
@@ -55,36 +58,42 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     },
 
     ALREADY_LOGGED: (event, currentUser, currentPathname, action) => {
-      if (event === 'ALREADY_LOGGED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+      if (event === 'ALREADY_LOGGED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     },
 
 
     SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
-      if (event === 'SELF_USER_DELETED' && !GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+      if (event === 'SELF_USER_DELETED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
         action()
       }
     }
+  },
+
+  utils: {
+    GET_PERMISSION_APPROVAL_FOR_EVENT: (role = Role.NOT_LOGGED_IN, requestedEvent) => {
+      if (!requestedEvent) return false
+      // EMPTY ARRAY - Everyone is allowed. Including not logged in.
+      // OR
+      // Role is included in a requested event permission array.
+      return Boolean(
+        EVENTS_POLICY.eventsPermissions[requestedEvent]?.length === 0
+        ||
+        EVENTS_POLICY.eventsPermissions[requestedEvent as EVENT_COMMANDS_TYPE]?.includes(role)
+      )
+    }
   }
 } as const
-
-export const GET_PERMISSION_APPROVAL_FOR_EVENT = (role: Role = Role.NOT_LOGGED_IN, requestedEvent?: EVENT_COMMANDS_TYPE): boolean => {
-  if (!requestedEvent) return false
-  // EMPTY ARRAY - Everyone is allowed. Including not logged in.
-  // OR
-  // Role is included in a requested event permission array.
-  return Boolean(
-    EVENTS_POLICY.eventsPermissions[requestedEvent]?.length === 0
-    ||
-    EVENTS_POLICY.eventsPermissions[requestedEvent as EVENT_COMMANDS_TYPE]?.includes(role)
-  )
-}
 
 
 type EVENT_LOGS_POLICY_TYPE = {
   allowedEventLogs: EVENT_LOGS_TYPE[],
   allowedEventTypes: Record<EventType, EVENT_LOGS_TYPE[]>
+  utils: {
+    GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog: EVENT_LOGS_TYPE | unknown) => boolean
+    GET_EVENT_TYPE_FOR_EVENT_LOG: (eventLog: EVENT_LOGS_TYPE | unknown) => EventType | undefined
+  }
 }
 
 export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
@@ -98,17 +107,20 @@ export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
       'CANNOT_LOGIN'
     ] as const,
     ACCOUNT_EVENT_LOG: [] as const
+  },
+
+  utils: {
+    GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog) =>
+      // EventLog is included in allowedEventLogs permission array.
+      Boolean(
+        EVENT_LOGS_POLICY.allowedEventLogs.includes(eventLog as EVENT_LOGS_TYPE)
+      ),
+
+    GET_EVENT_TYPE_FOR_EVENT_LOG: (eventLog) => {
+      // Get event category of a given event log.
+      const eventTypes = Object.keys(EVENT_LOGS_POLICY.allowedEventTypes) as EventType[]
+      return eventTypes.find((eventType: EventType) => EVENT_LOGS_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE))
+    }
   }
+
 } as const
-
-export const GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG = (eventLog: EVENT_LOGS_TYPE | unknown): boolean =>
-  // EventLog is included in allowedEventLogs permission array.
-  Boolean(
-    EVENT_LOGS_POLICY.allowedEventLogs.includes(eventLog as EVENT_LOGS_TYPE)
-  )
-
-export const GET_EVENT_TYPE_FOR_EVENT_LOG = (eventLog: EVENT_LOGS_TYPE | unknown): EventType | undefined => {
-  // Get event category of a given event log.
-  const eventTypes = Object.keys(EVENT_LOGS_POLICY.allowedEventTypes) as EventType[]
-  return eventTypes.find((eventType: EventType) => EVENT_LOGS_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE))
-}
