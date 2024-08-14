@@ -1,6 +1,7 @@
-import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }  from '../cqrs/events.config'
-import { ALL_ROLES_COLLECTION, EventType, Role, UserNoSensitive }     from '../models/models'
-import { ROUTING_POLICY, ROUTES } from './routing.policy'
+import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }                   from '../cqrs/events.config'
+import { ALL_ROLES_COLLECTION, EventType, Role, UserNoSensitive } from '../models/models'
+import { ROUTES, ROUTING_POLICY }                                 from './routing.policy'
+
 
 
 
@@ -23,14 +24,16 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     USER_LOGOUT                   : ALL_ROLES_COLLECTION,
     USER_GET_CURRENT              : ALL_ROLES_COLLECTION,
     USER_DELETE_ANY               : [ Role.MASTER_ADMIN ],
-    USER_DELETE_ACCOUNT_SCOPE_ONLY: [ Role.MASTER_ADMIN, Role.ACCOUNT_HOLDER ],
-    USER_DELETE_SELF_ONLY         : [ Role.USER_LEVEL_1 ],
+    USER_DELETE_ACCOUNT_SCOPE_ONLY: [ Role.ACCOUNT_HOLDER ],
+    USER_DELETE_SELF_ONLY         : [ Role.ACCOUNT_HOLDER, Role.USER_LEVEL_1 ],
     USER_GET_ALL                  : [ Role.MASTER_ADMIN ],
 
     SESSION_DELETE_SELF_ONLY: ALL_ROLES_COLLECTION,
     SESSION_DELETE_ALL      : ALL_ROLES_COLLECTION,
     SESSION_DELETE_SPECIFIC : ALL_ROLES_COLLECTION,
-    SESSION_GET_ALL         : ALL_ROLES_COLLECTION
+    SESSION_GET_ALL         : ALL_ROLES_COLLECTION,
+
+    ACCOUNT_CREATE: [ Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ]
 
   },
 
@@ -63,9 +66,8 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
       }
     },
 
-
     SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
-      if (event === 'SELF_USER_DELETED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+      if (event === 'SELF_USER_DELETED') {
         action()
       }
     }

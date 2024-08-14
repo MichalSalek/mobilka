@@ -64,6 +64,7 @@ export type EventLog =
     created_at: DateAndTime
     event: string
     event_type: EventType
+    event_payload: string | null
   } & UserMetadataPartial
 
 export type EventLogNoMetadata = Omit<EventLog, 'id' | 'created_at'>
@@ -74,7 +75,7 @@ export type Account =
     id: IDType
     created_by_user_id: IDType
     display_name: string
-    payment_status: PaymentStatus
+    pricing_plan: string
   } & DateAndTimePartial & DeletedModelPartial
 
 
@@ -106,7 +107,7 @@ export type User =
     password: string
     role: Role
     account_id: IDType | null
-    has_account: boolean
+    payment_status: PaymentStatus
 
   } & DateAndTimePartial & DeletedModelPartial
 
@@ -116,9 +117,9 @@ export type UserRelations =
   {
     sessions: Session[]
     account: Account
-    event_logs: EventLog[]
+    // event_logs: EventLog[] - exists, but do not want it with user always.
   }
 
-export type UserWithRelations = UserRelations | User
+export type UserWithRelations = UserRelations & User
 
-export type UserNoSensitiveWithRelations = UserRelations | UserNoSensitive
+export type UserNoSensitiveWithRelations = UserRelations & UserNoSensitive

@@ -28,7 +28,9 @@ const API_ROUTES = {
   SESSION_DELETE_SELF_ONLY: '/api/v1/session/delete-self',
   SESSION_DELETE_ALL      : '/api/v1/session/delete-all',
   SESSION_DELETE_SPECIFIC : '/api/v1/session/delete-specific',
-  SESSION_GET_ALL         : '/api/v1/session/get-all'
+  SESSION_GET_ALL         : '/api/v1/session/get-all',
+
+  ACCOUNT_CREATE: '/api/v1/account/create'
 }
 
 // DEV CHEATS
@@ -60,3 +62,7 @@ export const ENDPOINT_SESSION_DELETE_SELF_ONLY = (props: EndpointProps) => `${HT
 export const ENDPOINT_SESSION_DELETE_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_ALL}`
 export const ENDPOINT_SESSION_DELETE_SPECIFIC = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_SPECIFIC}`
 export const ENDPOINT_SESSION_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_GET_ALL}`
+
+// ACCOUNT
+//
+export const ENDPOINT_ACCOUNT_CREATE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_CREATE}`

@@ -1,5 +1,7 @@
+import { REQUEST_DTO_API_V1_ACCOUNT_CREATE }                                                             from '../models/account/account.dto'
+import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC }                                                    from '../models/session/session.dto'
 import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user/user.dto'
-import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC } from '../models/session/session.dto'
+
 
 
 
@@ -24,6 +26,7 @@ export type ValidateUserDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELET
 
 export type ValidateSessionDeleteDataResult = Partial<REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC> & GenericValidationResult
 
+export type ValidateAccountCreateDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_CREATE> & GenericValidationResult
 
 
 export const VALIDATION_POLICY = {
@@ -115,12 +118,31 @@ export const VALIDATION_POLICY = {
     validateDeleteSessionData: (data: REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC): ValidateUserDeleteDataResult => {
 
       const returnObject: ValidateSessionDeleteDataResult = {
-        __isValid: false,
-        session_id    : ''
+        __isValid : false,
+        session_id: ''
       }
 
       if (!data.session_id)
         returnObject.session_id += 'Missing session ID. '
+
+      returnObject.__isValid = isValidReturnObject(returnObject)
+      return returnObject
+    },
+
+
+    validateAccountCreateData: (data: REQUEST_DTO_API_V1_ACCOUNT_CREATE): ValidateUserDeleteDataResult => {
+
+      const returnObject: ValidateAccountCreateDataResult = {
+        __isValid         : false,
+        display_name      : '',
+        pricing_plan:  ''
+      }
+
+      if (!data.display_name)
+        returnObject.display_name += 'Missing display name for an account. '
+
+      if (!data.pricing_plan)
+        returnObject.pricing_plan += 'No pricing plan selected. '
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
