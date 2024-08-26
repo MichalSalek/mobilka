@@ -1,4 +1,4 @@
-import { HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
+import { API_VER, HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
 
 
 
@@ -16,21 +16,24 @@ const API_ROUTES = {
   CHECK_WEBAPP_SIMPLE: '/api/dev-cheats/check-access/get',
   CHECK_WEBAPP_CROSS : '/api/dev-cheats/check-access/post',
 
-  USER_CREATE     : '/api/v1/user/create',
-  USER_LOGIN      : '/api/v1/user/login',
-  USER_LOGOUT     : '/api/v1/user/logout',
-  USER_DELETE     : '/api/v1/user/delete',
-  USER_GET_ALL    : '/api/v1/user/get-all',
-  USER_GET_CURRENT: '/api/v1/user/get-current',
+  USER_CREATE     : `${API_VER}user/create`,
+  USER_LOGIN      : `${API_VER}user/login`,
+  USER_LOGOUT     : `${API_VER}user/logout`,
+  USER_DELETE     : `${API_VER}user/delete`,
+  USER_GET_ALL    : `${API_VER}user/get-all`,
+  USER_GET_CURRENT: `${API_VER}user/get-current`,
 
-  EVENT_LOG_GET_ALL: '/api/v1/event-log/get-all',
+  EVENT_LOG_GET_ALL: `${API_VER}event-log/get-all`,
 
-  SESSION_DELETE_SELF_ONLY: '/api/v1/session/delete-self',
-  SESSION_DELETE_ALL      : '/api/v1/session/delete-all',
-  SESSION_DELETE_SPECIFIC : '/api/v1/session/delete-specific',
-  SESSION_GET_ALL         : '/api/v1/session/get-all',
+  SESSION_DELETE_SELF_ONLY: `${API_VER}session/delete-self`,
+  SESSION_DELETE_ALL      : `${API_VER}session/delete-all`,
+  SESSION_DELETE_SPECIFIC : `${API_VER}session/delete-specific`,
+  SESSION_GET_ALL         : `${API_VER}session/get-all`,
 
-  ACCOUNT_CREATE: '/api/v1/account/create'
+  ACCOUNT_PRICING_PLAN_CHANGE: `${API_VER}account/pricing-plan-change`,
+  ACCOUNT_DISPLAY_NAME_CHANGE: `${API_VER}account/display-name-change`,
+  ACCOUNT_PAYMENT_MAKE       : `${API_VER}account/payment-make`,
+  ACCOUNT_PAYMENT_GET_STATUS : `${API_VER}account/payment-get-status`
 }
 
 // DEV CHEATS
@@ -65,4 +68,7 @@ export const ENDPOINT_SESSION_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOC
 
 // ACCOUNT
 //
-export const ENDPOINT_ACCOUNT_CREATE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_CREATE}`
+export const ENDPOINT_ACCOUNT_PRICING_PLAN_CHANGE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_PRICING_PLAN_CHANGE}`
+export const ENDPOINT_ACCOUNT_DISPLAY_NAME_CHANGE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_DISPLAY_NAME_CHANGE}`
+export const ENDPOINT_ACCOUNT_PAYMENT_MAKE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_PAYMENT_MAKE}`
+export const ENDPOINT_ACCOUNT_PAYMENT_GET_STATUS = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_PAYMENT_GET_STATUS}`

@@ -74,8 +74,10 @@ export type Account =
   {
     id: IDType
     created_by_user_id: IDType
-    display_name: string
-    pricing_plan: string
+    display_name: string | null
+    pricing_plan: string | null
+    payment_status: PaymentStatus
+
   } & DateAndTimePartial & DeletedModelPartial
 
 
@@ -107,7 +109,6 @@ export type User =
     password: string
     role: Role
     account_id: IDType | null
-    payment_status: PaymentStatus
 
   } & DateAndTimePartial & DeletedModelPartial
 

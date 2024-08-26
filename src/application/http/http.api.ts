@@ -1,5 +1,5 @@
 import { HTTPMethod }                                                                from '../../READONLY-shared-kernel/application/http/http.config'
-import { DetailedErrorsRecord, ErrorDTO, ApplicationEventDTO, SuccessWrapperAppInputDTO } from '../../READONLY-shared-kernel/application/http/http.types'
+import { DetailedErrorsRecord, ErrorDTO, ApplicationEventWithPayloadDTO, SuccessWrapperAppInputDTO } from '../../READONLY-shared-kernel/application/http/http.types'
 import { IS_DEVELOPMENT_ENV }                                                        from '../environment/environment.api'
 import { reportIssue }                                                               from '../error-tracking/errorHandler.api'
 import { httpHandlerAction }                                                         from './axios-adapter/axiosAdapter.api'
@@ -46,7 +46,7 @@ type DefaultHTTPFetcher<T, D> = {
   errorCallback?: (error: DetailedErrorsRecord | undefined) => void
 }
 
-export const defaultHTTPFetcher = async <T = ApplicationEventDTO, D = NonNullable<unknown>>(
+export const defaultHTTPFetcher = async <T = ApplicationEventWithPayloadDTO, D = NonNullable<unknown>>(
   {
     config,
     successCallback,

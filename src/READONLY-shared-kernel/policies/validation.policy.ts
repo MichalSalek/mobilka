@@ -1,7 +1,7 @@
-import { REQUEST_DTO_API_V1_ACCOUNT_CREATE }                                                             from '../models/account/account.dto'
+import { PRICING_POLICY } from './pricing.policy'
 import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC }                                                    from '../models/session/session.dto'
-import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user/user.dto'
-
+import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN }                                           from '../models/user/user.dto'
+import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE, REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE } from '../models/account/account.dto'
 
 
 
@@ -26,25 +26,29 @@ export type ValidateUserDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELET
 
 export type ValidateSessionDeleteDataResult = Partial<REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC> & GenericValidationResult
 
-export type ValidateAccountCreateDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_CREATE> & GenericValidationResult
+export type ValidateAccountDisplayNameChangeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE> & GenericValidationResult
+
+export type ValidateAccountPricingPlanChangeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE> & GenericValidationResult
+
+export type ValidateAccountPaymentMakeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE> & GenericValidationResult
 
 
 export const VALIDATION_POLICY = {
 
   atoms: {
 
-    validateEmail: (value: string | undefined) => {
+    validateEmail: (value: string | undefined | null) => {
       if (!value) return false
       const reg = /^([\w\d._\-#])+@([\w\d._\-#]+[.][\w\d._\-#]+)+$/
       return !!value.match(reg)
     },
 
-    validateByMinLength: (value: string | undefined, minLength: number = 3): boolean => {
+    validateByMinLength: (value: string | undefined | null, minLength: number = 3): boolean => {
       if (!value) return false
       return value.length >= minLength
     },
 
-    validateByWhiteSpaces: (value: string | undefined): boolean => {
+    validateByWhiteSpaces: (value: string | undefined | null): boolean => {
       if (!value) return false
       const reg = /\s+/g
       return !value.match(reg)
@@ -115,7 +119,7 @@ export const VALIDATION_POLICY = {
     },
 
 
-    validateDeleteSessionData: (data: REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC): ValidateUserDeleteDataResult => {
+    validateDeleteSessionData: (data: REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC): ValidateSessionDeleteDataResult => {
 
       const returnObject: ValidateSessionDeleteDataResult = {
         __isValid : false,
@@ -130,23 +134,55 @@ export const VALIDATION_POLICY = {
     },
 
 
-    validateAccountCreateData: (data: REQUEST_DTO_API_V1_ACCOUNT_CREATE): ValidateUserDeleteDataResult => {
+    validateAccountDisplayNameChangeData: (data: REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE): ValidateAccountDisplayNameChangeDataResult => {
 
-      const returnObject: ValidateAccountCreateDataResult = {
-        __isValid         : false,
-        display_name      : '',
-        pricing_plan:  ''
+      const returnObject: ValidateAccountDisplayNameChangeDataResult = {
+        __isValid: false,
+        display_name    : ''
       }
 
       if (!data.display_name)
-        returnObject.display_name += 'Missing display name for an account. '
+        returnObject.display_name += 'Enter name. '
 
-      if (!data.pricing_plan)
-        returnObject.pricing_plan += 'No pricing plan selected. '
+      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.display_name, 3))
+        returnObject.display_name += 'Name must be longer than 3 characters. '
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
-    }
+    },
+
+
+    validateAccountPricingPlanChangeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE): ValidateAccountPricingPlanChangeDataResult => {
+
+      const returnObject: ValidateAccountPricingPlanChangeDataResult = {
+        __isValid: false,
+        pricing_plan    : ''
+      }
+
+      if (!data.pricing_plan)
+        returnObject.pricing_plan += 'Enter pricing plan. '
+
+      if (!PRICING_POLICY.utils.pricingPlanTypeNarrower(data?.pricing_plan))
+        returnObject.pricing_plan += 'Enter valid pricing plan. '
+
+      returnObject.__isValid = isValidReturnObject(returnObject)
+      return returnObject
+    },
+
+
+    validateAccountPaymentMakeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE): ValidateAccountPaymentMakeDataResult => {
+
+      const returnObject: ValidateAccountPaymentMakeDataResult = {
+        __isValid: false,
+        payment_id    : ''
+      }
+
+      if (!data.payment_id)
+        returnObject.payment_id += 'Enter payment ID. '
+
+      returnObject.__isValid = isValidReturnObject(returnObject)
+      return returnObject
+    },
 
   }
 

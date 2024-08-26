@@ -1,11 +1,12 @@
-import { ApplicationEventDTO } from '../cqrs/cqrs.types'
+import { EVENT_LOGS_TYPE } from '../cqrs/events.config'
 
-// export type DetailedError = {
-//   text: string
-//   collection: string[]
-// }
-// export type DetailedErrors = DetailedError[]
-/// ZAKOMENTOWANE, może sam string wystarczy. jak nie, to się dorobi
+
+export type ApplicationEventWithPayloadDTO <T = unknown> = {
+  event?: EVENT_LOGS_TYPE
+  data?: T
+}
+
+
 export type DetailedErrorsRecord = Record<string, string>
 // e.g.:
 // {
@@ -15,8 +16,6 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO = ApplicationEventDTO & DetailedErrorsRecord
+export type ErrorDTO = ApplicationEventWithPayloadDTO & DetailedErrorsRecord
 
-export type SuccessWrapperAppInputDTO<T = undefined> = {
-  data: T
-} & Partial<ApplicationEventDTO>
+export type SuccessWrapperAppInputDTO<T = undefined> = Partial<ApplicationEventWithPayloadDTO<T>>
