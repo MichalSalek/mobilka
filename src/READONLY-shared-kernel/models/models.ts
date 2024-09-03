@@ -1,5 +1,5 @@
 import { DateAndTime, IDType } from '../application.types'
-
+import { PricingPlanValues } from '../policies/pricing.policy'
 
 
 
@@ -18,6 +18,7 @@ export const enum PaymentStatus {
   PAID = 'PAID',
   IN_PROGRESS = 'IN_PROGRESS',
   REJECTED = 'REJECTED',
+  EXPIRING = 'EXPIRING'
 }
 
 
@@ -75,7 +76,7 @@ export type Account =
     id: IDType
     created_by_user_id: IDType
     display_name: string | null
-    pricing_plan: string | null
+    pricing_plan: PricingPlanValues | null
     payment_status: PaymentStatus
 
   } & DateAndTimePartial & DeletedModelPartial
@@ -108,7 +109,6 @@ export type User =
     display_name: string
     password: string
     role: Role
-    account_id: IDType | null
 
   } & DateAndTimePartial & DeletedModelPartial
 

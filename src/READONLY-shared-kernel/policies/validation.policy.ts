@@ -162,7 +162,7 @@ export const VALIDATION_POLICY = {
       if (!data.pricing_plan)
         returnObject.pricing_plan += 'Enter pricing plan. '
 
-      if (!PRICING_POLICY.utils.pricingPlanTypeNarrower(data?.pricing_plan))
+      if (!PRICING_POLICY.utils.pricingPlanValueTypeNarrower(data?.pricing_plan))
         returnObject.pricing_plan += 'Enter valid pricing plan. '
 
       returnObject.__isValid = isValidReturnObject(returnObject)

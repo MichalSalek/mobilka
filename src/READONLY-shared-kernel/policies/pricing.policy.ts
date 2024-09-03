@@ -4,39 +4,46 @@ export type PricingPlanTypes = 'monthly' | 'annual'
 type PRICING_POLICY_TYPE = {
   pricingPlanSearchParamKeyword: string
   pricingPlanDataPLN: Record<string, number>
-  annualDiscountPercentage: number
-  bestsellers: Record<PricingPlanTypes, PricingPlanOptions>
+  bestsellersValues: Record<PricingPlanTypes, PricingPlanValues>
+  defaultPricingPlanPeriod: PricingPlanTypes
+  annualDiscountPercentageNumber: number
 
   utils: {
+    getAnnualDiscountPercentage: () => string
     isSearchParamIncludesPricingPlan: () => boolean
-    pricingPlansPossibilities: () => PricingPlanOptions[]
-    pricingPlanTypeNarrower: (maybePricingPlanOption: string | PricingPlanOptions | null) => boolean
-    getDefaultPricingPlanOption: (type: PricingPlanTypes) => PricingPlanOptions
-    getPricingPlanTypeByOption: (option: PricingPlanOptions) => PricingPlanTypes
-    getBestsellerByPricingType: (type: PricingPlanTypes) => PricingPlanOptions
+    pricingPlansValues: () => PricingPlanValues[]
+    pricingPlanValueTypeNarrower: (maybePricingPlanValue: string | PricingPlanValues | null) => boolean
+    getDefaultPricingPlansValue: (type?: PricingPlanTypes | null) => PricingPlanValues
+    getPricingPlanTypeByValue: (option: PricingPlanValues | null) => PricingPlanTypes
+    getBestsellerByPricingType: (type: PricingPlanTypes) => PricingPlanValues
   }
 }
 export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
   pricingPlanSearchParamKeyword: 'pricingplan',
 
-  pricingPlanDataPLN: {
+  pricingPlanDataPLN: Object.freeze({
     '1': 30,
     '2': 50,
     '3': 100,
     '4': 24,
     '5': 40,
     '6': 80
-  } as const,
+  } as const),
 
-  bestsellers: {
+  bestsellersValues: {
     monthly: '2',
-    annual: '6'
+    annual : '6'
   },
 
-  annualDiscountPercentage: 20,
+  defaultPricingPlanPeriod: 'annual',
+
+  annualDiscountPercentageNumber: 20,
 
   utils: {
+
+    getAnnualDiscountPercentage: () => `-${PRICING_POLICY.annualDiscountPercentageNumber}%`,
+
     isSearchParamIncludesPricingPlan: (): boolean => {
       if (!location) {
         return false
@@ -44,40 +51,35 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
       return Boolean(location.search?.includes(PRICING_POLICY.pricingPlanSearchParamKeyword))
     },
 
-    pricingPlansPossibilities: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN).map((el) => el),
+    pricingPlansValues: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN).map((el) => el),
 
-    pricingPlanTypeNarrower: (maybePricingPlanOption): maybePricingPlanOption is PricingPlanOptions => {
-      return PRICING_POLICY.utils.pricingPlansPossibilities().includes(maybePricingPlanOption as PricingPlanOptions)
+    pricingPlanValueTypeNarrower: (maybePricingPlanValue): maybePricingPlanValue is PricingPlanValues => {
+      return PRICING_POLICY.utils.pricingPlansValues().includes(maybePricingPlanValue as PricingPlanValues)
     },
 
-    getDefaultPricingPlanOption: (type) => {
-      if (type === 'monthly') {
-        return '2'
+    getDefaultPricingPlansValue: (pricingType) => {
+      if (pricingType) {
+        return PRICING_POLICY.bestsellersValues[pricingType]
       }
-
-      if (type === 'annual') {
-        return '6'
-      }
-
-      return '2' // Default case
+      return PRICING_POLICY.bestsellersValues[PRICING_POLICY.defaultPricingPlanPeriod]
     },
 
-    getPricingPlanTypeByOption: (option) => {
-      if ([ '1', '2', '3' ].includes(option)) {
+    getPricingPlanTypeByValue: (pricingValue) => {
+      if ([ '1', '2', '3' ].includes(pricingValue ?? '')) {
         return 'monthly'
       }
-      if ([ '4', '5', '6' ].includes(option)) {
+      if ([ '4', '5', '6' ].includes(pricingValue ?? '')) {
         return 'annual'
       }
-      return 'monthly'
+      return PRICING_POLICY.defaultPricingPlanPeriod
     },
 
-    getBestsellerByPricingType: (option) => {
-      return PRICING_POLICY.bestsellers[option]
+    getBestsellerByPricingType: (pricingValue) => {
+      return PRICING_POLICY.bestsellersValues[pricingValue]
     }
 
   }
 
 } as const
 
-export type PricingPlanOptions = keyof typeof PRICING_POLICY.pricingPlanDataPLN
+export type PricingPlanValues = keyof typeof PRICING_POLICY.pricingPlanDataPLN
