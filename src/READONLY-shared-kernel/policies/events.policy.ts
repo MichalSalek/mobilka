@@ -21,14 +21,13 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
     USER_LOGIN                    : [ Role.NOT_LOGGED_IN ],
     USER_CREATE                   : [ Role.MASTER_ADMIN, Role.NOT_LOGGED_IN ], //@todo account holder może zarejestrować - coś jest źle
-    USER_LOGOUT                   : ALL_ROLES_COLLECTION,
+    USER_LOGOUT                   : [],
     USER_GET_CURRENT              : ALL_ROLES_COLLECTION,
     USER_DELETE_ANY               : [ Role.MASTER_ADMIN ],
     USER_DELETE_ACCOUNT_SCOPE_ONLY: [ Role.ACCOUNT_HOLDER ],
     USER_DELETE_SELF_ONLY         : [ Role.ACCOUNT_HOLDER, Role.USER_LEVEL_1 ],
     USER_GET_ALL                  : [ Role.MASTER_ADMIN ],
 
-    SESSION_DELETE_SELF_ONLY: ALL_ROLES_COLLECTION,
     SESSION_DELETE_ALL      : ALL_ROLES_COLLECTION,
     SESSION_DELETE_SPECIFIC : ALL_ROLES_COLLECTION,
     SESSION_GET_ALL         : ALL_ROLES_COLLECTION,
@@ -53,6 +52,12 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
     USER_LOGGED_IN: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
+        action()
+      }
+    },
+
+    USER_LOGGED_OUT: (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_LOGGED_OUT') {
         action()
       }
     },
@@ -93,7 +98,6 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
 
 type EVENT_LOGS_POLICY_TYPE = {
-  allowedEventLogs: EVENT_LOGS_TYPE[],
   allowedEventTypes: Record<EventType, EVENT_LOGS_TYPE[]>
   utils: {
     GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog: EVENT_LOGS_TYPE | unknown) => boolean
@@ -102,14 +106,12 @@ type EVENT_LOGS_POLICY_TYPE = {
 }
 
 export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
-  allowedEventLogs : [
-    'USER_LOGGED_IN',
-    'CANNOT_LOGIN'
-  ] as const,
   allowedEventTypes: {
     LOGIN_EVENT_LOG  : [
       'USER_LOGGED_IN',
-      'CANNOT_LOGIN'
+      'USER_LOGGED_OUT',
+      'CANNOT_LOGIN',
+      'SESSION_DELETED'
     ] as const,
     ACCOUNT_EVENT_LOG: [] as const
   },
@@ -118,7 +120,7 @@ export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
     GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog) =>
       // EventLog is included in allowedEventLogs permission array.
       Boolean(
-        EVENT_LOGS_POLICY.allowedEventLogs.includes(eventLog as EVENT_LOGS_TYPE)
+        Object.values(EVENT_LOGS_POLICY.allowedEventTypes).find((allowedEventsArr: EVENT_LOGS_TYPE[]) => allowedEventsArr.includes(eventLog as EVENT_LOGS_TYPE))
       ),
 
     GET_EVENT_TYPE_FOR_EVENT_LOG: (eventLog) => {
