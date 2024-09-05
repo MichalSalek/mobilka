@@ -45,7 +45,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     // Needs to be specially handled in the App.
 
     UNAUTHORIZED: (event, currentUser, currentPathname, action) => {
-      if (event === 'UNAUTHORIZED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+      if (event === 'UNAUTHORIZED') {
         action()
       }
     },

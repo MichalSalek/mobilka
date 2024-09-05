@@ -1,5 +1,5 @@
-import { NextRouter }                                  from 'next/router'
-import { ALL_ROLES_COLLECTION, Role, UserNoSensitive } from '../models/models'
+import { NextRouter }                 from 'next/router'
+import { ALL_ROLES_COLLECTION, Role } from '../models/models'
 
 
 
@@ -17,14 +17,8 @@ export enum ROUTES {
 
 
 
-export type ROUTING_POLICY_RULES =
-  'UNAUTHORIZED_FOR_ROLE' |
-  'ALREADY_LOGGED_IN'
-
-
 export type ROUTING_POLICY_TYPE = {
   permissions: { [K in ROUTES]: Role[] }
-  rulesToHandle: Record<ROUTING_POLICY_RULES, (currentUser: UserNoSensitive | undefined | null, currentPathname: ROUTES, action: () => void) => void>
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoute: ROUTES) => boolean
     GET_ROUTE: (route: ROUTES) => ROUTES
@@ -48,32 +42,6 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     [ROUTES.USER_ACCOUNT]: ALL_ROLES_COLLECTION,
     [ROUTES.PRICING]     : []
 
-  },
-
-  rulesToHandle: {
-
-    // Events fallback for specific handling in other places.
-    // Needs to be special handled in the App.
-
-    UNAUTHORIZED_FOR_ROLE: (currentUser, currentPathname, action) => {
-      if (!ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        action()
-      }
-    },
-
-    ALREADY_LOGGED_IN: (currentUser, currentPathname, action) => {
-      if (
-        Boolean(currentUser)
-        &&
-        (
-          currentPathname === '/user/register'
-          || currentPathname === '/user/login'
-          &&
-          !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)
-        )) {
-        action()
-      }
-    }
   },
 
   utils: {
