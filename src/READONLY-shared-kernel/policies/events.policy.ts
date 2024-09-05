@@ -21,7 +21,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
     USER_LOGIN                    : [ Role.NOT_LOGGED_IN ],
     USER_CREATE                   : [ Role.MASTER_ADMIN, Role.NOT_LOGGED_IN ], //@todo account holder może zarejestrować - coś jest źle
-    USER_LOGOUT                   : [],
+    USER_LOGOUT                   : ALL_ROLES_COLLECTION,
     USER_GET_CURRENT              : ALL_ROLES_COLLECTION,
     USER_DELETE_ANY               : [ Role.MASTER_ADMIN ],
     USER_DELETE_ACCOUNT_SCOPE_ONLY: [ Role.ACCOUNT_HOLDER ],

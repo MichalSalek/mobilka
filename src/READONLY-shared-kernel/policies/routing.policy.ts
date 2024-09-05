@@ -30,7 +30,7 @@ export type ROUTING_POLICY_TYPE = {
     GET_ROUTE: (route: ROUTES) => ROUTES
     IS_REDIRECTION_NEEDED: (redirectionRoute: string, currentPathname?: string) => boolean
     REDIRECT_BY_LOCATION: (route: ROUTES) => boolean
-    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => boolean
+    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => Promise<any>
   }
 }
 
@@ -113,10 +113,9 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         }
       }
       if (ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)) {
-        void router.replace(route + searchParamsString)
-        return true
+        return router.replace(route + searchParamsString)
       }
-      return false
+      return new Promise(() => void undefined)
     }
   }
 

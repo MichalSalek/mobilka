@@ -16,6 +16,6 @@ export type DetailedErrorsRecord = Record<string, string>
 // }
 
 
-export type ErrorDTO = ApplicationEventWithPayloadDTO & DetailedErrorsRecord
+export type ErrorDTO = ApplicationEventWithPayloadDTO<DetailedErrorsRecord>
 
 export type SuccessWrapperAppInputDTO<T = undefined> = Partial<ApplicationEventWithPayloadDTO<T>>
