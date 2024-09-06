@@ -23,8 +23,8 @@ export type ROUTING_POLICY_TYPE = {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoute: ROUTES) => boolean
     GET_ROUTE: (route: ROUTES) => ROUTES
     IS_REDIRECTION_NEEDED: (redirectionRoute: string, currentPathname?: string) => boolean
-    REDIRECT_BY_LOCATION: (route: ROUTES) => boolean
-    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => Promise<any>
+    REDIRECT_BY_LOCATION: (route: ROUTES) => { willBeRedirect: boolean, redirectAction: () => void }
+    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => { willBeRedirect: boolean, redirectAction: () => void }
   }
 }
 
@@ -61,16 +61,21 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       (currentPathname ? currentPathname : location.pathname) !== redirectionRoute,
 
     REDIRECT_BY_LOCATION: (route) => {
-      if (ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)) {
-        location.replace(location.origin + route + location.search)
-        return true
+      const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
+      const redirectAction = (() => {
+        return willBeRedirect ? location.replace(location.origin + route + location.search) : () => {
+        }
+      })
+      return {
+        willBeRedirect,
+        redirectAction
       }
-      return false
     },
 
     REDIRECT_BY_NEXT_ROUTER: (route, router, searchParams) => {
-      let searchParamsString = location.search
-      if (typeof searchParams === 'object' && !!searchParams) {
+      const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
+      let searchParamsString = location?.search ?? ''
+      if (typeof searchParams === 'object' && Boolean(searchParams)) {
         searchParamsString += searchParamsString ? '&' : '?'
         for (const key in searchParams) {
           const value = searchParams[key]
@@ -80,10 +85,14 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
           searchParamsString = searchParamsString.slice(0, -1) // Remove & char on the end.
         }
       }
-      if (ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)) {
-        return router.replace(route + searchParamsString)
+      const redirectAction = (() => {
+        return willBeRedirect ? router.replace(route + searchParamsString) : () => {
+        }
+      })
+      return {
+        willBeRedirect,
+        redirectAction
       }
-      return new Promise(() => void undefined)
     }
   }
 
