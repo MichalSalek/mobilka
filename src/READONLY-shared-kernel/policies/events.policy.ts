@@ -10,6 +10,7 @@ type EVENTS_POLICY_TYPE = {
   eventsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitive | null | undefined, currentPathname: ROUTES, action: () => void) => void>
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT: (role?: Role, requestedEvent?: EVENT_COMMANDS_TYPE) => boolean
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_LOGS_TYPE | undefined | null) => boolean
   }
 }
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
@@ -92,7 +93,8 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
         ||
         EVENTS_POLICY.eventsPermissions[requestedEvent as EVENT_COMMANDS_TYPE]?.includes(role)
       )
-    }
+    },
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event)
   }
 } as const
 
