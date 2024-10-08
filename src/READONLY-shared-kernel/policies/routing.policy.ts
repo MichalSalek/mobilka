@@ -96,7 +96,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
             console.log("ERROR Z ROUTERA DO OBCZAJENIA!!!5: ")
             console.log(error) //@TODO
           }
-        }) : () => {}
+        })() : () => {}
       })
       return {
         willBeRedirect,
