@@ -93,6 +93,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
             router.replace(route + searchParamsString).catch((error) => {
               console.log("ERROR Z ROUTERA DO OBCZAJENIA!!!5: ")
               console.log(error) //@TODO
+              throw error
             })
         })() : () => {}
       })
