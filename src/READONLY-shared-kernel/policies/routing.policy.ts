@@ -24,7 +24,7 @@ export type ROUTING_POLICY_TYPE = {
     GET_ROUTE: (route: ROUTES) => ROUTES
     IS_REDIRECTION_NEEDED: (redirectionRoute: string, currentPathname?: string) => boolean
     REDIRECT_BY_LOCATION: (route: ROUTES) => { willBeRedirect: boolean, redirectAction: () => void }
-    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string>) => { willBeRedirect: boolean, redirectAction: () => void }
+    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string> | null) => { willBeRedirect: boolean, redirectAction: () => void }
   }
 }
 
@@ -86,8 +86,17 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         }
       }
       const redirectAction = (() => {
-        return willBeRedirect ? router.replace(route + searchParamsString) : () => {
+        if (searchParams === null) {
+          searchParamsString = ''
         }
+        return willBeRedirect ? (() => {
+          try {
+            router.replace(route + searchParamsString)
+          } catch (error) {
+            console.log("ERROR Z ROUTERA DO OBCZAJENIA!!!5: ")
+            console.log(error) //@TODO
+          }
+        }) : () => {}
       })
       return {
         willBeRedirect,

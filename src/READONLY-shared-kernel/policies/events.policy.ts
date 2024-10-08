@@ -94,7 +94,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
         EVENTS_POLICY.eventsPermissions[requestedEvent as EVENT_COMMANDS_TYPE]?.includes(role)
       )
     },
-    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event)
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event ?? '')
   }
 } as const
 
