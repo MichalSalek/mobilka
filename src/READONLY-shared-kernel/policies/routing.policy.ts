@@ -1,5 +1,5 @@
 import { NextRouter }                 from 'next/router'
-import { ALL_ROLES_COLLECTION, Role } from '../models/models'
+import { ALL_LOGGED_ROLES_COLLECTION, Role } from '../models/models'
 
 
 
@@ -35,11 +35,11 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     // EMPTY ARRAY - Everyone is allowed. Including not logged in.
 
     [ROUTES.HOME]        : [],
-    [ROUTES.APP]         : ALL_ROLES_COLLECTION,
-    [ROUTES.USER_DEL]    : ALL_ROLES_COLLECTION,
+    [ROUTES.APP]         : ALL_LOGGED_ROLES_COLLECTION,
+    [ROUTES.USER_DEL]    : ALL_LOGGED_ROLES_COLLECTION,
     [ROUTES.USER_LOG]    : [ Role.NOT_LOGGED_IN ],
     [ROUTES.USER_REG]    : [ Role.NOT_LOGGED_IN ],
-    [ROUTES.USER_ACCOUNT]: ALL_ROLES_COLLECTION,
+    [ROUTES.USER_ACCOUNT]: ALL_LOGGED_ROLES_COLLECTION,
     [ROUTES.PRICING]     : []
 
   },

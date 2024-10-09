@@ -1,12 +1,14 @@
 import { DateAndTime, IDType } from '../application.types'
-import { PricingPlanValues } from '../policies/pricing.policy'
+import { PricingPlanValues }   from '../policies/pricing.policy'
+
 
 
 
 export const enum Role {
   NOT_LOGGED_IN = 'NOT_LOGGED_IN',
   USER_LEVEL_1 = 'USER_LEVEL_1',
-  ACCOUNT_HOLDER = 'ACCOUNT_HOLDER',
+  ACCOUNT_HOLDER_WITH_ACCOUNT = 'ACCOUNT_HOLDER_WITH_ACCOUNT',
+  ACCOUNT_HOLDER_WITHOUT_ACCOUNT = 'ACCOUNT_HOLDER_WITHOUT_ACCOUNT',
   MASTER_ADMIN = 'MASTER_ADMIN'
 }
 
@@ -16,15 +18,29 @@ export const enum Role {
 export const enum PaymentStatus {
   UNPAID = 'UNPAID',
   PAID = 'PAID',
-  IN_PROGRESS = 'IN_PROGRESS',
+  PAYMENT_IN_PROGRESS = 'PAYMENT_IN_PROGRESS',
   REJECTED = 'REJECTED',
-  EXPIRING = 'EXPIRING'
 }
 
 
 
 
-export const ALL_ROLES_COLLECTION: Role[] = [ Role.USER_LEVEL_1, Role.ACCOUNT_HOLDER, Role.MASTER_ADMIN ]
+export const enum AccountStatus {
+  ACTIVE = 'ACTIVE',
+  NOT_ACTIVE = 'NOT_ACTIVE',
+  EXPIRING_IN_PROGRESS = 'EXPIRING_IN_PROGRESS',
+  EXPIRED = 'EXPIRED',
+}
+
+
+
+
+export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [
+  Role.USER_LEVEL_1,
+  Role.ACCOUNT_HOLDER_WITH_ACCOUNT,
+  Role.ACCOUNT_HOLDER_WITHOUT_ACCOUNT,
+  Role.MASTER_ADMIN
+]
 
 
 
@@ -78,6 +94,8 @@ export type Account =
     display_name: string | null
     pricing_plan: PricingPlanValues | null
     payment_status: PaymentStatus
+    account_status: AccountStatus
+    account_expiration_date: DateAndTime | null
 
   } & DateAndTimePartial & DeletedModelPartial
 

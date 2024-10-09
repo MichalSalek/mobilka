@@ -1,10 +1,10 @@
-import { PaymentStatus, UserNoSensitiveWithRelations } from '../models/models'
+import { AccountStatus, PaymentStatus, UserNoSensitiveWithRelations } from '../models/models'
 
 
 
 
 type ACCOUNT_POLICY_TYPE = {
-  activeAccountStates: PaymentStatus[]
+  activeAccountStates: (PaymentStatus | AccountStatus)[]
 
 
   utils: {
@@ -14,15 +14,17 @@ type ACCOUNT_POLICY_TYPE = {
 }
 export const ACCOUNT_POLICY: ACCOUNT_POLICY_TYPE = {
 
-  activeAccountStates: [ PaymentStatus.PAID, PaymentStatus.EXPIRING ],
+  activeAccountStates: [ PaymentStatus.PAID, AccountStatus.ACTIVE, AccountStatus.EXPIRING_IN_PROGRESS ],
 
 
   utils: {
 
     isUserHasActiveAccount: (user) =>
-      user !== null &&
-      typeof user !== 'undefined'
+      user !== null
+      && typeof user !== 'undefined'
+      && user !== null
       && Boolean(ACCOUNT_POLICY.activeAccountStates.includes(user.account.payment_status))
+      && Boolean(ACCOUNT_POLICY.activeAccountStates.includes(user.account.account_status))
       && Boolean(!user.account.is_deleted)
 
   }
