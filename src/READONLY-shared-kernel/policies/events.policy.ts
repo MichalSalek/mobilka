@@ -117,7 +117,14 @@ export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
       'CANNOT_LOGIN',
       'SESSION_DELETED'
     ] as const,
-    ACCOUNT_EVENT_LOG: [] as const
+    ACCOUNT_EVENT_LOG: [
+      'PAYMENT_DONE',
+      'DISPLAY_NAME_CHANGED',
+      'USER_DELETED',
+      'USER_CREATED',
+      'ALL_SESSIONS_DELETED',
+      'PRICING_PLAN_CHANGED'
+    ] as const
   },
 
   utils: {

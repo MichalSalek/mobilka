@@ -94,6 +94,7 @@ export type Account =
     display_name: string | null
     pricing_plan: PricingPlanValues | null
     payment_status: PaymentStatus
+    upcoming_payment_date: DateAndTime | null
     account_status: AccountStatus
     account_expiration_date: DateAndTime | null
 
