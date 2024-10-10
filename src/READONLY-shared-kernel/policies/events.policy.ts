@@ -13,6 +13,8 @@ type EVENTS_POLICY_TYPE = {
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT: (role?: Role, requestedEvent?: EVENT_COMMANDS_TYPE) => boolean
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_LOGS_TYPE | undefined | null) => boolean
+    IS_EVENT_NARROWER: (maybeEvent: string | EVENT_LOGS_TYPE | undefined | null) => maybeEvent is EVENT_LOGS_TYPE
+    IS_EVENT_ALLOWED_FOR_UI: (event: EVENT_LOGS_TYPE | undefined | null) => boolean
   }
 }
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
@@ -66,7 +68,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     },
 
     USER_CREATED: (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_CREATED' && (PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !ACCOUNT_POLICY.utils.isUserHasActiveAccount(currentUser))) {
+      if (event === 'USER_CREATED' && (PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !ACCOUNT_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
         action()
       }
     },
@@ -95,8 +97,16 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
         ||
         EVENTS_POLICY.eventsPermissions[requestedEvent as EVENT_COMMANDS_TYPE]?.includes(role)
       )
+
     },
-    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event ?? '')
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event ?? ''),
+
+    IS_EVENT_NARROWER      : (maybeEvent) => {
+      //@TODO
+    },
+    IS_EVENT_ALLOWED_FOR_UI: (event) => {
+      //@TODO
+    }
   }
 } as const
 

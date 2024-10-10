@@ -8,7 +8,7 @@ type ACCOUNT_POLICY_TYPE = {
 
 
   utils: {
-    isUserHasActiveAccount: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
+    IS_USER_HAS_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
 
   }
 }
@@ -19,7 +19,7 @@ export const ACCOUNT_POLICY: ACCOUNT_POLICY_TYPE = {
 
   utils: {
 
-    isUserHasActiveAccount: (user) =>
+    IS_USER_HAS_ACTIVE_ACCOUNT: (user) =>
       typeof user !== 'undefined'
       && Boolean(user)
       && Boolean(user.account)
