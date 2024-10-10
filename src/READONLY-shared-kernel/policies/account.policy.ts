@@ -14,16 +14,15 @@ type ACCOUNT_POLICY_TYPE = {
 }
 export const ACCOUNT_POLICY: ACCOUNT_POLICY_TYPE = {
 
-  activeAccountStates: [ PaymentStatus.PAID, AccountStatus.ACTIVE, AccountStatus.EXPIRING_IN_PROGRESS ],
+  activeAccountStates: [ AccountStatus.ACTIVE, AccountStatus.EXPIRING_IN_PROGRESS ],
 
 
   utils: {
 
     isUserHasActiveAccount: (user) =>
-      user !== null
-      && typeof user !== 'undefined'
-      && user !== null
-      && Boolean(ACCOUNT_POLICY.activeAccountStates.includes(user.account.payment_status))
+      typeof user !== 'undefined'
+      && Boolean(user)
+      && Boolean(user.account)
       && Boolean(ACCOUNT_POLICY.activeAccountStates.includes(user.account.account_status))
       && Boolean(!user.account.is_deleted)
 
