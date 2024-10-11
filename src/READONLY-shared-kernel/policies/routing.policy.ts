@@ -90,11 +90,10 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
           searchParamsString = ''
         }
         return willBeRedirect ? (() => {
-            router.replace(route + searchParamsString).catch((error) => {
-              console.log("ERROR Z ROUTERA DO OBCZAJENIA!!!5: ")
-              console.log(error) //@TODO
-              throw error
-            })
+            router.replace(route + searchParamsString)
+              .catch((error) => {
+                return void error
+              })
         })() : () => {}
       })
       return {
