@@ -1,4 +1,4 @@
-import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }                                       from '../cqrs/events.config'
+import { EVENT_COMMANDS_TYPE, EVENT_LOGS, EVENT_LOGS_TYPE }                           from '../cqrs/events.config'
 import { ALL_LOGGED_ROLES_COLLECTION, EventType, Role, UserNoSensitiveWithRelations } from '../models/models'
 import { ACCOUNT_POLICY }                                                             from './account.policy'
 import { PRICING_POLICY }                                                             from './pricing.policy'
@@ -10,11 +10,11 @@ import { ROUTES, ROUTING_POLICY }                                               
 type EVENTS_POLICY_TYPE = {
   eventsPermissions: Record<EVENT_COMMANDS_TYPE, Role[]>,
   eventsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitiveWithRelations | null | undefined, currentPathname: ROUTES, action: () => void) => void>
+  eventsDisallowedForUI: EVENT_LOGS_TYPE[]
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT: (role?: Role, requestedEvent?: EVENT_COMMANDS_TYPE) => boolean
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_LOGS_TYPE | undefined | null) => boolean
-    IS_EVENT_NARROWER: (maybeEvent: string | EVENT_LOGS_TYPE | undefined | null) => maybeEvent is EVENT_LOGS_TYPE
-    IS_EVENT_ALLOWED_FOR_UI: (event: EVENT_LOGS_TYPE | undefined | null) => boolean
+    IS_EVENT_LOG_DISALLOWED_FOR_UI: (event: EVENT_LOGS_TYPE | string | undefined | null) => boolean
   }
 }
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
@@ -86,6 +86,8 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     }
   },
 
+  eventsDisallowedForUI: ['SUCCESS'],
+
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT     : (role = Role.NOT_LOGGED_IN, requestedEvent) => {
       if (!requestedEvent) return false
@@ -101,17 +103,17 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     },
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event ?? ''),
 
-    IS_EVENT_NARROWER      : (maybeEvent) => {
-      //@TODO
-    },
-    IS_EVENT_ALLOWED_FOR_UI: (event) => {
-      //@TODO
+    IS_EVENT_LOG_DISALLOWED_FOR_UI: (event) => {
+      return !event || EVENTS_POLICY.eventsDisallowedForUI.includes(event as EVENT_LOGS_TYPE)
     }
   }
 } as const
 
 
-type EVENT_LOGS_POLICY_TYPE = {
+
+
+
+type EVENT_LOG_STORE_POLICY_TYPE = {
   allowedEventTypes: Record<EventType, EVENT_LOGS_TYPE[]>
   utils: {
     GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog: EVENT_LOGS_TYPE | unknown) => boolean
@@ -119,7 +121,7 @@ type EVENT_LOGS_POLICY_TYPE = {
   }
 }
 
-export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
+export const EVENT_LOG_STORE_POLICY: EVENT_LOG_STORE_POLICY_TYPE = {
   allowedEventTypes: {
     LOGIN_EVENT_LOG  : [
       'USER_LOGGED_IN',
@@ -141,13 +143,13 @@ export const EVENT_LOGS_POLICY: EVENT_LOGS_POLICY_TYPE = {
     GET_PERMISSION_APPROVAL_TO_PUSH_EVENT_LOG: (eventLog) =>
       // EventLog is included in allowedEventLogs permission array.
       Boolean(
-        Object.values(EVENT_LOGS_POLICY.allowedEventTypes).find((allowedEventsArr: EVENT_LOGS_TYPE[]) => allowedEventsArr.includes(eventLog as EVENT_LOGS_TYPE))
+        Object.values(EVENT_LOG_STORE_POLICY.allowedEventTypes).find((allowedEventsArr: EVENT_LOGS_TYPE[]) => allowedEventsArr.includes(eventLog as EVENT_LOGS_TYPE))
       ),
 
     GET_EVENT_TYPE_FOR_EVENT_LOG: (eventLog) => {
       // Get event category of a given event log.
-      const eventTypes = Object.keys(EVENT_LOGS_POLICY.allowedEventTypes) as EventType[]
-      return eventTypes.find((eventType: EventType) => EVENT_LOGS_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE))
+      const eventTypes = Object.keys(EVENT_LOG_STORE_POLICY.allowedEventTypes) as EventType[]
+      return eventTypes.find((eventType: EventType) => EVENT_LOG_STORE_POLICY.allowedEventTypes[eventType].includes(eventLog as EVENT_LOGS_TYPE))
     }
   }
 

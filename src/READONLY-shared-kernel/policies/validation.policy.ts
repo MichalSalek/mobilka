@@ -1,7 +1,7 @@
 import { PRICING_POLICY } from './pricing.policy'
 import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC }                                                    from '../models/session/session.dto'
 import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN }                                           from '../models/user/user.dto'
-import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE, REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE } from '../models/account/account.dto'
+import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE } from '../models/account/account.dto'
 
 
 
@@ -27,8 +27,6 @@ export type ValidateUserDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELET
 export type ValidateSessionDeleteDataResult = Partial<REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC> & GenericValidationResult
 
 export type ValidateAccountDisplayNameChangeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE> & GenericValidationResult
-
-export type ValidateAccountPricingPlanChangeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE> & GenericValidationResult
 
 export type ValidateAccountPaymentMakeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE> & GenericValidationResult
 
@@ -152,10 +150,11 @@ export const VALIDATION_POLICY = {
     },
 
 
-    validateAccountPricingPlanChangeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE): ValidateAccountPricingPlanChangeDataResult => {
+    validateAccountPaymentMakeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE): ValidateAccountPaymentMakeDataResult => {
 
-      const returnObject: ValidateAccountPricingPlanChangeDataResult = {
+      const returnObject: ValidateAccountPaymentMakeDataResult = {
         __isValid: false,
+        payment_id    : '',
         pricing_plan    : ''
       }
 
@@ -164,18 +163,6 @@ export const VALIDATION_POLICY = {
 
       if (!PRICING_POLICY.utils.pricingPlanValueTypeNarrower(data?.pricing_plan))
         returnObject.pricing_plan += 'Enter valid pricing plan. '
-
-      returnObject.__isValid = isValidReturnObject(returnObject)
-      return returnObject
-    },
-
-
-    validateAccountPaymentMakeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE): ValidateAccountPaymentMakeDataResult => {
-
-      const returnObject: ValidateAccountPaymentMakeDataResult = {
-        __isValid: false,
-        payment_id    : ''
-      }
 
       if (!data.payment_id)
         returnObject.payment_id += 'Enter payment ID. '

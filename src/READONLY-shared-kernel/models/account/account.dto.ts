@@ -1,4 +1,4 @@
-import { Account, PaymentStatus } from '../models'
+import { Account, PaymentStatus, UserNoSensitiveWithRelations } from '../models'
 import { IDType } from '../../application.types'
 
 
@@ -8,14 +8,11 @@ export type REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE = Pick<Account, 'disp
 export type RESPONSE_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE = Account
 
 
-// PRICING PLAN CHANGE
-//
-export type REQUEST_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE = Pick<Account, 'pricing_plan' >
-export type RESPONSE_DTO_API_V1_ACCOUNT_PRICING_PLAN_CHANGE = Account
 
 // MAKE PAYMENT
 //
-export type REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE = Record<'payment_id', IDType> // Payment ID
+export type REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE = Record<'payment_id', IDType> & Pick<Account, 'pricing_plan' >
+export type RESPONSE_DTO_API_V1_ACCOUNT_PAYMENT_MAKE = UserNoSensitiveWithRelations
 
 
 // GET PAYMENT STATUS
