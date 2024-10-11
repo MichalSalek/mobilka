@@ -1,15 +1,12 @@
-import { EVENT_COMMANDS_TYPE, EVENT_LOGS, EVENT_LOGS_TYPE }                           from '../cqrs/events.config'
-import { ALL_LOGGED_ROLES_COLLECTION, EventType, Role, UserNoSensitiveWithRelations } from '../models/models'
-import { ACCOUNT_POLICY }                                                             from './account.policy'
-import { PRICING_POLICY }                                                             from './pricing.policy'
-import { ROUTES, ROUTING_POLICY }                                                     from './routing.policy'
+import { ROUTING_POLICY }                               from './routing.policy'
+import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }         from '../cqrs/events.config'
+import { ALL_LOGGED_ROLES_COLLECTION, EventType, Role } from '../models/models'
 
 
 
 
 type EVENTS_POLICY_TYPE = {
   eventsPermissions: Record<EVENT_COMMANDS_TYPE, Role[]>,
-  eventsHandledActions: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitiveWithRelations | null | undefined, currentPathname: ROUTES, action: () => void) => void>
   eventsDisallowedForUI: EVENT_LOGS_TYPE[]
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT: (role?: Role, requestedEvent?: EVENT_COMMANDS_TYPE) => boolean
@@ -44,49 +41,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
   },
 
-  eventsHandledActions: {
-
-    // Events fallback for specific handling in other places.
-    // Needs to be specially handled in the App.
-
-    UNAUTHORIZED: (event, currentUser, currentPathname, action) => {
-      if (event === 'UNAUTHORIZED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        action()
-      }
-    },
-
-    USER_LOGGED_IN: (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_LOGGED_IN') {
-        action()
-      }
-    },
-
-    USER_LOGGED_OUT: (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_LOGGED_OUT') {
-        action()
-      }
-    },
-
-    USER_CREATED: (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_CREATED' && (PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !ACCOUNT_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
-        action()
-      }
-    },
-
-    ALREADY_LOGGED: (event, currentUser, currentPathname, action) => {
-      if (event === 'ALREADY_LOGGED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        action()
-      }
-    },
-
-    SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
-      if (event === 'SELF_USER_DELETED') {
-        action()
-      }
-    }
-  },
-
-  eventsDisallowedForUI: ['SUCCESS'],
+  eventsDisallowedForUI: [ 'SUCCESS' ],
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT     : (role = Role.NOT_LOGGED_IN, requestedEvent) => {
@@ -101,14 +56,13 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
       )
 
     },
-    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(EVENTS_POLICY.eventsHandledActions).includes(event ?? ''),
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => Object.keys(ROUTING_POLICY.redirectionsOnEventsRules ?? {}).includes(event ?? ''),
 
     IS_EVENT_LOG_DISALLOWED_FOR_UI: (event) => {
       return !event || EVENTS_POLICY.eventsDisallowedForUI.includes(event as EVENT_LOGS_TYPE)
     }
   }
 } as const
-
 
 
 

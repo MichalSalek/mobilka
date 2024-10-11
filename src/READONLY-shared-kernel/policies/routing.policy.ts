@@ -1,5 +1,8 @@
-import { NextRouter }                 from 'next/router'
-import { ALL_LOGGED_ROLES_COLLECTION, Role } from '../models/models'
+import { NextRouter }                                                      from 'next/router'
+import { EVENT_LOGS_TYPE }                                                 from '../cqrs/events.config'
+import { ALL_LOGGED_ROLES_COLLECTION, Role, UserNoSensitiveWithRelations } from '../models/models'
+import { ACCOUNT_POLICY }                                                  from './account.policy'
+import { PRICING_POLICY }                                                  from './pricing.policy'
 
 
 
@@ -19,6 +22,7 @@ export enum ROUTES {
 
 export type ROUTING_POLICY_TYPE = {
   permissions: { [K in ROUTES]: Role[] }
+  redirectionsOnEventsRules: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitiveWithRelations | null | undefined, currentPathname: ROUTES, action: (route: ROUTES) => void) => void>
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoute: ROUTES) => boolean
     GET_ROUTE: (route: ROUTES) => ROUTES
@@ -42,6 +46,39 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     [ROUTES.USER_ACCOUNT]: ALL_LOGGED_ROLES_COLLECTION,
     [ROUTES.PRICING]     : []
 
+  },
+
+  redirectionsOnEventsRules: {
+    ALREADY_LOGGED   : (event, currentUser, currentPathname, action) => {
+      if (event === 'ALREADY_LOGGED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+        action(ROUTES.APP)
+      }
+    },
+    USER_CREATED     : (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_CREATED' && (PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !ACCOUNT_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
+        action(ROUTES.USER_ACCOUNT)
+      }
+    },
+    USER_LOGGED_IN   : (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_LOGGED_IN') {
+        action(ROUTES.APP)
+      }
+    },
+    USER_LOGGED_OUT  : (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_LOGGED_OUT') {
+        action(ROUTES.HOME)
+      }
+    },
+    SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
+      if (event === 'SELF_USER_DELETED') {
+        action(ROUTES.HOME)
+      }
+    },
+    UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
+      if (event === 'UNAUTHORIZED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
+        action(ROUTES.USER_LOG)
+      }
+    }
   },
 
   utils: {
@@ -90,11 +127,12 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
           searchParamsString = ''
         }
         return willBeRedirect ? (() => {
-            router.replace(route + searchParamsString)
-              .catch((error) => {
-                return void error
-              })
-        })() : () => {}
+          router.replace(route + searchParamsString)
+            .catch((error) => {
+              return void error
+            })
+        })() : () => {
+        }
       })
       return {
         willBeRedirect,
