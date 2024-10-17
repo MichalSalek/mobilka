@@ -1,6 +1,6 @@
-import { ROUTING_POLICY }                               from './routing.policy'
 import { EVENT_COMMANDS_TYPE, EVENT_LOGS_TYPE }         from '../cqrs/events.config'
 import { ALL_LOGGED_ROLES_COLLECTION, EventType, Role } from '../models/models'
+import { ROUTING_POLICY }                               from './routing.policy'
 
 
 
@@ -33,6 +33,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
     SESSION_DELETE_ALL     : ALL_LOGGED_ROLES_COLLECTION,
     SESSION_DELETE_SPECIFIC: ALL_LOGGED_ROLES_COLLECTION,
     SESSION_GET_ALL        : ALL_LOGGED_ROLES_COLLECTION,
+    SESSION_REFRESH        : ALL_LOGGED_ROLES_COLLECTION,
 
     ACCOUNT_DISPLAY_NAME_CHANGE: [ Role.ACCOUNT_HOLDER_WITH_ACCOUNT, Role.MASTER_ADMIN ],
     ACCOUNT_PRICING_PLAN_CHANGE: [ Role.ACCOUNT_HOLDER_WITH_ACCOUNT, Role.ACCOUNT_HOLDER_WITHOUT_ACCOUNT, Role.MASTER_ADMIN ],

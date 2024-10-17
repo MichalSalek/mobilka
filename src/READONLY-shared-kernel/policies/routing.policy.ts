@@ -128,9 +128,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         }
         return willBeRedirect ? (() => {
           router.replace(route + searchParamsString)
-            .catch((error) => {
-              return void error
-            })
+            .catch()
         })() : () => {
         }
       })

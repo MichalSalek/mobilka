@@ -119,6 +119,7 @@ export type Session =
     salt: string
     last_used: DateAndTime
     is_active: boolean | null
+    expires_at: DateAndTime
   } & DateAndTimePartial & UserMetadataPartial
 
 export type User =

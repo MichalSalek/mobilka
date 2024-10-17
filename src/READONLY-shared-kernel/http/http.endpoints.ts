@@ -15,6 +15,7 @@ type EndpointProps = {
 const API_ROUTES = {
   CHECK_WEBAPP_SIMPLE: '/api/dev-cheats/check-access/get',
   CHECK_WEBAPP_CROSS : '/api/dev-cheats/check-access/post',
+  DEBUG_MODE         : '/api/dev-cheats/debug-mode',
 
   USER_CREATE     : `${API_VER}user/create`,
   USER_LOGIN      : `${API_VER}user/login`,
@@ -25,9 +26,10 @@ const API_ROUTES = {
 
   EVENT_LOG_GET_ALL: `${API_VER}event-log/get-all`,
 
-  SESSION_DELETE_ALL      : `${API_VER}session/delete-all`,
-  SESSION_DELETE_SPECIFIC : `${API_VER}session/delete-specific`,
-  SESSION_GET_ALL         : `${API_VER}session/get-all`,
+  SESSION_DELETE_ALL     : `${API_VER}session/delete-all`,
+  SESSION_DELETE_SPECIFIC: `${API_VER}session/delete-specific`,
+  SESSION_GET_ALL        : `${API_VER}session/get-all`,
+  SESSION_REFRESH        : `${API_VER}session/refresh`,
 
   ACCOUNT_DISPLAY_NAME_CHANGE: `${API_VER}account/display-name-change`,
   ACCOUNT_PAYMENT_MAKE       : `${API_VER}account/payment-make`,
@@ -40,7 +42,8 @@ const API_ROUTES = {
 export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCOL}${appName}${API_ROUTES.CHECK_WEBAPP_SIMPLE}`
 // POST
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}${API_ROUTES.CHECK_WEBAPP_CROSS}`
-
+// GET
+export const ENDPOINT_DEBUG_MODE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.DEBUG_MODE}`
 
 
 
@@ -62,6 +65,7 @@ export const ENDPOINT_EVENT_LOG_GET_ALL = (props: EndpointProps) => `${HTTP_PROT
 export const ENDPOINT_SESSION_DELETE_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_ALL}`
 export const ENDPOINT_SESSION_DELETE_SPECIFIC = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_SPECIFIC}`
 export const ENDPOINT_SESSION_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_GET_ALL}`
+export const ENDPOINT_SESSION_REFRESH = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_REFRESH}`
 
 // ACCOUNT
 //
