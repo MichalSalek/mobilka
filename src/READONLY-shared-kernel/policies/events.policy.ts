@@ -42,7 +42,7 @@ export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
   },
 
-  eventsDisallowedForUI: [ 'SUCCESS' ],
+  eventsDisallowedForUI: [ 'SUCCESS', 'UNAUTHORIZED', 'GENERAL_ERROR' ],
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_EVENT     : (role = Role.NOT_LOGGED_IN, requestedEvent) => {
