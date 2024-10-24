@@ -116,7 +116,6 @@ export type Session =
     session_id: string
     created_by_user_id: IDType
     session_mode: SessionMode
-    salt: string
     last_used: DateAndTime
     is_active: boolean | null
     expires_at: DateAndTime
