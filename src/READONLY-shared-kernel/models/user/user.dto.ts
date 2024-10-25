@@ -1,5 +1,5 @@
-import { User, UserNoSensitiveWithRelations, UserWithRelations } from '../models'
-import { UserMetadata } from './user.types'
+import { User, UserNoSensitiveWithRelations, UserWithRelations, Session } from '../models'
+import { CurrentUser, UserMetadata }                                      from './user.types'
 
 
 
@@ -31,4 +31,4 @@ export type RESPONSE_DTO_API_V1_USER_GET_ALL = UserWithRelations[]
 
 // GET CURRENT
 //
-export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = UserNoSensitiveWithRelations
+export type RESPONSE_DTO_API_V1_USER_GET_CURRENT = CurrentUser
