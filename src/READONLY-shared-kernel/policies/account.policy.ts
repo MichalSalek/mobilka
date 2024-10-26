@@ -1,4 +1,4 @@
-import { AccountStatus, PaymentStatus, UserNoSensitiveWithRelations } from '../models/models'
+import { AccountStatus, PaymentStatus, Role, UserNoSensitiveWithRelations } from '../models/models'
 
 
 
@@ -22,6 +22,7 @@ export const ACCOUNT_POLICY: ACCOUNT_POLICY_TYPE = {
       typeof user !== 'undefined'
       && !!user
       && Boolean(user.account)
+      && Boolean(user.role === Role.ACCOUNT_HOLDER_ACTIVE || user.role === Role.MASTER_ADMIN)
       && Boolean(ACCOUNT_POLICY.activeAccountStates.includes(user.account.account_status))
       && Boolean(!user.account.is_deleted),
 

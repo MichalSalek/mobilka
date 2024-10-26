@@ -1,11 +1,12 @@
-import { PRICING_POLICY } from './pricing.policy'
+import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE }       from '../models/account/account.dto'
 import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC }                                                    from '../models/session/session.dto'
-import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN }                                           from '../models/user/user.dto'
-import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE } from '../models/account/account.dto'
+import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user/user.dto'
+import { PRICING_POLICY }                                                                                from './pricing.policy'
 
 
 
-export type GenericValidationResult = { __isValid: boolean }
+
+export type GenericValidationResult = Record<'__isValid', boolean> | Record<string, string>
 
 export type ValidationFunction<T> = ((data: T) => GenericValidationResult & unknown)
 
@@ -135,8 +136,8 @@ export const VALIDATION_POLICY = {
     validateAccountDisplayNameChangeData: (data: REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE): ValidateAccountDisplayNameChangeDataResult => {
 
       const returnObject: ValidateAccountDisplayNameChangeDataResult = {
-        __isValid: false,
-        display_name    : ''
+        __isValid   : false,
+        display_name: ''
       }
 
       if (!data.display_name)
@@ -153,9 +154,9 @@ export const VALIDATION_POLICY = {
     validateAccountPaymentMakeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE): ValidateAccountPaymentMakeDataResult => {
 
       const returnObject: ValidateAccountPaymentMakeDataResult = {
-        __isValid: false,
-        payment_id    : '',
-        pricing_plan    : ''
+        __isValid   : false,
+        payment_id  : '',
+        pricing_plan: ''
       }
 
       if (!data.pricing_plan)
@@ -169,7 +170,7 @@ export const VALIDATION_POLICY = {
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
-    },
+    }
 
   }
 
