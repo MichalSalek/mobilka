@@ -1,78 +1,72 @@
-export const EVENT_LOGS_APPLICATION = [
-  'GENERAL_ERROR',
-  'SUCCESS',
-  'NOT_FOUND'
-] as const
+export const EVENT_LOGS_APPLICATION = [ 'GENERAL_ERROR',
+                                        'SUCCESS',
+                                        'NOT_FOUND' ] as const
 
 
-export const EVENT_LOGS = [
-  ...EVENT_LOGS_APPLICATION,
+export const EVENT_LOGS = [ ...EVENT_LOGS_APPLICATION,
 
-  'USER_LOGGED_IN',
-  'USER_LOGGED_OUT',
-  'CANNOT_LOGIN',
-  'ALREADY_LOGGED',
-  'UNAUTHORIZED',
+                            'USER_LOGGED_IN',
+                            'USER_LOGGED_OUT',
+                            'CANNOT_LOGIN',
+                            'ALREADY_LOGGED',
+                            'UNAUTHORIZED',
 
-  'USER_CREATED',
-  'CANNOT_CREATE_USER',
+                            'USER_CREATED',
+                            'CANNOT_CREATE_USER',
 
-  'USER_DELETED',
-  'SELF_USER_DELETED',
-  'CANNOT_DELETE_USER',
+                            'USER_DELETED',
+                            'SELF_USER_DELETED',
+                            'CANNOT_DELETE_USER',
 
-  'USERS_FETCHED',
+                            'USERS_FETCHED',
 
-  'SESSION_DELETED',
-  'CANNOT_DELETE_SESSION',
-  'ALL_SESSIONS_DELETED',
-  'CANNOT_DELETE_SESSIONS',
-  'SESSION_EXPIRED',
-  'SESSION_REFRESHED',
+                            'SESSION_DELETED',
+                            'CANNOT_DELETE_SESSION',
+                            'ALL_SESSIONS_DELETED',
+                            'CANNOT_DELETE_SESSIONS',
+                            'SESSION_EXPIRED',
+                            'SESSION_REFRESHED',
 
-  'PAYMENT_DONE',
-  'CANNOT_MAKE_PAYMENT',
-  'ACCOUNT_NOT_PAID',
-  'ACCOUNT_NOT_FOUND',
+                            'PAYMENT_DONE',
+                            'CANNOT_MAKE_PAYMENT',
+                            'ACCOUNT_NOT_PAID',
+                            'ACCOUNT_NOT_FOUND',
 
-  'DISPLAY_NAME_CHANGED',
-  'CANNOT_CHANGE_DISPLAY_NAME',
+                            'DISPLAY_NAME_CHANGED',
+                            'CANNOT_CHANGE_DISPLAY_NAME',
 
-  'PRICING_PLAN_CHANGED',
-  'CANNOT_CHANGE_PRICING_PLAN'
+                            'PRICING_PLAN_CHANGED',
+                            'CANNOT_CHANGE_PRICING_PLAN'
 
 ] as const
 export type EVENT_LOGS_TYPE = typeof EVENT_LOGS[number]
 
-export const EVENT_COMMANDS = [
-  'EVENT_LOG_GET_ALL',
+export const EVENT_COMMANDS = [ 'EVENT_LOG_GET_ALL',
 
-  'USER_LOGIN',
-  'USER_LOGOUT',
-  'USER_CREATE',
-  'USER_GET_CURRENT',
-  'USER_DELETE_ANY',
-  'USER_DELETE_ACCOUNT_SCOPE_ONLY',
-  'USER_DELETE_SELF_ONLY',
-  'USER_GET_ALL',
+                                'USER_LOGIN',
+                                'USER_LOGOUT',
+                                'USER_CREATE',
+                                'USER_GET_CURRENT',
+                                'USER_DELETE_ANY',
+                                'USER_DELETE_ACCOUNT_SCOPE_ONLY',
+                                'USER_DELETE_SELF_ONLY',
+                                'USER_GET_ALL',
 
-  'SESSION_DELETE_ALL',
-  'SESSION_DELETE_SPECIFIC',
-  'SESSION_GET_ALL',
-  'SESSION_REFRESH',
-  'SESSION_CHECK',
+                                'SESSION_DELETE_ALL',
+                                'SESSION_DELETE_SPECIFIC',
+                                'SESSION_GET_ALL',
+                                'SESSION_REFRESH',
+                                'SESSION_CHECK',
 
-  'ACCOUNT_DISPLAY_NAME_CHANGE',
-  'ACCOUNT_PRICING_PLAN_CHANGE',
-  'ACCOUNT_PAYMENT_MAKE',
-  'ACCOUNT_PAYMENT_GET_STATUS'
+                                'ACCOUNT_DISPLAY_NAME_CHANGE',
+                                'ACCOUNT_PRICING_PLAN_CHANGE',
+                                'ACCOUNT_PAYMENT_MAKE',
+                                'ACCOUNT_PAYMENT_GET_STATUS'
 
 ] as const
 export type EVENT_COMMANDS_TYPE = typeof EVENT_COMMANDS[number]
 
-export const EVENT_LOGS_AND_COMMANDS = [
-  ...EVENT_LOGS,
-  ...EVENT_COMMANDS
-] as const
+export const EVENT_LOGS_AND_COMMANDS = [ ...EVENT_LOGS,
+                                         ...EVENT_COMMANDS ] as const
 
 export type EVENT_LOGS_AND_COMMANDS_TYPE = typeof EVENT_LOGS_AND_COMMANDS[number]
