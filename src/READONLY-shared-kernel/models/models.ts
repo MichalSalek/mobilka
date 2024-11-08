@@ -109,7 +109,6 @@ export type Session = {
   created_by_user_id: IDType
   session_mode: SessionMode
   last_used: DateAndTime | null
-  is_active: boolean | null
   expires_at: DateAndTime
 } & DateAndTimePartial & UserMetadataPartial
 
