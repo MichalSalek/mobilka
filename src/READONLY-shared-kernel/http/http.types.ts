@@ -1,7 +1,7 @@
 import { EVENT_LOGS_TYPE } from '../cqrs/events.config'
 
 
-export type ApplicationEventWithPayloadDTO <T = unknown> = {
+export type ApplicationEventWithPayloadDTO <T = unknown | undefined> = {
   event: EVENT_LOGS_TYPE
   data?: T
 }

@@ -3,6 +3,9 @@ import { API_VER, HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
 
 
 
+const URL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}`
+
+
 type EndpointProps = {
   ENV_VARS: {
     readonly WEB_1_INTERNAL_NAME?: string | undefined,
@@ -30,6 +33,7 @@ const API_ROUTES = {
   SESSION_DELETE_SPECIFIC: `${API_VER}session/delete-specific`,
   SESSION_GET_ALL        : `${API_VER}session/get-all`,
   SESSION_REFRESH        : `${API_VER}session/refresh`,
+  SESSION_CHECK          : `${API_VER}session/check`,
 
   ACCOUNT_DISPLAY_NAME_CHANGE: `${API_VER}account/display-name-change`,
   ACCOUNT_PAYMENT_MAKE       : `${API_VER}account/payment-make`,
@@ -43,32 +47,33 @@ export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCO
 // POST
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}${API_ROUTES.CHECK_WEBAPP_CROSS}`
 // GET
-export const ENDPOINT_DEBUG_MODE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.DEBUG_MODE}`
+export const ENDPOINT_DEBUG_MODE = (props: EndpointProps) => `${URL(props)}${API_ROUTES.DEBUG_MODE}`
 
 
 
 // USER
 //
-export const ENDPOINT_USER_CREATE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_CREATE}`
-export const ENDPOINT_USER_LOGIN = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_LOGIN}`
-export const ENDPOINT_USER_LOGOUT = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_LOGOUT}`
-export const ENDPOINT_USER_DELETE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_DELETE}`
-export const ENDPOINT_USER_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_ALL}`
-export const ENDPOINT_USER_GET_CURRENT = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.USER_GET_CURRENT}`
+export const ENDPOINT_USER_CREATE = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_CREATE}`
+export const ENDPOINT_USER_LOGIN = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_LOGIN}`
+export const ENDPOINT_USER_LOGOUT = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_LOGOUT}`
+export const ENDPOINT_USER_DELETE = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_DELETE}`
+export const ENDPOINT_USER_GET_ALL = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_GET_ALL}`
+export const ENDPOINT_USER_GET_CURRENT = (props: EndpointProps) => `${URL(props)}${API_ROUTES.USER_GET_CURRENT}`
 
 // EVENT LOG
 //
-export const ENDPOINT_EVENT_LOG_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.EVENT_LOG_GET_ALL}`
+export const ENDPOINT_EVENT_LOG_GET_ALL = (props: EndpointProps) => `${URL(props)}${API_ROUTES.EVENT_LOG_GET_ALL}`
 
 // SESSION
 //
-export const ENDPOINT_SESSION_DELETE_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_ALL}`
-export const ENDPOINT_SESSION_DELETE_SPECIFIC = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_DELETE_SPECIFIC}`
-export const ENDPOINT_SESSION_GET_ALL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_GET_ALL}`
-export const ENDPOINT_SESSION_REFRESH = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.SESSION_REFRESH}`
+export const ENDPOINT_SESSION_DELETE_ALL = (props: EndpointProps) => `${URL(props)}${API_ROUTES.SESSION_DELETE_ALL}`
+export const ENDPOINT_SESSION_DELETE_SPECIFIC = (props: EndpointProps) => `${URL(props)}${API_ROUTES.SESSION_DELETE_SPECIFIC}`
+export const ENDPOINT_SESSION_GET_ALL = (props: EndpointProps) => `${URL(props)}${API_ROUTES.SESSION_GET_ALL}`
+export const ENDPOINT_SESSION_REFRESH = (props: EndpointProps) => `${URL(props)}${API_ROUTES.SESSION_REFRESH}`
+export const ENDPOINT_SESSION_CHECK = (props: EndpointProps) => `${URL(props)}${API_ROUTES.SESSION_CHECK}`
 
 // ACCOUNT
 //
-export const ENDPOINT_ACCOUNT_DISPLAY_NAME_CHANGE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_DISPLAY_NAME_CHANGE}`
-export const ENDPOINT_ACCOUNT_PAYMENT_MAKE = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_PAYMENT_MAKE}`
-export const ENDPOINT_ACCOUNT_PAYMENT_GET_STATUS = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}${API_ROUTES.ACCOUNT_PAYMENT_GET_STATUS}`
+export const ENDPOINT_ACCOUNT_DISPLAY_NAME_CHANGE = (props: EndpointProps) => `${URL(props)}${API_ROUTES.ACCOUNT_DISPLAY_NAME_CHANGE}`
+export const ENDPOINT_ACCOUNT_PAYMENT_MAKE = (props: EndpointProps) => `${URL(props)}${API_ROUTES.ACCOUNT_PAYMENT_MAKE}`
+export const ENDPOINT_ACCOUNT_PAYMENT_GET_STATUS = (props: EndpointProps) => `${URL(props)}${API_ROUTES.ACCOUNT_PAYMENT_GET_STATUS}`

@@ -1,0 +1,2 @@
+
+export const TOKEN_AND_SESSION_EXPIRES_IN_XXX_SECONDS = 1200 // 60 * 60 * 24 //86400s === 24h
