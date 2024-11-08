@@ -51,10 +51,12 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
       return Boolean(location.search?.includes(PRICING_POLICY.pricingPlanSearchParamKeyword))
     },
 
-    pricingPlansValues: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN).map((el) => el),
+    pricingPlansValues: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN)
+                                    .map((el) => el),
 
     pricingPlanValueTypeNarrower: (maybePricingPlanValue): maybePricingPlanValue is PricingPlanValues => {
-      return PRICING_POLICY.utils.pricingPlansValues().includes(maybePricingPlanValue as PricingPlanValues)
+      return PRICING_POLICY.utils.pricingPlansValues()
+                           .includes(maybePricingPlanValue as PricingPlanValues)
     },
 
     getDefaultPricingPlansValue: (pricingType) => {
@@ -65,10 +67,14 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
     },
 
     getPricingPlanTypeByValue: (pricingValue) => {
-      if ([ '1', '2', '3' ].includes(pricingValue ?? '')) {
+      if ([ '1',
+            '2',
+            '3' ].includes(pricingValue ?? '')) {
         return 'monthly'
       }
-      if ([ '4', '5', '6' ].includes(pricingValue ?? '')) {
+      if ([ '4',
+            '5',
+            '6' ].includes(pricingValue ?? '')) {
         return 'annual'
       }
       return PRICING_POLICY.defaultPricingPlanPeriod

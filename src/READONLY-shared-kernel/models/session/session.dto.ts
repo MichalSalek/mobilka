@@ -1,4 +1,4 @@
-import { Session } from '../models'
+import { Session }     from '../models'
 import { CurrentUser } from '../user/user.types'
 
 
@@ -19,4 +19,4 @@ export type RESPONSE_DTO_API_V1_SESSION_REFRESH = Session['expires_at']
 
 // CHECK
 //
- export type RESPONSE_DTO_API_V1_SESSION_CHECK = CurrentUser | undefined
+export type RESPONSE_DTO_API_V1_SESSION_CHECK = CurrentUser | undefined

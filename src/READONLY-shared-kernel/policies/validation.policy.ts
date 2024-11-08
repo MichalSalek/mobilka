@@ -10,12 +10,16 @@ export type GenericValidationResult = Record<'__isValid', boolean> | Record<stri
 
 export type ValidationFunction<T> = ((data: T) => GenericValidationResult & unknown)
 
-const isValidReturnObject = (obj: GenericValidationResult & unknown) =>
-  Object.keys(obj).every((objKey) => {
-    const key = objKey as keyof GenericValidationResult
-    if (objKey === '__isValid') return true
-    return !obj[key]
-  })
+const isValidReturnObject = (obj: GenericValidationResult & unknown) => {
+  return Object.keys(obj)
+               .every((objKey) => {
+                 const key = objKey as keyof GenericValidationResult
+                 if (objKey === '__isValid') {
+                   return true
+                 }
+                 return !obj[key]
+               })
+}
 
 
 
@@ -37,18 +41,24 @@ export const VALIDATION_POLICY = {
   atoms: {
 
     validateEmail: (value: string | undefined | null) => {
-      if (!value) return false
+      if (!value) {
+        return false
+      }
       const reg = /^([\w\d._\-#])+@([\w\d._\-#]+[.][\w\d._\-#]+)+$/
       return !!value.match(reg)
     },
 
     validateByMinLength: (value: string | undefined | null, minLength: number = 3): boolean => {
-      if (!value) return false
+      if (!value) {
+        return false
+      }
       return value.length >= minLength
     },
 
     validateByWhiteSpaces: (value: string | undefined | null): boolean => {
-      if (!value) return false
+      if (!value) {
+        return false
+      }
       const reg = /\s+/g
       return !value.match(reg)
     }
@@ -65,14 +75,17 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
-      if (!VALIDATION_POLICY.atoms.validateEmail(data?.email))
+      if (!VALIDATION_POLICY.atoms.validateEmail(data?.email)) {
         returnObject.email += 'Check and enter correct email address. '
+      }
 
-      if (!VALIDATION_POLICY.atoms.validateByWhiteSpaces(data?.email))
+      if (!VALIDATION_POLICY.atoms.validateByWhiteSpaces(data?.email)) {
         returnObject.email += 'Remove spaces from email. '
+      }
 
-      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.password, 6))
+      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.password, 6)) {
         returnObject.password += 'Choose a more secure password - at least 6 characters. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
@@ -88,11 +101,13 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
-      if (!data.email)
+      if (!data.email) {
         returnObject.email += 'Enter email. '
+      }
 
-      if (!data.password)
+      if (!data.password) {
         returnObject.password += 'Enter password. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
@@ -107,11 +122,13 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
-      if (!data.email)
+      if (!data.email) {
         returnObject.email += 'Enter email. '
+      }
 
-      if (!data.password)
+      if (!data.password) {
         returnObject.password += 'Enter password. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
@@ -125,8 +142,9 @@ export const VALIDATION_POLICY = {
         session_id: ''
       }
 
-      if (!data.session_id)
+      if (!data.session_id) {
         returnObject.session_id += 'Missing session ID. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
@@ -140,11 +158,13 @@ export const VALIDATION_POLICY = {
         display_name: ''
       }
 
-      if (!data.display_name)
+      if (!data.display_name) {
         returnObject.display_name += 'Enter name. '
+      }
 
-      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.display_name, 3))
+      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.display_name, 3)) {
         returnObject.display_name += 'Name must be longer than 3 characters. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject
@@ -159,14 +179,17 @@ export const VALIDATION_POLICY = {
         pricing_plan: ''
       }
 
-      if (!data.pricing_plan)
+      if (!data.pricing_plan) {
         returnObject.pricing_plan += 'Enter pricing plan. '
+      }
 
-      if (!PRICING_POLICY.utils.pricingPlanValueTypeNarrower(data?.pricing_plan))
+      if (!PRICING_POLICY.utils.pricingPlanValueTypeNarrower(data?.pricing_plan)) {
         returnObject.pricing_plan += 'Enter valid pricing plan. '
+      }
 
-      if (!data.payment_id)
+      if (!data.payment_id) {
         returnObject.payment_id += 'Enter payment ID. '
+      }
 
       returnObject.__isValid = isValidReturnObject(returnObject)
       return returnObject

@@ -1,5 +1,5 @@
-import { User, UserWithRelations } from '../models'
-import { CurrentUser, UserMetadata }                                      from './user.types'
+import { User, UserWithRelations }   from '../models'
+import { CurrentUser, UserMetadata } from './user.types'
 
 
 
@@ -8,7 +8,9 @@ import { CurrentUser, UserMetadata }                                      from '
 //
 export type REQUEST_DTO_API_V1_USER_LOGIN = Pick<User, 'password' | 'email'>
 export type REQUEST_DTO_API_V1_USER_LOGIN_EXTRA_DATA = UserMetadata
-export type REQUEST_DTO_API_V1_USER_LOGIN_WITH_EXTRA_DATA = REQUEST_DTO_API_V1_USER_LOGIN & REQUEST_DTO_API_V1_USER_LOGIN_EXTRA_DATA
+export type REQUEST_DTO_API_V1_USER_LOGIN_WITH_EXTRA_DATA =
+  REQUEST_DTO_API_V1_USER_LOGIN
+  & REQUEST_DTO_API_V1_USER_LOGIN_EXTRA_DATA
 export type RESPONSE_DTO_API_V1_USER_LOGIN = CurrentUser
 
 // LOGOUT
@@ -19,7 +21,9 @@ export type REQUEST_DTO_API_V1_USER_LOGOUT = UserMetadata
 //
 export type REQUEST_DTO_API_V1_USER_CREATE = Pick<User, 'password' | 'email'>
 export type REQUEST_DTO_API_V1_USER_CREATE_EXTRA_DATA = UserMetadata
-export type REQUEST_DTO_API_V1_USER_CREATE_WITH_EXTRA_DATA = REQUEST_DTO_API_V1_USER_CREATE & REQUEST_DTO_API_V1_USER_CREATE_EXTRA_DATA
+export type REQUEST_DTO_API_V1_USER_CREATE_WITH_EXTRA_DATA =
+  REQUEST_DTO_API_V1_USER_CREATE
+  & REQUEST_DTO_API_V1_USER_CREATE_EXTRA_DATA
 
 // DELETE
 //
