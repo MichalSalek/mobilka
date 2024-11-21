@@ -1,10 +1,10 @@
-import { AccountStatus, AccountStatusValue, PaymentStatus, UserNoSensitive, UserNoSensitiveWithRelations } from '../models/models'
+import { AccountStatus, AccountStatusValue, UserNoSensitive, UserNoSensitiveWithRelations } from '../models/models'
 
 
 
 
 type USER_POLICY_TYPE = {
-  activeAccountStates: (PaymentStatus | AccountStatus)[]
+  activeAccountStates: AccountStatus[]
 
   utils: {
     IS_USER_HAS_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean

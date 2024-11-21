@@ -7,10 +7,10 @@ import { ROUTES_FRONT, ROUTES_FRONT_PATH }                                      
 
 
 
-type PermissionSets = Record<'LOW_LEVEL' | 'ACTIVE_ACCOUNT', EVENT_COMMANDS_AND_QUERIES_TYPE[]>
+type PermissionSets = Record<string, EVENT_COMMANDS_AND_QUERIES_TYPE[]>
 
 
-const permissionEventsSets: PermissionSets = {
+const readonlyPermissionsSets: PermissionSets = {
 
   LOW_LEVEL: [ 'USER_GET_CURRENT',
                'USER_LOGOUT',
@@ -22,17 +22,24 @@ const permissionEventsSets: PermissionSets = {
                'SESSION_DELETE_EXACTLY',
                'SESSION_GET_ALL',
 
-               'EVENT_LOG_GET_ALL' ],
+                'EVENT_LOG_GET_ALL'
+  ]
 
+} as const
+
+
+const runtimePermissionsSets: PermissionSets = {
 
   ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
                     'USER_CREATE' ]
-}
+} as const
+
 
 type PERMISSIONS_POLICY_TYPE = {
   permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
   permissionsForEvents: Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>,
-  permissionEventsSets: PermissionSets
+  readonlyPermissionsSets: PermissionSets
+  runtimePermissionsSets: PermissionSets
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH) => boolean
@@ -57,16 +64,19 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
   },
 
-  permissionEventsSets: permissionEventsSets,
+  readonlyPermissionsSets: readonlyPermissionsSets,
+  runtimePermissionsSets : runtimePermissionsSets,
+
+
   permissionsForEvents: {
     [RoleValue.MASTER_ADMIN]  : [ ...GET_COMMAND_AND_QUERY_EVENTS() ],
     [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
                                   'USER_REGISTER' ],
-    [RoleValue.ACCOUNT_HOLDER]: [ ...permissionEventsSets.LOW_LEVEL,
+    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOW_LEVEL,
                                   'ACCOUNT_DISPLAY_NAME_CHANGE',
                                   'ACCOUNT_PAYMENT_GET_STATUS',
                                   'ACCOUNT_PAYMENT_MAKE' ],
-    [RoleValue.USER_LEVEL_1]  : [ ...permissionEventsSets.LOW_LEVEL ]
+    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOW_LEVEL ]
   },
 
 
@@ -100,3 +110,4 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
   } as const
 
 } as const
+
