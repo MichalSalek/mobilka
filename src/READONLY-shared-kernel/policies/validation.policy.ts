@@ -1,6 +1,6 @@
 import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
 import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
-import { EventType }            from '../models/models'
+import { EventTypeValue }       from '../models/models'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
 import { USER_DTO_API_V1 }      from '../models/user/user.dto'
 import { PRICING_POLICY }       from './pricing.policy'
@@ -167,9 +167,9 @@ export const VALIDATION_POLICY = {
 
 
 
-    deleteSession: (data: SESSION_DTO_API_V1['DELETE']['REQUEST']): SESSION_DTO_API_V1['DELETE']['RESPONSE_ERROR'] => {
+    deleteSession: (data: SESSION_DTO_API_V1['DELETE_EXACTLY']['REQUEST']): SESSION_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
 
-      const returnObject: SESSION_DTO_API_V1['DELETE']['RESPONSE_ERROR'] & ValidationFlag = {
+      const returnObject: SESSION_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid : false,
         __general : '',
         session_id: ''
@@ -250,7 +250,7 @@ export const VALIDATION_POLICY = {
         returnObject.type += 'Missing logs type. '
       }
 
-      if (!Object.values(EventType)
+      if (!Object.values(EventTypeValue)
                  .includes(data.type)) {
         returnObject.type += 'Wrong logs type. '
       }

@@ -16,6 +16,7 @@ export type ROUTING_POLICY_TYPE = {
     currentUser: UserNoSensitiveWithRelations | null | undefined,
     currentPathname: ROUTES_FRONT_PATH,
     action: (route: ROUTES_FRONT_PATH) => void) => void>
+
   utils: {
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_INFO_TYPE | undefined | null) => boolean
     GET_ROUTE_FRONT: (route: ROUTES_FRONT_NAME) => ROUTES_FRONT_PATH

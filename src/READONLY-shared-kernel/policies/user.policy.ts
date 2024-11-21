@@ -33,7 +33,7 @@ export const USER_POLICY: USER_POLICY_TYPE = {
 
 
     IS_USER_ACTIVE: (user) => {
-      return user?.is_active
+      return Boolean(user?.is_active)
     }
   }
 

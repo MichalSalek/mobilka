@@ -33,6 +33,7 @@ type PERMISSIONS_POLICY_TYPE = {
   permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
   permissionsForEvents: Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>,
   permissionEventsSets: PermissionSets
+
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH) => boolean
     GET_PERMISSION_APPROVAL_FOR_EVENT: (
