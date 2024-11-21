@@ -1,21 +1,29 @@
-import { EVENT_LOGS_TYPE } from '../cqrs/events.config'
+import { EVENT_INFO_TYPE } from '../cqrs/events.types'
 
 
 
 
-export type ApplicationEventWithPayloadDTO<T = unknown | undefined> = {
-  event: EVENT_LOGS_TYPE
-  data?: T
+export type InfoEventWithPayloadDTO<DataPayload = unknown> = {
+  event: EVENT_INFO_TYPE
+  data: DataPayload
 }
 
 
-export type DetailedErrorsRecord = Record<string, string>
-// e.g.:
-// {
-//   keywords: [
-//     {error_text: 'Keyword already exists for country and language', collection: ['some phrase']}
-//   ]
-// }
+
+export type HTTPError<ErrorPayload> = InfoEventWithPayloadDTO<ErrorPayload>
+
+export type HTTPSuccess<ResPayload> = InfoEventWithPayloadDTO<ResPayload>
 
 
-export type ErrorDTO = ApplicationEventWithPayloadDTO<DetailedErrorsRecord>
+
+export type HTTPErrorCallback<ErrorPayload> = (error: HTTPError<ErrorPayload>) => void
+
+export type HTTPSuccessCallback<ResPayload> = (response: HTTPSuccess<ResPayload>) => void
+
+
+
+export type DetailedErrorGeneric = {
+  __general: string
+}
+
+export type DetailedErrorPayload<DetailedErrorDTO> = Record<keyof DetailedErrorDTO, string> & DetailedErrorGeneric

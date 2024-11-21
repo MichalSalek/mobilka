@@ -1,37 +1,27 @@
-import { NextRouter }                                                      from 'next/router'
-import { EVENT_LOGS_TYPE }                                                 from '../cqrs/events.config'
-import { ALL_LOGGED_ROLES_COLLECTION, Role, UserNoSensitiveWithRelations } from '../models/models'
-import { ACCOUNT_POLICY }                                                  from './account.policy'
-import { PRICING_POLICY }                                                  from './pricing.policy'
-
-
-
-
-export enum ROUTES {
-  HOME         = '/',
-  PRICING      = '/pricing',
-  APP          = '/app',
-  USER_DEL     = '/user/delete',
-  USER_LOG     = '/user/login',
-  USER_REG     = '/user/register',
-  USER_ACCOUNT = '/user/account'
-}
+import { NextRouter }                                                                                       from 'next/router'
+import { EVENT_INFO_TYPE }                                                                                  from '../cqrs/events.types'
+import { UserNoSensitiveWithRelations }                                                                     from '../models/models'
+import { ROUTES_API, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../routing/routing.config'
+import { PERMISSIONS_POLICY }                                                                               from './permissions.policy'
+import { PRICING_POLICY }                                                                                   from './pricing.policy'
+import { USER_POLICY }                                                                                      from './user.policy'
 
 
 
 
 export type ROUTING_POLICY_TYPE = {
-  permissions: { [K in ROUTES]: Role[] }
-  redirectionsOnEventsRules: Record<EVENT_LOGS_TYPE | string, (event: EVENT_LOGS_TYPE | undefined | null, currentUser: UserNoSensitiveWithRelations | null | undefined, currentPathname: ROUTES, action: (route: ROUTES) => void) => void>
+
+  redirectionsOnEventsRules: Record<EVENT_INFO_TYPE | string, (
+    event: EVENT_INFO_TYPE | undefined | null,
+    currentUser: UserNoSensitiveWithRelations | null | undefined,
+    currentPathname: ROUTES_FRONT_PATH,
+    action: (route: ROUTES_FRONT_PATH) => void) => void>
   utils: {
-    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoute: ROUTES) => boolean
-    GET_ROUTE: (route: ROUTES) => ROUTES
-    IS_REDIRECTION_NEEDED: (redirectionRoute: string, currentPathname?: string) => boolean
-    REDIRECT_BY_LOCATION: (route: ROUTES) => {
-      willBeRedirect: boolean,
-      redirectAction: () => void
-    }
-    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES, router: NextRouter, searchParams?: Record<string, string> | null) => {
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_INFO_TYPE | undefined | null) => boolean
+    GET_ROUTE_FRONT: (route: ROUTES_FRONT_NAME) => ROUTES_FRONT_PATH
+    GET_ROUTE_API: (route: ROUTES_API_NAME) => ROUTES_API_PATH
+    IS_REDIRECTION_NEEDED: (redirectionRoutePath: ROUTES_FRONT_PATH, currentPathname?: ROUTES_FRONT_PATH) => boolean
+    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES_FRONT_PATH, router: NextRouter, searchParams?: Record<string, string> | null) => {
       willBeRedirect: boolean,
       redirectAction: () => void
     }
@@ -40,82 +30,64 @@ export type ROUTING_POLICY_TYPE = {
 
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
-  permissions: {
-
-    // EMPTY ARRAY - Everyone is allowed. Including not logged in.
-
-    [ROUTES.HOME]        : [],
-    [ROUTES.APP]         : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES.USER_DEL]    : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES.USER_LOG]    : [ Role.NOT_LOGGED_IN ],
-    [ROUTES.USER_REG]    : [ Role.NOT_LOGGED_IN ],
-    [ROUTES.USER_ACCOUNT]: ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES.PRICING]     : []
-
-  },
-
   redirectionsOnEventsRules: {
     ALREADY_LOGGED   : (event, currentUser, currentPathname, action) => {
-      if (event === 'ALREADY_LOGGED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        action(ROUTES.APP)
+      if (event === 'ALREADY_LOGGED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+        currentUser?.role,
+        currentPathname)) {
+        action(ROUTES_FRONT.APP)
       }
     },
-    USER_CREATED     : (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_CREATED' && (
-        PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !ACCOUNT_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
-        action(ROUTES.USER_ACCOUNT)
+    USER_REGISTERED  : (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_REGISTERED' && (
+        PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !USER_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
+        action(ROUTES_FRONT.USER_ACCOUNT)
       }
     },
     USER_LOGGED_IN   : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
-        action(ROUTES.APP)
+        action(ROUTES_FRONT.APP)
       }
     },
     USER_LOGGED_OUT  : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_OUT') {
-        action(ROUTES.HOME)
+        action(ROUTES_FRONT.HOME)
       }
     },
     SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
       if (event === 'SELF_USER_DELETED') {
-        action(ROUTES.HOME)
+        action(ROUTES_FRONT.HOME)
       }
     },
     UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
-      if (event === 'UNAUTHORIZED' && !ROUTING_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(currentUser?.role, currentPathname)) {
-        action(ROUTES.USER_LOG)
+      if (event === 'UNAUTHORIZED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+        currentUser?.role,
+        currentPathname)) {
+        action(ROUTES_FRONT.USER_LOG)
       }
     }
-  },
+  } as const,
 
   utils: {
-    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role = Role.NOT_LOGGED_IN, requestedRoute) => // Role array of requested event is empty
-      // OR
-      // Role is included in requested event permission array.
-      Boolean(ROUTING_POLICY.permissions[requestedRoute]?.length === 0 || ROUTING_POLICY.permissions[requestedRoute]?.includes(role as Role)),
 
-    GET_ROUTE: (route) => route,
-
-    IS_REDIRECTION_NEEDED: (redirectionRoute, currentPathname) => (
-      currentPathname
-      ? currentPathname
-      : location.pathname) !== redirectionRoute,
-
-    REDIRECT_BY_LOCATION: (route) => {
-      const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
-      const redirectAction = (
-        () => {
-          return willBeRedirect
-                 ? location.replace(location.origin + route + location.search)
-                 : () => {}
-        })
-      return {
-        willBeRedirect,
-        redirectAction
-      }
+    GET_ROUTE_FRONT: (route) => {
+      return ROUTES_FRONT[route]
+    },
+    GET_ROUTE_API  : (route) => {
+      return ROUTES_API[route]
     },
 
-    REDIRECT_BY_NEXT_ROUTER: (route, router, searchParams) => {
+    IS_REDIRECTION_NEEDED: (redirectionRoutePath, currentPathname) => (
+      currentPathname
+      ? currentPathname
+      : location.pathname) !== redirectionRoutePath,
+
+
+    IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => {
+      return Object.keys(ROUTING_POLICY.redirectionsOnEventsRules ?? {})
+                   .includes(event ?? '')
+    },
+    REDIRECT_BY_NEXT_ROUTER               : (route, router, searchParams) => {
       const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
       let searchParamsString = location?.search ?? ''
       if (typeof searchParams === 'object' && !!searchParams) {
@@ -129,7 +101,9 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
                 searchParamsString += `${key}=${value}&`
               })
         if (searchParamsString[searchParamsString.length - 1] === '&') {
-          searchParamsString = searchParamsString.slice(0, -1) // Remove & char on the end.
+          searchParamsString = searchParamsString.slice(
+            0,
+            -1) // Remove & char on the end.
         }
       }
       const redirectAction = (

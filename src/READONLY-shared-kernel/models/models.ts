@@ -1,57 +1,48 @@
-import { DateAndTime, IDType } from '../application.types'
-import { PricingPlanValues }   from '../policies/pricing.policy'
+import { DateAndTime, IDType }             from '../application.types'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE } from '../cqrs/events.types'
+import { PricingPlanValues }               from '../policies/pricing.policy'
 
 
 
 
-export const enum Role {
-  NOT_LOGGED_IN           = 'NOT_LOGGED_IN',
-  USER_LEVEL_1            = 'USER_LEVEL_1',
-  ACCOUNT_HOLDER_ACTIVE   = 'ACCOUNT_HOLDER_ACTIVE',
-  ACCOUNT_HOLDER_INACTIVE = 'ACCOUNT_HOLDER_INACTIVE',
-  MASTER_ADMIN            = 'MASTER_ADMIN'
-}
+export const RoleValue = Object.freeze({
+  NOT_LOGGED_IN : 'NOT_LOGGED_IN',
+  USER_LEVEL_1  : 'USER_LEVEL_1',
+  ACCOUNT_HOLDER: 'ACCOUNT_HOLDER',
+  MASTER_ADMIN  : 'MASTER_ADMIN'
+} as const)
+export type Role = keyof typeof RoleValue
 
 
 
-
-export const enum PaymentStatus {
-  UNPAID              = 'UNPAID',
-  PAID                = 'PAID',
-  PAYMENT_IN_PROGRESS = 'PAYMENT_IN_PROGRESS',
-  REJECTED            = 'REJECTED',
-}
-
-
+export const PaymentStatusValue = Object.freeze({
+  UNPAID             : 'UNPAID',
+  PAID               : 'PAID',
+  PAYMENT_IN_PROGRESS: 'PAYMENT_IN_PROGRESS',
+  REJECTED           : 'REJECTED'
+} as const)
+export type PaymentStatus = keyof typeof PaymentStatusValue
 
 
-export const enum AccountStatus {
-  ACTIVE               = 'ACTIVE',
-  NOT_ACTIVE           = 'NOT_ACTIVE',
-  EXPIRING_IN_PROGRESS = 'EXPIRING_IN_PROGRESS',
-  EXPIRED              = 'EXPIRED',
-}
-
+export const AccountStatusValue = Object.freeze({
+  ACTIVE              : 'ACTIVE',
+  NOT_ACTIVE          : 'NOT_ACTIVE',
+  EXPIRING_IN_PROGRESS: 'EXPIRING_IN_PROGRESS',
+  EXPIRED             : 'EXPIRED'
+} as const)
+export type AccountStatus = keyof typeof AccountStatusValue
 
 
 
-export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [
-  Role.USER_LEVEL_1,
-  Role.ACCOUNT_HOLDER_ACTIVE,
-  Role.ACCOUNT_HOLDER_INACTIVE,
-  Role.MASTER_ADMIN
-]
-
+export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [ RoleValue.USER_LEVEL_1,
+                                                     RoleValue.ACCOUNT_HOLDER,
+                                                     RoleValue.MASTER_ADMIN ]
 
 
 type DateAndTimePartial = {
   created_at: DateAndTime
 }
 
-type DeletedModelPartial = {
-  is_deleted: boolean
-  when_was_deleted: DateAndTime | null
-}
 
 type UserMetadataPartial = {
   client_ip: string | null
@@ -63,9 +54,11 @@ type UserMetadataPartial = {
 
 
 
-export const enum EventType {
-  ACCOUNT_EVENT_LOG = 'ACCOUNT_EVENT_LOG', LOGIN_EVENT_LOG = 'LOGIN_EVENT_LOG'
-}
+export const EventTypeValue = Object.freeze({
+  ACCOUNT_EVENT_LOG: 'ACCOUNT_EVENT_LOG',
+  LOGIN_EVENT_LOG  : 'LOGIN_EVENT_LOG'
+} as const)
+export type EventType = keyof typeof EventTypeValue
 
 
 
@@ -78,6 +71,7 @@ export type EventLog = {
   event_type: EventType
   event_payload: string | null
 } & UserMetadataPartial
+
 
 export type EventLogNoMetadata = Omit<EventLog, 'id' | 'created_at'>
 
@@ -92,14 +86,16 @@ export type Account = {
   account_status: AccountStatus
   account_expiration_date: DateAndTime | null
 
-} & DateAndTimePartial & DeletedModelPartial
+} & DateAndTimePartial
 
 
 
 
-export const enum SessionMode {
-  STANDARD = 'STANDARD', READ_ONLY = 'READ_ONLY'
-}
+export const SessionModeValue = Object.freeze({
+  STANDARD : 'STANDARD',
+  READ_ONLY: 'READ_ONLY'
+} as const)
+export type SessionMode = keyof typeof SessionModeValue
 
 
 
@@ -112,14 +108,28 @@ export type Session = {
   expires_at: DateAndTime
 } & DateAndTimePartial & UserMetadataPartial
 
+
+export type DeletedUser = {
+  user_id: IDType
+  body: string
+
+} & DateAndTimePartial
+
 export type User = {
   user_id: IDType
   email: string
   display_name: string
   password: string
   role: Role
+  permissions: EVENT_COMMANDS_AND_QUERIES_TYPE[]
+  is_active: boolean
 
-} & DateAndTimePartial & DeletedModelPartial
+} & DateAndTimePartial
+
+export type UsersActive = Pick<User, 'user_id'>
+
+export type UsersInactive = Pick<User, 'user_id'> & Record<'when_was_deleted', DateAndTime>
+
 
 export type UserNoSensitive = Omit<User, 'password'>
 

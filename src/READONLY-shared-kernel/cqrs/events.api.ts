@@ -1,6 +1,6 @@
-import { EVENT_LOGS_TYPE } from './events.config'
+import { EVENTS_ALL_TYPE } from './events.types'
 
 
 
 
-export const getEventLog = (eventLog: EVENT_LOGS_TYPE): EVENT_LOGS_TYPE => eventLog
+export const getEventAsString = (event: EVENTS_ALL_TYPE): EVENTS_ALL_TYPE => event

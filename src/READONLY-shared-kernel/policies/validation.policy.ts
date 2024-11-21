@@ -1,19 +1,35 @@
-import { REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE, REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE }       from '../models/account/account.dto'
-import { REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC }                                                    from '../models/session/session.dto'
-import { REQUEST_DTO_API_V1_USER_CREATE, REQUEST_DTO_API_V1_USER_DELETE, REQUEST_DTO_API_V1_USER_LOGIN } from '../models/user/user.dto'
-import { PRICING_POLICY }                                                                                from './pricing.policy'
+import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
+import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
+import { EventType }            from '../models/models'
+import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
+import { USER_DTO_API_V1 }      from '../models/user/user.dto'
+import { PRICING_POLICY }       from './pricing.policy'
 
 
 
 
-export type GenericValidationResult = Record<'__isValid', boolean> | Record<string, string>
+export type ValidationFlag = {
+  __isValid: boolean
+}
 
-export type ValidationFunction<T> = ((data: T) => GenericValidationResult & unknown)
+export type GenericValidationResult = Record<string, unknown>
 
-const isValidReturnObject = (obj: GenericValidationResult & unknown) => {
+export const getErrorDTOWithoutValidationFlag = (validationResult: GenericValidationResult & ValidationFlag): GenericValidationResult => {
+  const {
+          __isValid,
+          ...cleaned
+        } = validationResult
+  return cleaned
+}
+
+
+
+export type ValidationFunction = (data: any) => ValidationFlag | any
+
+const hasReturnObjectValidationError = (obj: ValidationFlag & unknown) => {
   return Object.keys(obj)
                .every((objKey) => {
-                 const key = objKey as keyof GenericValidationResult
+                 const key = objKey as keyof ValidationFlag & unknown
                  if (objKey === '__isValid') {
                    return true
                  }
@@ -21,24 +37,9 @@ const isValidReturnObject = (obj: GenericValidationResult & unknown) => {
                })
 }
 
-
-
-export type ValidateUserCreateDataResult = Partial<REQUEST_DTO_API_V1_USER_CREATE> & GenericValidationResult
-
-export type ValidateUserLoginDataResult = Partial<REQUEST_DTO_API_V1_USER_LOGIN> & GenericValidationResult
-
-export type ValidateUserDeleteDataResult = Partial<REQUEST_DTO_API_V1_USER_DELETE> & GenericValidationResult
-
-export type ValidateSessionDeleteDataResult = Partial<REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC> & GenericValidationResult
-
-export type ValidateAccountDisplayNameChangeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE> & GenericValidationResult
-
-export type ValidateAccountPaymentMakeDataResult = Partial<REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE> & GenericValidationResult
-
-
 export const VALIDATION_POLICY = {
 
-  atoms: {
+  utils: {
 
     validateEmail: (value: string | undefined | null) => {
       if (!value) {
@@ -65,38 +66,64 @@ export const VALIDATION_POLICY = {
   },
 
 
-  molecules: {
+  validators: {
 
-    validateUserCreateData: (data: REQUEST_DTO_API_V1_USER_CREATE): ValidateUserCreateDataResult => {
+    userRegister: (data: USER_DTO_API_V1['REGISTER']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] => {
 
-      const returnObject: ValidateUserCreateDataResult = {
+      const returnObject: USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
+        __general: '',
         email    : '',
         password : ''
       }
 
-      if (!VALIDATION_POLICY.atoms.validateEmail(data?.email)) {
+      if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
         returnObject.email += 'Check and enter correct email address. '
       }
 
-      if (!VALIDATION_POLICY.atoms.validateByWhiteSpaces(data?.email)) {
+      if (!VALIDATION_POLICY.utils.validateByWhiteSpaces(data?.email)) {
         returnObject.email += 'Remove spaces from email. '
       }
 
-      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.password, 6)) {
+      if (!VALIDATION_POLICY.utils.validateByMinLength(
+        data?.password,
+        6)) {
         returnObject.password += 'Choose a more secure password - at least 6 characters. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
 
 
+    userCreate: (data: USER_DTO_API_V1['CREATE']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] => {
 
-    validateUserLoginData: (data: REQUEST_DTO_API_V1_USER_LOGIN): ValidateUserLoginDataResult => {
-
-      const returnObject: ValidateUserLoginDataResult = {
+      const returnObject: USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
+        __general: '',
+        email    : ''
+      }
+
+      if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
+        returnObject.email += 'Check and enter correct email address. '
+      }
+
+      if (!VALIDATION_POLICY.utils.validateByWhiteSpaces(data?.email)) {
+        returnObject.email += 'Remove spaces from email. '
+      }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
+
+    userLogin: (data: USER_DTO_API_V1['LOGIN']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] => {
+
+      const returnObject: USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
         email    : '',
         password : ''
       }
@@ -109,15 +136,18 @@ export const VALIDATION_POLICY = {
         returnObject.password += 'Enter password. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
 
 
-    validateDeleteUserData: (data: REQUEST_DTO_API_V1_USER_DELETE): ValidateUserDeleteDataResult => {
 
-      const returnObject: ValidateUserDeleteDataResult = {
+    deleteUser: (data: USER_DTO_API_V1['DELETE']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE']['RESPONSE_ERROR'] => {
+
+      const returnObject: USER_DTO_API_V1['DELETE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
+        __general: '',
         email    : '',
         password : ''
       }
@@ -130,15 +160,18 @@ export const VALIDATION_POLICY = {
         returnObject.password += 'Enter password. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
 
 
-    validateDeleteSessionData: (data: REQUEST_DTO_API_V1_SESSION_DELETE_SPECIFIC): ValidateSessionDeleteDataResult => {
 
-      const returnObject: ValidateSessionDeleteDataResult = {
+    deleteSession: (data: SESSION_DTO_API_V1['DELETE']['REQUEST']): SESSION_DTO_API_V1['DELETE']['RESPONSE_ERROR'] => {
+
+      const returnObject: SESSION_DTO_API_V1['DELETE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid : false,
+        __general : '',
         session_id: ''
       }
 
@@ -146,15 +179,18 @@ export const VALIDATION_POLICY = {
         returnObject.session_id += 'Missing session ID. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
 
 
-    validateAccountDisplayNameChangeData: (data: REQUEST_DTO_API_V1_ACCOUNT_DISPLAY_NAME_CHANGE): ValidateAccountDisplayNameChangeDataResult => {
 
-      const returnObject: ValidateAccountDisplayNameChangeDataResult = {
+    accountDisplayNameChange: (data: ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST']): ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE_ERROR'] => {
+
+      const returnObject: ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid   : false,
+        __general   : '',
         display_name: ''
       }
 
@@ -162,19 +198,24 @@ export const VALIDATION_POLICY = {
         returnObject.display_name += 'Enter name. '
       }
 
-      if (!VALIDATION_POLICY.atoms.validateByMinLength(data?.display_name, 3)) {
+      if (!VALIDATION_POLICY.utils.validateByMinLength(
+        data?.display_name,
+        3)) {
         returnObject.display_name += 'Name must be longer than 3 characters. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
 
 
-    validateAccountPaymentMakeData: (data: REQUEST_DTO_API_V1_ACCOUNT_PAYMENT_MAKE): ValidateAccountPaymentMakeDataResult => {
 
-      const returnObject: ValidateAccountPaymentMakeDataResult = {
+    accountPaymentMake: (data: ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['REQUEST']): ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['RESPONSE_ERROR'] => {
+
+      const returnObject: ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid   : false,
+        __general   : '',
         payment_id  : '',
         pricing_plan: ''
       }
@@ -191,7 +232,31 @@ export const VALIDATION_POLICY = {
         returnObject.payment_id += 'Enter payment ID. '
       }
 
-      returnObject.__isValid = isValidReturnObject(returnObject)
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
+
+
+    eventLogGetAll: (data: EVENT_LOG_DTO_API_V1['GET_ALL']['REQUEST']): EVENT_LOG_DTO_API_V1['GET_ALL']['RESPONSE_ERROR'] => {
+
+      const returnObject: EVENT_LOG_DTO_API_V1['GET_ALL']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        type     : ''
+      }
+
+      if (!data.type) {
+        returnObject.type += 'Missing logs type. '
+      }
+
+      if (!Object.values(EventType)
+                 .includes(data.type)) {
+        returnObject.type += 'Wrong logs type. '
+      }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     }
 
