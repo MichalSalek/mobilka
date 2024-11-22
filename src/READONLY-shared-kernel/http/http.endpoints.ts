@@ -24,6 +24,7 @@ export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCO
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}/api/dev-cheats/check-access/post`
 
 
+//@TODO zamiast eventsów, może kierować się ilością ROUTÓW API?
 export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: EndpointProps) => string> = {
   //
   // DEBUG
@@ -48,5 +49,9 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   USER_GET_ALL       : (props) => `${URL(props)}${ROUTES_API.USER_GET_ALL}`,
   USER_GET_CURRENT   : (props) => `${URL(props)}${ROUTES_API.USER_GET_CURRENT}`,
   USER_LOGIN         : (props) => `${URL(props)}${ROUTES_API.USER_LOGIN}`,
-  USER_LOGOUT        : (props) => `${URL(props)}${ROUTES_API.USER_LOGOUT}`
+  USER_LOGOUT        : (props) => `${URL(props)}${ROUTES_API.USER_LOGOUT}`,
+  USER_DISABLE_ANY   : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_ANY}`,
+  USER_DISABLE_SELF  : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_SELF}`,
+  USER_ENABLE_ANY    : (props) => `${URL(props)}${ROUTES_API.USER_ENABLE_ANY}`,
+  USER_ENABLE_SELF   : (props) => ''
 } as const

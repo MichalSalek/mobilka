@@ -14,6 +14,8 @@ const readonlyPermissionsSets: PermissionSets = {
 
   LOW_LEVEL: [ 'USER_GET_CURRENT',
                'USER_LOGOUT',
+               'USER_DISABLE_SELF',
+               'USER_ENABLE_SELF',
                'USER_DELETE_SELF',
 
                'SESSION_REFRESH',
@@ -22,8 +24,7 @@ const readonlyPermissionsSets: PermissionSets = {
                'SESSION_DELETE_EXACTLY',
                'SESSION_GET_ALL',
 
-                'EVENT_LOG_GET_ALL'
-  ]
+               'EVENT_LOG_GET_ALL' ]
 
 } as const
 
@@ -38,7 +39,6 @@ const runtimePermissionsSets: PermissionSets = {
 type PERMISSIONS_POLICY_TYPE = {
   permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
   permissionsForEvents: Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>,
-  readonlyPermissionsSets: PermissionSets
   runtimePermissionsSets: PermissionSets
 
   utils: {
@@ -64,8 +64,7 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
   },
 
-  readonlyPermissionsSets: readonlyPermissionsSets,
-  runtimePermissionsSets : runtimePermissionsSets,
+  runtimePermissionsSets: runtimePermissionsSets,
 
 
   permissionsForEvents: {

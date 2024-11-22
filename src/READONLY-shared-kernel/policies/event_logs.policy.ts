@@ -20,6 +20,8 @@ export const EVENT_LOG_STORE_POLICY: EVENT_LOG_STORE_POLICY_TYPE = {
                          'SESSION_DELETED' ] as const,
     ACCOUNT_EVENT_LOG: [ 'PAYMENT_DONE',
                          'DISPLAY_NAME_CHANGED',
+                         'USER_DISABLED',
+                         'USER_ENABLED',
                          'USER_DELETED',
                          'USER_CREATED',
                          'USER_REGISTERED',

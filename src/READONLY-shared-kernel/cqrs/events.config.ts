@@ -1,10 +1,49 @@
-import { EVENT_COMMANDS_TYPE, EVENT_QUERIES_TYPE } from './events.types'
-import { EVENT_COMMANDS_AND_QUERIES_TYPE }         from './events.types'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE, EVENT_COMMANDS_TYPE, EVENT_QUERIES_TYPE } from './events.types'
 
 
 
 
 export const EVENTS = Object.freeze({
+
+
+  COMMANDS: {
+
+    APPLICATION: [],
+    DEBUG      : [ 'SWITCH_BACKEND_DEBUG_MODE' ],
+    USER       : [ 'USER_LOGIN',
+                   'USER_LOGOUT',
+                   'USER_CREATE',
+                   'USER_REGISTER',
+                   'USER_DISABLE_ANY',
+                   'USER_DISABLE_SELF',
+                   'USER_ENABLE_ANY',
+                   'USER_ENABLE_SELF',
+                   'USER_DELETE_ANY',
+                   'USER_DELETE_EXACTLY',
+                   'USER_DELETE_SELF' ],
+    SESSION    : [ 'SESSION_DELETE_ALL',
+                   'SESSION_DELETE_EXACTLY',
+                   'SESSION_REFRESH' ],
+    ACCOUNT    : [ 'ACCOUNT_DISPLAY_NAME_CHANGE',
+                   'ACCOUNT_PAYMENT_MAKE' ],
+    EVENT_LOG  : []
+  },
+
+
+
+  QUERIES: {
+
+    APPLICATION: [],
+    DEBUG      : [],
+    USER       : [ 'USER_GET_CURRENT',
+                   'USER_GET_ALL' ],
+    SESSION    : [ 'SESSION_GET_ALL',
+                   'SESSION_CHECK' ],
+    ACCOUNT    : [ 'ACCOUNT_PAYMENT_GET_STATUS' ],
+    EVENT_LOG  : [ 'EVENT_LOG_GET_ALL' ]
+  },
+
+
 
   INFO: {
 
@@ -24,6 +63,11 @@ export const EVENTS = Object.freeze({
                    'USER_REGISTERED',
                    'CANNOT_REGISTER_USER',
                    'CANNOT_CREATE_USER',
+                   'USER_DISABLED',
+                   'CANNOT_DISABLE_USER',
+                   'CANNOT_ENABLE_USER',
+                   'USER_ENABLED',
+                   'USER_ENABLED_SELF',
                    'USER_DELETED',
                    'SELF_USER_DELETED',
                    'CANNOT_DELETE_USER',
@@ -43,39 +87,6 @@ export const EVENTS = Object.freeze({
                    'PRICING_PLAN_CHANGED',
                    'CANNOT_CHANGE_PRICING_PLAN' ],
     EVENT_LOG  : []
-  },
-
-
-  COMMANDS: {
-
-    APPLICATION: [],
-    DEBUG      : [ 'SWITCH_BACKEND_DEBUG_MODE' ],
-    USER       : [ 'USER_LOGIN',
-                   'USER_LOGOUT',
-                   'USER_CREATE',
-                   'USER_REGISTER',
-                   'USER_DELETE_ANY',
-                   'USER_DELETE_EXACTLY',
-                   'USER_DELETE_SELF' ],
-    SESSION    : [ 'SESSION_DELETE_ALL',
-                   'SESSION_DELETE_EXACTLY',
-                   'SESSION_REFRESH' ],
-    ACCOUNT    : [ 'ACCOUNT_DISPLAY_NAME_CHANGE',
-                   'ACCOUNT_PAYMENT_MAKE' ],
-    EVENT_LOG  : []
-  },
-
-
-  QUERIES: {
-
-    APPLICATION: [],
-    DEBUG      : [],
-    USER       : [ 'USER_GET_CURRENT',
-                   'USER_GET_ALL' ],
-    SESSION    : [ 'SESSION_GET_ALL',
-                   'SESSION_CHECK' ],
-    ACCOUNT    : [ 'ACCOUNT_PAYMENT_GET_STATUS' ],
-    EVENT_LOG  : [ 'EVENT_LOG_GET_ALL' ]
   }
 } as const)
 

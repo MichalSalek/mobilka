@@ -31,6 +31,9 @@ export const ROUTES_API = Object.freeze({
   USER_DELETE_ANY    : `${API_VER}user/delete/any`,
   USER_DELETE_EXACTLY: `${API_VER}user/delete/exactly`,
   USER_DELETE_SELF   : `${API_VER}user/delete/self`,
+  USER_DISABLE_ANY   : `${API_VER}user/disable/any`,
+  USER_DISABLE_SELF  : `${API_VER}user/disable/self`,
+  USER_ENABLE_ANY    : `${API_VER}user/enable/any`,
   USER_GET_ALL       : `${API_VER}user/get-all`,
   USER_GET_CURRENT   : `${API_VER}user/get-current`,
 

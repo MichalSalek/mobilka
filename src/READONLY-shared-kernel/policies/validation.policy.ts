@@ -143,21 +143,57 @@ export const VALIDATION_POLICY = {
 
 
 
-    deleteUser: (data: USER_DTO_API_V1['DELETE']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE']['RESPONSE_ERROR'] => {
+    deleteOrDisableSelfUser: (data: USER_DTO_API_V1['DELETE_SELF']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] => {
 
-      const returnObject: USER_DTO_API_V1['DELETE']['RESPONSE_ERROR'] & ValidationFlag = {
+      const returnObject: USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        email    : '',
         password : ''
       }
 
-      if (!data.email) {
-        returnObject.email += 'Enter email. '
-      }
 
       if (!data.password) {
         returnObject.password += 'Enter password. '
+      }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
+
+
+    deleteOrDisableOtherUser: (data: USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
+
+      const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        email    : '',
+        user_id : ''
+      }
+
+      if (!data.email && !data.user_id) {
+        returnObject.__general += 'Enter email or user_id. '
+      }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
+
+
+    enableOtherUser: (data: USER_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
+
+      const returnObject: USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        email    : '',
+        user_id : ''
+      }
+
+      if (!data.email && !data.user_id) {
+        returnObject.__general += 'Enter email or user_id. '
       }
 
 
