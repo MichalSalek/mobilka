@@ -151,7 +151,6 @@ export const VALIDATION_POLICY = {
         password : ''
       }
 
-
       if (!data.password) {
         returnObject.password += 'Enter password. '
       }

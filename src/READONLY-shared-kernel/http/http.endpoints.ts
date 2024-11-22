@@ -27,7 +27,7 @@ export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL
 //@TODO zamiast eventsów, może kierować się ilością ROUTÓW API?
 export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: EndpointProps) => string> = {
   //
-  // DEBUG
+  // ADMIN
   SWITCH_BACKEND_DEBUG_MODE: (props) => `${URL(props)}${ROUTES_API.SWITCH_BACKEND_DEBUG_MODE}`, //
   // ACCOUNT
   ACCOUNT_DISPLAY_NAME_CHANGE: (props) => `${URL(props)}${ROUTES_API.ACCOUNT_DISPLAY_NAME_CHANGE}`,
