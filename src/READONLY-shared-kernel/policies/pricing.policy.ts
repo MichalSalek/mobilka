@@ -38,7 +38,7 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
   defaultPricingPlanPeriod: 'annual',
 
-  annualDiscountPercentageNumber: 20,
+  annualDiscountPercentageNumber: 30,
 
   utils: {
 
