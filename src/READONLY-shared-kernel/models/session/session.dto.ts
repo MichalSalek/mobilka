@@ -31,7 +31,7 @@ export type SESSION_DTO_API_V1 = {
 
   REFRESH: {
     REQUEST: undefined
-    RESPONSE: Session['expires_at']
+    RESPONSE: Session
     RESPONSE_ERROR: unknown
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<SESSION_DTO_API_V1['REFRESH']['REQUEST'], SESSION_DTO_API_V1['REFRESH']['RESPONSE'], SESSION_DTO_API_V1['REFRESH']['RESPONSE_ERROR']>
   },

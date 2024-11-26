@@ -1,6 +1,6 @@
 export const HTTP_PROTOCOL = 'http://' as const
 
-export const HTTP_WEB1_APP_HOST = '192.168.1.28' as const
+export const HTTP_WEB1_APP_HOST = '192.168.1.28' as const //@todo takie rzeczy tylko wstrzykiwane przez env variables
 
 export type HTTPMethod = 'post' | 'get'
 

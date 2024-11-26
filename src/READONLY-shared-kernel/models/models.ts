@@ -133,11 +133,13 @@ export type UsersInactive = Pick<User, 'user_id'> & Record<'when_was_deleted', D
 
 export type UserNoSensitive = Omit<User, 'password'>
 
-export type UserRelations = {
+export type UserRelationsAll = {
   sessions: Session[]
   account: Account
-  // event_logs: EventLog[] - exists, but do not want it with user always.
+  event_logs: EventLog[]
 }
+
+export type UserRelations = Pick<UserRelationsAll, 'account'>
 
 export type UserWithRelations = UserRelations & User
 

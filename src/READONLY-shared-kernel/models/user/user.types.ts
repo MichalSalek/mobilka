@@ -9,4 +9,4 @@ export type UserMetadata = {
   user_agent: string | undefined
 }
 
-export type CurrentUser = UserNoSensitiveWithRelations & Pick<Session, 'expires_at' | 'session_id'>
+export type CurrentUser = UserNoSensitiveWithRelations & Pick<Session, 'session_id'>
