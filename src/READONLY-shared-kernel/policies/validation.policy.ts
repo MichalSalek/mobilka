@@ -1,6 +1,6 @@
 import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
+import { EventTypeValue }       from '../models/db-models'
 import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
-import { EventTypeValue }       from '../models/models'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
 import { USER_DTO_API_V1 }      from '../models/user/user.dto'
 import { PRICING_POLICY }       from './pricing.policy'
@@ -166,13 +166,11 @@ export const VALIDATION_POLICY = {
 
       const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
-        __general: '',
-        email    : '',
-        user_id : ''
+        __general: ''
       }
 
-      if (!data.email && !data.user_id) {
-        returnObject.__general += 'Enter email or user_id. '
+      if (Object.keys(data).length === 0) {
+        returnObject.__general += 'No user identifier. '
       }
 
 
@@ -186,13 +184,11 @@ export const VALIDATION_POLICY = {
 
       const returnObject: USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
-        __general: '',
-        email    : '',
-        user_id : ''
+        __general: ''
       }
 
-      if (!data.email && !data.user_id) {
-        returnObject.__general += 'Enter email or user_id. '
+      if (Object.keys(data).length === 0) {
+        returnObject.__general += 'No user identifier. '
       }
 
 

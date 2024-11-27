@@ -1,10 +1,11 @@
-import { IOClientFunctionReqResErr }                           from '../../http/http.client.types'
-import { DetailedErrorPayload }                                from '../../http/http.types'
-import { User, UserNoSensitive, UserNoSensitiveWithRelations } from '../models'
-import { CurrentUser, UserMetadata }                           from './user.types'
+import { IOClientFunctionReqResErr }                                                                     from '../../http/http.client.types'
+import { DetailedErrorPayload }                                                                          from '../../http/http.types'
+import { User, UserNoSensitive }                                                                         from '../db-models'
+import { CurrentUser, UserMetadata, UserNoSensitiveWithRelations, UserNoSensitiveWithRelationsExtended } from './user.types'
 
 
-
+//@TODO podczas wywalania UserMetadata przy okazji
+// zmienić nazwę IO_CLIENT_FUNCTION na IO_CLIENT_GET lub IO_CLIENT_POST
 
 export type USER_DTO_API_V1 = {
 
@@ -45,25 +46,25 @@ export type USER_DTO_API_V1 = {
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DISABLE_SELF']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DISABLE_SELF']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DISABLE_SELF']['REQUEST'], USER_DTO_API_V1['DISABLE_SELF']['RESPONSE'], USER_DTO_API_V1['DISABLE_SELF']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DISABLE_SELF']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['DISABLE_SELF']['RESPONSE'], USER_DTO_API_V1['DISABLE_SELF']['RESPONSE_ERROR']>
   },
 
 
   DISABLE_ANY: {
-    REQUEST: Pick<User, 'user_id' | 'email'> & UserMetadata
+    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DISABLE_ANY']['REQUEST'], keyof UserMetadata>
-    RESPONSE: undefined
+    RESPONSE: UserNoSensitiveWithRelations
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DISABLE_ANY']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DISABLE_ANY']['REQUEST'], USER_DTO_API_V1['DISABLE_ANY']['RESPONSE'], USER_DTO_API_V1['DISABLE_ANY']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DISABLE_ANY']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['DISABLE_ANY']['RESPONSE'], USER_DTO_API_V1['DISABLE_ANY']['RESPONSE_ERROR']>
   },
 
 
   ENABLE_ANY: {
-    REQUEST: Pick<User, 'user_id' | 'email'> & UserMetadata
+    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['ENABLE_ANY']['REQUEST'], keyof UserMetadata>
-    RESPONSE: undefined
+    RESPONSE: UserNoSensitiveWithRelations
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['ENABLE_ANY']['REQUEST'], USER_DTO_API_V1['ENABLE_ANY']['RESPONSE'], USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['ENABLE_ANY']['RESPONSE'], USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR']>
   },
 
   DELETE_SELF: {
@@ -71,28 +72,28 @@ export type USER_DTO_API_V1 = {
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DELETE_SELF']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DELETE_SELF']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_SELF']['REQUEST'], USER_DTO_API_V1['DELETE_SELF']['RESPONSE'], USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_SELF']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['DELETE_SELF']['RESPONSE'], USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR']>
   },
 
   DELETE_EXACTLY: {
-    REQUEST: Pick<User, 'user_id' | 'email'> & UserMetadata
+    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST'], USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE'], USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE'], USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR']>
   },
 
   DELETE_ANY: {
-    REQUEST: Pick<User, 'user_id' | 'email'> & UserMetadata
+    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DELETE_ANY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DELETE_ANY']['REQUEST_REQUIRED_ONLY']>
-    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_ANY']['REQUEST'], USER_DTO_API_V1['DELETE_ANY']['RESPONSE'], USER_DTO_API_V1['DELETE_ANY']['RESPONSE_ERROR']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['DELETE_ANY']['REQUEST_REQUIRED_ONLY'], USER_DTO_API_V1['DELETE_ANY']['RESPONSE'], USER_DTO_API_V1['DELETE_ANY']['RESPONSE_ERROR']>
   },
 
   GET_ALL: {
     REQUEST: undefined
-    RESPONSE: UserNoSensitiveWithRelations[]
+    RESPONSE: UserNoSensitiveWithRelationsExtended[]
     RESPONSE_ERROR: unknown
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['GET_ALL']['REQUEST'], USER_DTO_API_V1['GET_ALL']['RESPONSE'], USER_DTO_API_V1['GET_ALL']['RESPONSE_ERROR']>
   },

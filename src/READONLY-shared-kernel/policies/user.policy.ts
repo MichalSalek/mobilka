@@ -1,4 +1,5 @@
-import { AccountStatus, AccountStatusValue, UserNoSensitive, UserNoSensitiveWithRelations } from '../models/models'
+import { AccountStatus, AccountStatusValue, UserNoSensitive } from '../models/db-models'
+import { UserNoSensitiveWithRelations }                       from '../models/user/user.types'
 
 
 

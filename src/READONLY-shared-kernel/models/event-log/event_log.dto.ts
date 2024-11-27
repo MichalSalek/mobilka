@@ -1,6 +1,6 @@
 import { IOClientFunctionReqResErr } from '../../http/http.client.types'
-import { DetailedErrorPayload }      from '../../http/http.types'
-import { EventLog, EventType }       from '../models'
+import { DetailedErrorPayload } from '../../http/http.types'
+import { EventLog, EventType }  from '../db-models'
 
 
 

@@ -126,10 +126,6 @@ export type User = {
 
 } & DateAndTimePartial
 
-export type UsersActive = Pick<User, 'user_id'>
-
-export type UsersInactive = Pick<User, 'user_id'> & Record<'when_was_deleted', DateAndTime>
-
 
 export type UserNoSensitive = Omit<User, 'password'>
 
@@ -138,9 +134,3 @@ export type UserRelationsAll = {
   account: Account
   event_logs: EventLog[]
 }
-
-export type UserRelations = Pick<UserRelationsAll, 'account'>
-
-export type UserWithRelations = UserRelations & User
-
-export type UserNoSensitiveWithRelations = UserRelations & UserNoSensitive

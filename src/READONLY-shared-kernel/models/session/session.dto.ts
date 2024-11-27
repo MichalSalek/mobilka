@@ -1,7 +1,7 @@
 import { IOClientFunctionReqResErr } from '../../http/http.client.types'
-import { DetailedErrorPayload }      from '../../http/http.types'
-import { Session }                   from '../models'
-import { CurrentUser }               from '../user/user.types'
+import { DetailedErrorPayload } from '../../http/http.types'
+import { Session, User }        from '../db-models'
+import { CurrentUser }          from '../user/user.types'
 
 
 
@@ -16,7 +16,7 @@ export type SESSION_DTO_API_V1 = {
   },
 
   DELETE_ALL: {
-    REQUEST: undefined
+    REQUEST:  Pick<User, 'user_id'> | undefined
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<SESSION_DTO_API_V1['DELETE_ALL']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<SESSION_DTO_API_V1['DELETE_ALL']['REQUEST'], SESSION_DTO_API_V1['DELETE_ALL']['RESPONSE'], SESSION_DTO_API_V1['DELETE_ALL']['RESPONSE_ERROR']>

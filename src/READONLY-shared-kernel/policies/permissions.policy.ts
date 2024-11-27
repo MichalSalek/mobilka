@@ -1,8 +1,8 @@
-import { GET_COMMAND_AND_QUERY_EVENTS }                                                                from '../cqrs/events.config'
-import { EVENT_COMMANDS_AND_QUERIES_TYPE }                                                             from '../cqrs/events.types'
-import { ALL_LOGGED_ROLES_COLLECTION, Role, RoleValue, UserNoSensitive, UserNoSensitiveWithRelations } from '../models/models'
-import { CurrentUser }                                                                                 from '../models/user/user.types'
-import { ROUTES_FRONT, ROUTES_FRONT_PATH }                                                             from '../routing/routing.config'
+import { GET_COMMAND_AND_QUERY_EVENTS }                                  from '../cqrs/events.config'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE }                               from '../cqrs/events.types'
+import { ALL_LOGGED_ROLES_COLLECTION, Role, RoleValue, UserNoSensitive } from '../models/db-models'
+import { CurrentUser, UserNoSensitiveWithRelations }                     from '../models/user/user.types'
+import { ROUTES_FRONT, ROUTES_FRONT_PATH }                               from '../routing/routing.config'
 
 
 
@@ -83,7 +83,6 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role = RoleValue.NOT_LOGGED_IN, requestedRoutePath) => {
-
       // Role array of requested event is empty
       // OR
       // Role is included in requested event permission array.

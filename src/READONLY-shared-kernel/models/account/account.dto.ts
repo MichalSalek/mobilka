@@ -1,7 +1,7 @@
 import { IDType }                    from '../../application.types'
 import { IOClientFunctionReqResErr } from '../../http/http.client.types'
 import { DetailedErrorPayload }      from '../../http/http.types'
-import { Account, PaymentStatus }    from '../models'
+import { Account, PaymentStatus }    from '../db-models'
 import { CurrentUser, UserMetadata } from '../user/user.types'
 
 

@@ -1,5 +1,5 @@
 import { EVENT_INFO_TYPE } from '../cqrs/events.types'
-import { EventType }       from '../models/models'
+import { EventType }       from '../models/db-models'
 
 
 

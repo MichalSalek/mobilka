@@ -1,6 +1,6 @@
 import { NextRouter }                                                                                       from 'next/router'
 import { EVENT_INFO_TYPE }                                                                                  from '../cqrs/events.types'
-import { UserNoSensitiveWithRelations }                                                                     from '../models/models'
+import { UserNoSensitiveWithRelations }                                                                     from '../models/user/user.types'
 import { ROUTES_API, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../routing/routing.config'
 import { PERMISSIONS_POLICY }                                                                               from './permissions.policy'
 import { PRICING_POLICY }                                                                                   from './pricing.policy'
@@ -32,24 +32,31 @@ export type ROUTING_POLICY_TYPE = {
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
   redirectionsOnEventsRules: {
-    ALREADY_LOGGED   : (event, currentUser, currentPathname, action) => {
+    ALREADY_LOGGED : (event, currentUser, currentPathname, action) => {
       if (event === 'ALREADY_LOGGED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
         currentUser?.role,
         currentPathname)) {
         action(ROUTES_FRONT.APP)
       }
     },
-    USER_REGISTERED  : (event, currentUser, currentPathname, action) => {
+    USER_REGISTERED: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_REGISTERED' && (
         PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !USER_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
         action(ROUTES_FRONT.USER_ACCOUNT)
       }
     },
-    USER_LOGGED_IN   : (event, currentUser, currentPathname, action) => {
+    USER_LOGGED_IN : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
         action(ROUTES_FRONT.APP)
       }
     },
+
+    USER_ENABLED_SELF: (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_ENABLED_SELF') {
+        action(ROUTES_FRONT.APP)
+      }
+    },
+
     USER_LOGGED_OUT  : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_OUT') {
         action(ROUTES_FRONT.HOME)
