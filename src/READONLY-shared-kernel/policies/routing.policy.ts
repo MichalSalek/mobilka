@@ -79,6 +79,11 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         currentPathname)) {
         action(ROUTES_FRONT.USER_LOG)
       }
+    },
+    PAYMENT_DONE     : (event, currentUser, currentPathname, action) => {
+      if (event === 'PAYMENT_DONE') {
+        action(ROUTES_FRONT.USER_ACCOUNT)
+      }
     }
   } as const,
 
@@ -129,7 +134,6 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
                  ? (
                    () => {
                      router.replace(route + searchParamsString)
-                           .catch()
                    })()
                  : () => {}
         })

@@ -4,14 +4,15 @@ import { API_VER } from '../http/http.config'
 
 
 export const ROUTES_FRONT = Object.freeze({
-  HOME        : '/',
-  PRICING     : '/pricing',
-  APP         : '/app',
-  ADMIN       : '/admin',
-  USER_DEL    : '/user/delete',
-  USER_LOG    : '/user/login',
-  USER_REG    : '/user/register',
-  USER_ACCOUNT: '/user/account'
+  HOME            : '/',
+  PRICING         : '/pricing',
+  APP             : '/app',
+  ADMIN           : '/admin',
+  USER_DEL        : '/user/delete',
+  USER_LOG        : '/user/login',
+  USER_REG        : '/user/register',
+  USER_ACCOUNT    : '/user/account',
+  USER_ACCOUNT_PAY: '/user/account/pay'
 } as const)
 
 

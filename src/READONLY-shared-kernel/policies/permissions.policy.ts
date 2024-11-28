@@ -26,18 +26,18 @@ const readonlyPermissionsSets: PermissionSets = {
     }),
 
   LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'USER_GET_CURRENT',
-               'USER_LOGOUT',
-               'USER_DISABLE_SELF',
-               'USER_ENABLE_SELF',
-               'USER_DELETE_SELF',
+                                         'USER_LOGOUT',
+                                         'USER_DISABLE_SELF',
+                                         'USER_ENABLE_SELF',
+                                         'USER_DELETE_SELF',
 
-               'SESSION_REFRESH',
-               'SESSION_CHECK',
-               'SESSION_DELETE_ALL',
-               'SESSION_DELETE_EXACTLY',
-               'SESSION_GET_ALL',
+                                         'SESSION_REFRESH',
+                                         'SESSION_CHECK',
+                                         'SESSION_DELETE_ALL',
+                                         'SESSION_DELETE_EXACTLY',
+                                         'SESSION_GET_ALL',
 
-               'EVENT_LOG_GET_ALL' ]
+                                         'EVENT_LOG_GET_ALL' ]
 
 } as const
 
@@ -69,13 +69,14 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
     [ROUTES_FRONT.ADMIN]: [ RoleValue.MASTER_ADMIN ],
 
 
-    [ROUTES_FRONT.HOME]        : [],
-    [ROUTES_FRONT.APP]         : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.USER_DEL]    : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.USER_LOG]    : [ RoleValue.NOT_LOGGED_IN ],
-    [ROUTES_FRONT.USER_REG]    : [ RoleValue.NOT_LOGGED_IN ],
-    [ROUTES_FRONT.USER_ACCOUNT]: ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.PRICING]     : []
+    [ROUTES_FRONT.HOME]            : [],
+    [ROUTES_FRONT.APP]             : ALL_LOGGED_ROLES_COLLECTION,
+    [ROUTES_FRONT.USER_DEL]        : ALL_LOGGED_ROLES_COLLECTION,
+    [ROUTES_FRONT.USER_LOG]        : [ RoleValue.NOT_LOGGED_IN ],
+    [ROUTES_FRONT.USER_REG]        : [ RoleValue.NOT_LOGGED_IN ],
+    [ROUTES_FRONT.USER_ACCOUNT]    : ALL_LOGGED_ROLES_COLLECTION,
+    [ROUTES_FRONT.PRICING]         : [],
+    [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION
 
   },
 
