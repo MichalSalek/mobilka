@@ -12,7 +12,20 @@ type PermissionSets = Record<string, EVENT_COMMANDS_AND_QUERIES_TYPE[]>
 
 const readonlyPermissionsSets: PermissionSets = {
 
-  LOW_LEVEL: [ 'USER_GET_CURRENT',
+  MASTER_ADMIN_ONLY: [ ...GET_COMMAND_AND_QUERY_EVENTS() ]
+    .filter((event) => {
+      if (event === 'USER_DISABLE_SELF') {
+        return false
+      }
+
+      if (event === 'USER_DELETE_SELF') {
+        return false
+      }
+
+      return true
+    }),
+
+  LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'USER_GET_CURRENT',
                'USER_LOGOUT',
                'USER_DISABLE_SELF',
                'USER_ENABLE_SELF',
@@ -70,14 +83,14 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
 
   permissionsForEvents: {
-    [RoleValue.MASTER_ADMIN]  : [ ...GET_COMMAND_AND_QUERY_EVENTS() ],
+    [RoleValue.MASTER_ADMIN]  : [ ...readonlyPermissionsSets.MASTER_ADMIN_ONLY ],
     [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
                                   'USER_REGISTER' ],
-    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOW_LEVEL,
+    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY,
                                   'ACCOUNT_DISPLAY_NAME_CHANGE',
                                   'ACCOUNT_PAYMENT_GET_STATUS',
                                   'ACCOUNT_PAYMENT_MAKE' ],
-    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOW_LEVEL ]
+    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY ]
   },
 
 

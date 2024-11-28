@@ -57,13 +57,19 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       }
     },
 
+    USER_DISABLED_SELF: (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_DISABLED_SELF') {
+        action(ROUTES_FRONT.HOME)
+      }
+    },
+
     USER_LOGGED_OUT  : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_OUT') {
         action(ROUTES_FRONT.HOME)
       }
     },
-    SELF_USER_DELETED: (event, currentUser, currentPathname, action) => {
-      if (event === 'SELF_USER_DELETED') {
+    USER_DELETED_SELF: (event, currentUser, currentPathname, action) => {
+      if (event === 'USER_DELETED_SELF') {
         action(ROUTES_FRONT.HOME)
       }
     },

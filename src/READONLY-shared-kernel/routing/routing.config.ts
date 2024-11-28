@@ -24,6 +24,8 @@ export const ROUTES_API = Object.freeze({
   CHECK_WEBAPP_SIMPLE      : '/api/dev-cheats/check-access/get',
   CHECK_WEBAPP_CROSS       : '/api/dev-cheats/check-access/post',
   SWITCH_BACKEND_DEBUG_MODE: '/api/dev-cheats/debug-mode',
+  BECOME_USER              : '/api/dev-cheats/become-user',
+  SWITCH_BACK_BECOME_USER  : '/api/dev-cheats/switch-back-become-user',
 
   USER_REGISTER      : `${API_VER}user/register`,
   USER_CREATE        : `${API_VER}user/create`,

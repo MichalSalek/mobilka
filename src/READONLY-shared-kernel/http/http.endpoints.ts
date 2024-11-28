@@ -53,5 +53,8 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   USER_DISABLE_ANY   : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_ANY}`,
   USER_DISABLE_SELF  : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_SELF}`,
   USER_ENABLE_ANY    : (props) => `${URL(props)}${ROUTES_API.USER_ENABLE_ANY}`,
-  USER_ENABLE_SELF   : (props) => ''
+  USER_ENABLE_SELF   : (props) => '',
+  BECOME_USER: (props) => `${URL(props)}${ROUTES_API.BECOME_USER}`,
+  SWITCH_BACK_BECOME_USER: (props) => `${URL(props)}${ROUTES_API.SWITCH_BACK_BECOME_USER}`
+
 } as const
