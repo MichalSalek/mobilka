@@ -39,7 +39,7 @@ export type SESSION_DTO_API_V1 = {
   CHECK: {
     REQUEST: undefined
     RESPONSE: CurrentUser | undefined
-    RESPONSE_ERROR: null
+    RESPONSE_ERROR: unknown
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<SESSION_DTO_API_V1['CHECK']['REQUEST'], SESSION_DTO_API_V1['CHECK']['RESPONSE'], SESSION_DTO_API_V1['CHECK']['RESPONSE_ERROR']>
   },
 
