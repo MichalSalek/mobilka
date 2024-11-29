@@ -10,7 +10,7 @@ export type InfoEventWithPayloadDTO<DataPayload = unknown> = {
 
 
 
-export type HTTPError<ErrorPayload> = InfoEventWithPayloadDTO<ErrorPayload>
+export type HTTPError<ErrorPayload> = InfoEventWithPayloadDTO<ErrorPayload | undefined>
 
 export type HTTPSuccess<ResPayload> = InfoEventWithPayloadDTO<ResPayload>
 
