@@ -1,4 +1,5 @@
 import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
+import { ADMIN_DTO_API_V1 }     from '../models/admin/admin.dto'
 import { EventTypeValue }       from '../models/db-models'
 import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
@@ -180,9 +181,9 @@ export const VALIDATION_POLICY = {
 
 
 
-    enableOtherUser: (data: USER_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
+    enableOtherUser: (data: ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']): ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
 
-      const returnObject: USER_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
+      const returnObject: ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: ''
       }

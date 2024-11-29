@@ -12,13 +12,15 @@ type PermissionSets = Record<string, EVENT_COMMANDS_AND_QUERIES_TYPE[]>
 
 const readonlyPermissionsSets: PermissionSets = {
 
-  MASTER_ADMIN_ONLY: [ ...GET_COMMAND_AND_QUERY_EVENTS() ]
+  MASTER_ADMIN: [ ...GET_COMMAND_AND_QUERY_EVENTS() ]
     .filter((event) => {
       if (event === 'USER_DISABLE_SELF') {
         return false
       }
-
       if (event === 'USER_DELETE_SELF') {
+        return false
+      }
+      if (event === 'SWITCH_BACK_BECOME_USER') {
         return false
       }
 
@@ -45,14 +47,18 @@ const readonlyPermissionsSets: PermissionSets = {
 const runtimePermissionsSets: PermissionSets = {
 
   ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
-                    'USER_CREATE' ]
+                    'USER_CREATE' ],
+
+  BECOME_USER_SESSION: [ 'SWITCH_BACK_BECOME_USER' ]
+
+
 } as const
 
 
 type PERMISSIONS_POLICY_TYPE = {
-  permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
   permissionsForEvents: Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>,
   runtimePermissionsSets: PermissionSets
+  permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH) => boolean
@@ -62,6 +68,22 @@ type PERMISSIONS_POLICY_TYPE = {
   }
 }
 export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
+
+
+  runtimePermissionsSets: runtimePermissionsSets,
+
+
+  permissionsForEvents: {
+    [RoleValue.MASTER_ADMIN]  : [ ...readonlyPermissionsSets.MASTER_ADMIN ],
+    [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
+                                  'USER_REGISTER' ],
+    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY,
+                                  'ACCOUNT_DISPLAY_NAME_CHANGE',
+                                  'ACCOUNT_PAYMENT_GET_STATUS',
+                                  'ACCOUNT_PAYMENT_MAKE' ],
+    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY ]
+  },
+
 
   permissionsForRoutes: {
 
@@ -78,20 +100,6 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
     [ROUTES_FRONT.PRICING]         : [],
     [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION
 
-  },
-
-  runtimePermissionsSets: runtimePermissionsSets,
-
-
-  permissionsForEvents: {
-    [RoleValue.MASTER_ADMIN]  : [ ...readonlyPermissionsSets.MASTER_ADMIN_ONLY ],
-    [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
-                                  'USER_REGISTER' ],
-    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY,
-                                  'ACCOUNT_DISPLAY_NAME_CHANGE',
-                                  'ACCOUNT_PAYMENT_GET_STATUS',
-                                  'ACCOUNT_PAYMENT_MAKE' ],
-    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY ]
   },
 
 

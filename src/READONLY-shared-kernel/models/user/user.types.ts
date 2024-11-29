@@ -22,5 +22,5 @@ export type UserNoSensitiveWithRelationsExtended = Pick<UserRelationsAll, 'accou
 
 
 
-export type CurrentUser = UserNoSensitiveWithRelations & Pick<Session, 'session_id'>
+export type CurrentUser = UserNoSensitiveWithRelations & Record<'session', Session>
 
