@@ -58,7 +58,7 @@ export type USER_DTO_API_V1 = {
   },
 
   DELETE_EXACTLY: {
-    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
+    REQUEST: (Pick<User, 'user_id'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST_REQUIRED_ONLY']>

@@ -15,17 +15,24 @@ export type ADMIN_DTO_API_V1 = {
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['SWITCH_BACKEND_DEBUG_MODE']['REQUEST'], ADMIN_DTO_API_V1['SWITCH_BACKEND_DEBUG_MODE']['RESPONSE'], ADMIN_DTO_API_V1['SWITCH_BACKEND_DEBUG_MODE']['RESPONSE_ERROR']>
   },
 
-
   BECOME_USER: {
-    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
+    REQUEST: (Pick<User, 'user_id'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<ADMIN_DTO_API_V1['BECOME_USER']['REQUEST'], keyof UserMetadata>
     RESPONSE: CurrentUser
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['BECOME_USER']['REQUEST_REQUIRED_ONLY']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['BECOME_USER']['REQUEST_REQUIRED_ONLY'], ADMIN_DTO_API_V1['BECOME_USER']['RESPONSE'], ADMIN_DTO_API_V1['BECOME_USER']['RESPONSE_ERROR']>
   },
-  
+
+  SWITCH_BACK_BECOME_USER: {
+    REQUEST: UserMetadata
+    REQUEST_REQUIRED_ONLY: Omit<ADMIN_DTO_API_V1['SWITCH_BACK_BECOME_USER']['REQUEST'], keyof UserMetadata>
+    RESPONSE: CurrentUser
+    RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['SWITCH_BACK_BECOME_USER']['REQUEST_REQUIRED_ONLY']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['SWITCH_BACK_BECOME_USER']['REQUEST_REQUIRED_ONLY'], ADMIN_DTO_API_V1['SWITCH_BACK_BECOME_USER']['RESPONSE'], ADMIN_DTO_API_V1['SWITCH_BACK_BECOME_USER']['RESPONSE_ERROR']>
+  },
+
   DISABLE_ANY: {
-    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
+    REQUEST: (Pick<User, 'user_id'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<ADMIN_DTO_API_V1['DISABLE_ANY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['DISABLE_ANY']['REQUEST_REQUIRED_ONLY']>
@@ -33,7 +40,7 @@ export type ADMIN_DTO_API_V1 = {
   },
 
   ENABLE_ANY: {
-    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
+    REQUEST: (Pick<User, 'user_id'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']>
@@ -41,7 +48,7 @@ export type ADMIN_DTO_API_V1 = {
   },
 
   DELETE_ANY: {
-    REQUEST: (Pick<User, 'user_id'> | Pick<User, 'email'>) & UserMetadata
+    REQUEST: (Pick<User, 'user_id'>) & UserMetadata
     REQUEST_REQUIRED_ONLY: Omit<ADMIN_DTO_API_V1['DELETE_ANY']['REQUEST'], keyof UserMetadata>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['DELETE_ANY']['REQUEST_REQUIRED_ONLY']>

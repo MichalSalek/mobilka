@@ -68,6 +68,12 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         action(ROUTES_FRONT.HOME)
       }
     },
+
+    SESSION_EXPIRED  : (event, currentUser, currentPathname, action) => {
+      if (event === 'SESSION_EXPIRED') {
+        action(ROUTES_FRONT.HOME)
+      }
+    },
     USER_DELETED_SELF: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_DELETED_SELF') {
         action(ROUTES_FRONT.HOME)

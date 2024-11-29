@@ -27,7 +27,8 @@ const readonlyPermissionsSets: PermissionSets = {
       return true
     }),
 
-  LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'USER_GET_CURRENT',
+  LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'SWITCH_BACK_BECOME_USER',
+                                         'USER_GET_CURRENT',
                                          'USER_LOGOUT',
                                          'USER_DISABLE_SELF',
                                          'USER_ENABLE_SELF',
@@ -47,9 +48,7 @@ const readonlyPermissionsSets: PermissionSets = {
 const runtimePermissionsSets: PermissionSets = {
 
   ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
-                    'USER_CREATE' ],
-
-  BECOME_USER_SESSION: [ 'SWITCH_BACK_BECOME_USER' ]
+                    'USER_CREATE' ]
 
 
 } as const

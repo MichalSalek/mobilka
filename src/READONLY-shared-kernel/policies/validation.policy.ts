@@ -167,11 +167,12 @@ export const VALIDATION_POLICY = {
 
       const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
-        __general: ''
+        __general: '',
+        user_id: ''
       }
 
       if (Object.keys(data).length === 0) {
-        returnObject.__general += 'No user identifier. '
+        returnObject.user_id += 'No user identifier. '
       }
 
 
@@ -185,11 +186,12 @@ export const VALIDATION_POLICY = {
 
       const returnObject: ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
-        __general: ''
+        __general: '',
+        user_id: ''
       }
 
       if (Object.keys(data).length === 0) {
-        returnObject.__general += 'No user identifier. '
+        returnObject.user_id += 'No user identifier. '
       }
 
 
