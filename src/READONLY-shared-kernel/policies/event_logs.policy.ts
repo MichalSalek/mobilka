@@ -26,7 +26,8 @@ export const EVENT_LOG_STORE_POLICY: EVENT_LOG_STORE_POLICY_TYPE = {
                          'USER_CREATED',
                          'USER_REGISTERED',
                          'ALL_SESSIONS_DELETED',
-                         'PRICING_PLAN_CHANGED' ] as const
+                         'PRICING_PLAN_CHANGED',
+                         'USER_ENABLED_SELF' ] as const
   } as const,
 
   utils: {

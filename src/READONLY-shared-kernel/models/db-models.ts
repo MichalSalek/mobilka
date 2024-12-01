@@ -92,8 +92,9 @@ export type Account = {
 
 
 export const SessionModeValue = Object.freeze({
-  STANDARD : 'STANDARD',
-  READ_ONLY: 'READ_ONLY'
+  STANDARD   : 'STANDARD',
+  READ_ONLY  : 'READ_ONLY',
+  BECOME_USER: 'BECOME_USER'
 } as const)
 export type SessionMode = keyof typeof SessionModeValue
 
