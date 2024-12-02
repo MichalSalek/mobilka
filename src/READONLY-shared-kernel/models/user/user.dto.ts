@@ -15,6 +15,13 @@ export type USER_DTO_API_V1 = {
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['LOGIN']['REQUEST'], USER_DTO_API_V1['LOGIN']['RESPONSE'], USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR']>
   },
 
+  CHECK_EMAIL: {
+    REQUEST: Pick<User,'email'>
+    RESPONSE: undefined
+    RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['CHECK_EMAIL']['REQUEST']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['CHECK_EMAIL']['REQUEST'], USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE'], USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE_ERROR']>
+  },
+
   REGISTER: {
     REQUEST: Pick<User, 'password' | 'email'>
     RESPONSE: CurrentUser

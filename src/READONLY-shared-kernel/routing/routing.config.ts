@@ -29,6 +29,7 @@ export const ROUTES_API = Object.freeze({
   SWITCH_BACK_BECOME_USER  : '/api/dev-cheats/switch-back-become-user',
 
   USER_REGISTER      : `${API_VER}user/register`,
+  CHECK_EMAIL        : `${API_VER}user/check-email`,
   USER_CREATE        : `${API_VER}user/create`,
   USER_LOGIN         : `${API_VER}user/login`,
   USER_LOGOUT        : `${API_VER}user/logout`,

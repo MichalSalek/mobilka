@@ -15,6 +15,7 @@ export const EVENTS = Object.freeze({
     USER       : [ 'USER_LOGIN',
                    'USER_LOGOUT',
                    'USER_CREATE',
+                   'CHECK_EMAIL',
                    'USER_REGISTER',
                    'USER_DISABLE_ANY',
                    'USER_DISABLE_SELF',

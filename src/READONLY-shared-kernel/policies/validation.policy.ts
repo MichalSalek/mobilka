@@ -97,6 +97,27 @@ export const VALIDATION_POLICY = {
       return returnObject
     },
 
+    checkEmail: (data: USER_DTO_API_V1['CHECK_EMAIL']['REQUEST']): USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE_ERROR'] => {
+
+      const returnObject: USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        email    : ''
+      }
+
+      if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
+        returnObject.email += 'Check and enter correct email address. '
+      }
+
+      if (!VALIDATION_POLICY.utils.validateByWhiteSpaces(data?.email)) {
+        returnObject.email += 'Remove spaces from email. '
+      }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
 
     userCreate: (data: USER_DTO_API_V1['CREATE']['REQUEST']): USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] => {
 
