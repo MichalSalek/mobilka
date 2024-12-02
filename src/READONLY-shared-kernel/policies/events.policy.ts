@@ -12,7 +12,8 @@ type EVENTS_POLICY_TYPE = {
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
   eventsDisallowedForUI: [ 'SUCCESS',
-                           'UNAUTHORIZED' ] as const,
+                           'UNAUTHORIZED',
+                           'CURRENT_USER_NOT_FOUND' ] as const,
 
   utils: {
     IS_EVENT_DISALLOWED_FOR_UI: (event) => {

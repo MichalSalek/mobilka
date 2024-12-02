@@ -5,6 +5,8 @@ import { CurrentUser, UserNoSensitiveWithRelations }                     from '.
 import { ROUTES_FRONT, ROUTES_FRONT_PATH }                               from '../routing/routing.config'
 
 
+
+
 export type PermissionsCollection = EVENT_COMMANDS_AND_QUERIES_TYPE[]
 
 export type PermissionSets = Record<string, EVENT_COMMANDS_AND_QUERIES_TYPE[]>
@@ -18,9 +20,6 @@ const readonlyPermissionsSets: PermissionSets = {
         return false
       }
       if (event === 'USER_DELETE_SELF') {
-        return false
-      }
-      if (event === 'SWITCH_BACK_BECOME_USER') {
         return false
       }
 
@@ -45,8 +44,6 @@ const readonlyPermissionsSets: PermissionSets = {
 
 
 const runtimePermissionsSets: PermissionSets = {
-
-  SWITCH_BACK_AFTER_BECOME: ['SWITCH_BACK_BECOME_USER'],
 
   ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
                     'USER_CREATE' ]

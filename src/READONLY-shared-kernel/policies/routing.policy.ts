@@ -80,9 +80,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       }
     },
     UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
-      if (event === 'UNAUTHORIZED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
-        currentUser?.role,
-        currentPathname)) {
+      if (event === 'UNAUTHORIZED') {
         action(ROUTES_FRONT.USER_LOG)
       }
     },

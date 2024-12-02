@@ -2,7 +2,7 @@ import { IDType }                    from '../../application.types'
 import { IOClientFunctionReqResErr } from '../../http/http.client.types'
 import { DetailedErrorPayload }      from '../../http/http.types'
 import { Account, PaymentStatus }    from '../db-models'
-import { CurrentUser, UserMetadata } from '../user/user.types'
+import { CurrentUser }               from '../user/user.types'
 
 
 
@@ -10,10 +10,9 @@ import { CurrentUser, UserMetadata } from '../user/user.types'
 export type ACCOUNT_DTO_API_V1 = {
 
   DISPLAY_NAME_CHANGE: {
-    REQUEST: Pick<Account, 'display_name'> & UserMetadata
-    REQUEST_REQUIRED_ONLY: Omit<ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST'], keyof UserMetadata>
+    REQUEST: Pick<Account, 'display_name'>
     RESPONSE: Account
-    RESPONSE_ERROR: DetailedErrorPayload<ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST_REQUIRED_ONLY']>
+    RESPONSE_ERROR: DetailedErrorPayload<ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST'], ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE'], ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE_ERROR']>
   },
 

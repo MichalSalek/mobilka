@@ -69,7 +69,7 @@ export const VALIDATION_POLICY = {
 
   validators: {
 
-    userRegister: (data: USER_DTO_API_V1['REGISTER']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] => {
+    userRegister: (data: USER_DTO_API_V1['REGISTER']['REQUEST']): USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
@@ -98,7 +98,7 @@ export const VALIDATION_POLICY = {
     },
 
 
-    userCreate: (data: USER_DTO_API_V1['CREATE']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] => {
+    userCreate: (data: USER_DTO_API_V1['CREATE']['REQUEST']): USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
@@ -120,7 +120,7 @@ export const VALIDATION_POLICY = {
     },
 
 
-    userLogin: (data: USER_DTO_API_V1['LOGIN']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] => {
+    userLogin: (data: USER_DTO_API_V1['LOGIN']['REQUEST']): USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
@@ -144,7 +144,7 @@ export const VALIDATION_POLICY = {
 
 
 
-    deleteOrDisableSelfUser: (data: USER_DTO_API_V1['DELETE_SELF']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] => {
+    deleteOrDisableSelfUser: (data: USER_DTO_API_V1['DELETE_SELF']['REQUEST']): USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
@@ -163,7 +163,7 @@ export const VALIDATION_POLICY = {
 
 
 
-    deleteOrDisableOtherUser: (data: USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST_REQUIRED_ONLY']): USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
+    deleteOrDisableOtherUser: (data: USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST']): USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
@@ -182,7 +182,7 @@ export const VALIDATION_POLICY = {
 
 
 
-    enableOtherUser: (data: ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST_REQUIRED_ONLY']): ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
+    enableOtherUser: (data: ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST']): ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
 
       const returnObject: ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
