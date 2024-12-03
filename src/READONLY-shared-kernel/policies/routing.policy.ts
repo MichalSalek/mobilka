@@ -3,8 +3,6 @@ import { EVENT_INFO_TYPE }                                                      
 import { UserNoSensitiveWithRelations }                                                                     from '../models/user/user.types'
 import { ROUTES_API, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../routing/routing.config'
 import { PERMISSIONS_POLICY }                                                                               from './permissions.policy'
-import { PRICING_POLICY }                                                                                   from './pricing.policy'
-import { USER_POLICY }                                                                                      from './user.policy'
 
 
 
@@ -39,12 +37,6 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         action(ROUTES_FRONT.APP)
       }
     },
-    USER_REGISTERED: (event, currentUser, currentPathname, action) => {
-      if (event === 'USER_REGISTERED' && (
-        PRICING_POLICY.utils.isSearchParamIncludesPricingPlan() || !USER_POLICY.utils.IS_USER_HAS_ACTIVE_ACCOUNT(currentUser))) {
-        action(ROUTES_FRONT.USER_ACCOUNT)
-      }
-    },
     USER_LOGGED_IN : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
         action(ROUTES_FRONT.APP)
@@ -63,7 +55,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       }
     },
 
-    USER_LOGGED_OUT  : (event, currentUser, currentPathname, action) => {
+    USER_LOGGED_OUT: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_OUT') {
         action(ROUTES_FRONT.HOME)
       }

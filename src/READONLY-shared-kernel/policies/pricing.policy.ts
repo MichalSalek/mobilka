@@ -2,7 +2,6 @@ export type PricingPlanTypes = 'monthly' | 'annual'
 
 
 type PRICING_POLICY_TYPE = {
-  pricingPlanSearchParamKeyword: string
   pricingPlanDataPLN: Record<string, number>
   bestsellersValues: Record<PricingPlanTypes, PricingPlanValues>
   defaultPricingPlanPeriod: PricingPlanTypes
@@ -10,7 +9,6 @@ type PRICING_POLICY_TYPE = {
 
   utils: {
     getAnnualDiscountPercentage: () => string
-    isSearchParamIncludesPricingPlan: () => boolean
     pricingPlansValues: () => PricingPlanValues[]
     pricingPlanValueTypeNarrower: (maybePricingPlanValue: string | PricingPlanValues | null) => boolean
     getDefaultPricingPlansValue: (type?: PricingPlanTypes | null) => PricingPlanValues
@@ -19,8 +17,6 @@ type PRICING_POLICY_TYPE = {
   }
 }
 export const PRICING_POLICY: PRICING_POLICY_TYPE = {
-
-  pricingPlanSearchParamKeyword: 'pricingplan',
 
   pricingPlanDataPLN: Object.freeze({
     '1': 30,
@@ -44,12 +40,6 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
     getAnnualDiscountPercentage: () => `-${PRICING_POLICY.annualDiscountPercentageNumber}%`,
 
-    isSearchParamIncludesPricingPlan: (): boolean => {
-      if (!location) {
-        return false
-      }
-      return Boolean(location.search?.includes(PRICING_POLICY.pricingPlanSearchParamKeyword))
-    },
 
     pricingPlansValues: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN)
                                     .map((el) => el),
