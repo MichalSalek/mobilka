@@ -10,7 +10,8 @@ export const ROUTES_FRONT = Object.freeze({
   ADMIN           : '/admin',
   USER_DEL        : '/user/delete',
   USER_LOG        : '/user/login',
-  USER_REG        : '/user/register',
+  USER_REG        : '/user/register/identifier',
+  USER_REG_PASS   : '/user/register/password',
   USER_ACCOUNT    : '/user/account',
   USER_ACCOUNT_PAY: '/user/account/pay'
 } as const)

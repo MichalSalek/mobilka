@@ -83,8 +83,9 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
 
   permissionsForRoutes: {
-
+    //
     // EMPTY ARRAY - Everyone is allowed. Including not logged in.
+    //
     [ROUTES_FRONT.ADMIN]: [ RoleValue.MASTER_ADMIN ],
 
 
@@ -93,6 +94,7 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
     [ROUTES_FRONT.USER_DEL]        : ALL_LOGGED_ROLES_COLLECTION,
     [ROUTES_FRONT.USER_LOG]        : [ RoleValue.NOT_LOGGED_IN ],
     [ROUTES_FRONT.USER_REG]        : [ RoleValue.NOT_LOGGED_IN ],
+    [ROUTES_FRONT.USER_REG_PASS]   : [ RoleValue.NOT_LOGGED_IN ],
     [ROUTES_FRONT.USER_ACCOUNT]    : ALL_LOGGED_ROLES_COLLECTION,
     [ROUTES_FRONT.PRICING]         : [],
     [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION
