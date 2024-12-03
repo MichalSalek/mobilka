@@ -30,14 +30,14 @@ export type ROUTING_POLICY_TYPE = {
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
   redirectionsOnEventsRules: {
-    ALREADY_LOGGED : (event, currentUser, currentPathname, action) => {
+    ALREADY_LOGGED: (event, currentUser, currentPathname, action) => {
       if (event === 'ALREADY_LOGGED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
         currentUser?.role,
         currentPathname)) {
         action(ROUTES_FRONT.APP)
       }
     },
-    USER_LOGGED_IN : (event, currentUser, currentPathname, action) => {
+    USER_LOGGED_IN: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_LOGGED_IN') {
         action(ROUTES_FRONT.APP)
       }
@@ -61,22 +61,27 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       }
     },
 
-    SESSION_EXPIRED  : (event, currentUser, currentPathname, action) => {
+    SESSION_EXPIRED       : (event, currentUser, currentPathname, action) => {
       if (event === 'SESSION_EXPIRED') {
         action(ROUTES_FRONT.HOME)
       }
     },
-    USER_DELETED_SELF: (event, currentUser, currentPathname, action) => {
+    USER_DELETED_SELF     : (event, currentUser, currentPathname, action) => {
       if (event === 'USER_DELETED_SELF') {
         action(ROUTES_FRONT.HOME)
       }
     },
-    UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
+    UNAUTHORIZED          : (event, currentUser, currentPathname, action) => {
       if (event === 'UNAUTHORIZED') {
         action(ROUTES_FRONT.USER_LOG)
       }
     },
-    PAYMENT_DONE     : (event, currentUser, currentPathname, action) => {
+    CURRENT_USER_NOT_FOUND: (event, currentUser, currentPathname, action) => {
+      if (event === 'CURRENT_USER_NOT_FOUND') {
+        action(ROUTES_FRONT.USER_LOG)
+      }
+    },
+    PAYMENT_DONE          : (event, currentUser, currentPathname, action) => {
       if (event === 'PAYMENT_DONE') {
         action(ROUTES_FRONT.USER_ACCOUNT)
       }
