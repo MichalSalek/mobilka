@@ -1,6 +1,6 @@
 import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
 import { ADMIN_DTO_API_V1 }     from '../models/admin/admin.dto'
-import { EventTypeValue }       from '../models/db-models'
+import { EventLogTypeValue }    from '../models/db-models'
 import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
 import { USER_DTO_API_V1 }      from '../models/user/user.dto'
@@ -189,7 +189,7 @@ export const VALIDATION_POLICY = {
       const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        user_id: ''
+        user_id  : ''
       }
 
       if (Object.keys(data).length === 0) {
@@ -208,7 +208,7 @@ export const VALIDATION_POLICY = {
       const returnObject: ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        user_id: ''
+        user_id  : ''
       }
 
       if (Object.keys(data).length === 0) {
@@ -305,7 +305,7 @@ export const VALIDATION_POLICY = {
         returnObject.type += 'Missing logs type. '
       }
 
-      if (!Object.values(EventTypeValue)
+      if (!Object.values(EventLogTypeValue)
                  .includes(data.type)) {
         returnObject.type += 'Wrong logs type. '
       }

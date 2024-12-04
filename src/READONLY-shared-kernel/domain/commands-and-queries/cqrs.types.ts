@@ -1,4 +1,4 @@
-import { EVENTS } from './events.config'
+import { EVENTS } from './cqrs.config'
 
 
 

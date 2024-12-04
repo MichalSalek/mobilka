@@ -3,22 +3,27 @@ import { API_VER } from '../http/http.config'
 
 
 
-export const ROUTES_FRONT = Object.freeze({
-  HOME            : '/',
-  PRICING         : '/pricing',
-  APP             : '/app',
-  ADMIN           : '/admin',
-  USER_DEL        : '/user/delete',
-  USER_LOG        : '/user/login',
-  USER_REG        : '/user/register/identifier',
-  USER_REG_PASS   : '/user/register/password',
-  USER_ACCOUNT    : '/user/account',
-  USER_ACCOUNT_PAY: '/user/account/pay'
+export const ROUTES_FRONT_STATIC = Object.freeze({
+  HOME         : '/',
+  PRICING      : '/pricing',
+  USER_LOG     : '/user/login',
+  USER_REG     : '/user/register/identifier',
+  USER_REG_PASS: '/user/register/password'
 } as const)
 
+export const ROUTES_FRONT_APP = Object.freeze({
+  APP             : '/app',
+  ADMIN           : '/app/admin',
+  USER_DEL_SELF   : '/app/user/delete-self',
+  USER_ACCOUNT    : '/app/user/account',
+  USER_ACCOUNT_PAY: '/app/user/account/pay'
+} as const)
+
+export const ROUTES_FRONT = Object.freeze({...ROUTES_FRONT_STATIC, ...ROUTES_FRONT_APP} as const)
 
 export type ROUTES_FRONT_NAME = keyof typeof ROUTES_FRONT
 export type ROUTES_FRONT_PATH = typeof ROUTES_FRONT[ROUTES_FRONT_NAME]
+
 
 
 

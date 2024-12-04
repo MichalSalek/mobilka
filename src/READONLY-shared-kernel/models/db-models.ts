@@ -1,5 +1,5 @@
 import { DateAndTime, IDType }             from '../application.types'
-import { EVENT_COMMANDS_AND_QUERIES_TYPE } from '../cqrs/events.types'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE } from '../domain/commands-and-queries/cqrs.types'
 import { PricingPlanValues }               from '../policies/pricing.policy'
 
 
@@ -54,11 +54,11 @@ type UserMetadataPartial = {
 
 
 
-export const EventTypeValue = Object.freeze({
+export const EventLogTypeValue = Object.freeze({
   ACCOUNT_EVENT_LOG: 'ACCOUNT_EVENT_LOG',
   LOGIN_EVENT_LOG  : 'LOGIN_EVENT_LOG'
 } as const)
-export type EventType = keyof typeof EventTypeValue
+export type EventLogType = keyof typeof EventLogTypeValue
 
 
 
@@ -68,7 +68,7 @@ export type EventLog = {
   created_by_user_id: IDType
   created_at: DateAndTime
   event: string
-  event_type: EventType
+  event_type: EventLogType
   event_payload: string | null
 } & UserMetadataPartial
 
@@ -92,9 +92,9 @@ export type Account = {
 
 
 export const SessionModeValue = Object.freeze({
-  STANDARD   : 'STANDARD',
-  PRESENTATION  : 'PRESENTATION',
-  BECOME_USER: 'BECOME_USER'
+  STANDARD    : 'STANDARD',
+  PRESENTATION: 'PRESENTATION',
+  BECOME_USER : 'BECOME_USER'
 } as const)
 export type SessionMode = keyof typeof SessionModeValue
 

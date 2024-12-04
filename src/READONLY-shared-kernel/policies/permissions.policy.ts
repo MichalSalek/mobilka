@@ -1,112 +1,41 @@
-import { GET_COMMAND_AND_QUERY_EVENTS }                                  from '../cqrs/events.config'
-import { EVENT_COMMANDS_AND_QUERIES_TYPE }                               from '../cqrs/events.types'
-import { ALL_LOGGED_ROLES_COLLECTION, Role, RoleValue, UserNoSensitive } from '../models/db-models'
-import { CurrentUser, UserNoSensitiveWithRelations }                     from '../models/user/user.types'
-import { ROUTES_FRONT, ROUTES_FRONT_PATH }                               from '../routing/routing.config'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE }                                                             from '../domain/commands-and-queries/cqrs.types'
+import { permissionsForEvents, permissionsForRoutes, readonlyPermissionsSets, runtimePermissionsSets } from '../domain/permissions/permissions.config'
+import { PermissionSets }                                                                              from '../domain/permissions/permissions.types'
+import { ROUTES_FRONT_PATH }                                                                           from '../domain/routing/routing.config'
+import { Role, RoleValue, UserNoSensitive }                                                            from '../models/db-models'
+import { CurrentUser, UserNoSensitiveWithRelations }                                                   from '../models/user/user.types'
+import { ROUTING_POLICY }                                                                              from './routing.policy'
 
 
 
 
-export type PermissionsCollection = EVENT_COMMANDS_AND_QUERIES_TYPE[]
-
-export type PermissionSets = Record<string, EVENT_COMMANDS_AND_QUERIES_TYPE[]>
-
-
-const readonlyPermissionsSets: PermissionSets = {
-
-  MASTER_ADMIN: [ ...GET_COMMAND_AND_QUERY_EVENTS() ]
-    .filter((event) => {
-      if (event === 'USER_DISABLE_SELF') {
-        return false
-      }
-      if (event === 'USER_DELETE_SELF') {
-        return false
-      }
-
-      return true
-    }),
-
-  LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'USER_GET_CURRENT',
-                                         'USER_LOGOUT',
-                                         'USER_DISABLE_SELF',
-                                         'USER_ENABLE_SELF',
-                                         'USER_DELETE_SELF',
-
-                                         'SESSION_REFRESH',
-                                         'SESSION_CHECK',
-                                         'SESSION_DELETE_ALL',
-                                         'SESSION_DELETE_EXACTLY',
-                                         'SESSION_GET_ALL',
-
-                                         'EVENT_LOG_GET_ALL' ]
-
-} as const
-
-
-const runtimePermissionsSets: PermissionSets = {
-
-  ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
-                    'USER_CREATE' ]
-
-
-} as const
-
-
-type PERMISSIONS_POLICY_TYPE = {
-  permissionsForEvents: Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>,
-  runtimePermissionsSets: PermissionSets
-  permissionsForRoutes: Record<ROUTES_FRONT_PATH, Role[]>
+export type PERMISSIONS_POLICY_TYPE = {
+  permissionsForEvents: Readonly<Record<Role, EVENT_COMMANDS_AND_QUERIES_TYPE[]>>
+  readonlyPermissionsSets: Readonly<PermissionSets>
+  runtimePermissionsSets: Readonly<PermissionSets>
+  permissionsForRoutes: Readonly<Record<ROUTES_FRONT_PATH, Role[]>>
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH) => boolean
     GET_PERMISSION_APPROVAL_FOR_EVENT: (
       user?: UserNoSensitive | UserNoSensitiveWithRelations | CurrentUser | null | undefined,
       requestedEvent?: EVENT_COMMANDS_AND_QUERIES_TYPE | undefined) => boolean
+    IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
   }
 }
 export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
-
-  runtimePermissionsSets: runtimePermissionsSets,
-
-
-  permissionsForEvents: {
-    [RoleValue.MASTER_ADMIN]  : [ ...readonlyPermissionsSets.MASTER_ADMIN ],
-    [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
-                                  'USER_REGISTER' ],
-    [RoleValue.ACCOUNT_HOLDER]: [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY,
-                                  'ACCOUNT_DISPLAY_NAME_CHANGE',
-                                  'ACCOUNT_PAYMENT_GET_STATUS',
-                                  'ACCOUNT_PAYMENT_MAKE' ],
-    [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY ]
-  },
-
-
-  permissionsForRoutes: {
-    //
-    // EMPTY ARRAY - Everyone is allowed. Including not logged in.
-    //
-    [ROUTES_FRONT.ADMIN]: [ RoleValue.MASTER_ADMIN ],
-
-
-    [ROUTES_FRONT.HOME]            : [],
-    [ROUTES_FRONT.APP]             : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.USER_DEL]        : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.USER_LOG]        : [ RoleValue.NOT_LOGGED_IN ],
-    [ROUTES_FRONT.USER_REG]        : [ RoleValue.NOT_LOGGED_IN ],
-    [ROUTES_FRONT.USER_REG_PASS]   : [ RoleValue.NOT_LOGGED_IN ],
-    [ROUTES_FRONT.USER_ACCOUNT]    : ALL_LOGGED_ROLES_COLLECTION,
-    [ROUTES_FRONT.PRICING]         : [],
-    [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION
-
-  },
-
+  runtimePermissionsSets,
+  readonlyPermissionsSets,
+  permissionsForEvents,
+  permissionsForRoutes,
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role = RoleValue.NOT_LOGGED_IN, requestedRoutePath) => {
       // Role array of requested event is empty
       // OR
       // Role is included in requested event permission array.
+      // @TODO DO POPRAWY PO ZMIANACH
       return Boolean(PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.length
         === 0
         || PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.includes(role as Role))
@@ -115,18 +44,25 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
       if (!requestedEvent) {
         return false
       }
+      // Set default:
       let userRole: Role = RoleValue.NOT_LOGGED_IN
+      // Check and maybe set:
       if (user?.role) {
         userRole = user.role
       }
 
+      // Merge read-only and dynamic permissions:
       const readonlyPermissions = PERMISSIONS_POLICY.permissionsForEvents[userRole]
       const dynamicPermissions: EVENT_COMMANDS_AND_QUERIES_TYPE[] = user?.permissions ?? []
       const permissions: EVENT_COMMANDS_AND_QUERIES_TYPE[] = [ ...readonlyPermissions,
                                                                ...dynamicPermissions ]
 
+      // Finally, check main condition:
       return Boolean(permissions.includes(requestedEvent))
-    }
+    },
+
+    IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath) => ROUTING_POLICY.utils.IS_APP_PATH(requestedRoutePath)
+
 
   } as const
 

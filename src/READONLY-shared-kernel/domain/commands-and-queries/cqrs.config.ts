@@ -1,4 +1,4 @@
-import { EVENT_COMMANDS_AND_QUERIES_TYPE, EVENT_COMMANDS_TYPE, EVENT_QUERIES_TYPE } from './events.types'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE, EVENT_COMMANDS_TYPE, EVENT_QUERIES_TYPE } from './cqrs.types'
 
 
 
@@ -62,7 +62,7 @@ export const EVENTS = Object.freeze({
                    'USER_LOGGED_OUT',
                    'CANNOT_LOGIN',
                    'ALREADY_LOGGED',
-                   'CURRENT_USER_NOT_FOUND',
+                   'LOGIN_FIRST',
                    'UNAUTHORIZED',
                    'USER_ALREADY_EXISTS',
                    'USER_CREATED',

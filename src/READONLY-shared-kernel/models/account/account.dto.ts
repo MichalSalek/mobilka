@@ -1,6 +1,6 @@
 import { IDType }                    from '../../application.types'
-import { IOClientFunctionReqResErr } from '../../http/http.client.types'
-import { DetailedErrorPayload }      from '../../http/http.types'
+import { IOClientFunctionReqResErr } from '../../domain/http/http.client.types'
+import { DetailedErrorPayload }      from '../../domain/http/http.types'
 import { Account, PaymentStatus }    from '../db-models'
 import { CurrentUser }               from '../user/user.types'
 

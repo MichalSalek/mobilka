@@ -1,4 +1,4 @@
-import { EVENT_COMMANDS_AND_QUERIES_TYPE }   from '../cqrs/events.types'
+import { EVENT_COMMANDS_AND_QUERIES_TYPE }   from '../commands-and-queries/cqrs.types'
 import { ROUTES_API }                        from '../routing/routing.config'
 import { HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
 

@@ -1,5 +1,5 @@
-import { IOClientFunctionReqResErr }                         from '../../http/http.client.types'
-import { DetailedErrorPayload }                              from '../../http/http.types'
+import { IOClientFunctionReqResErr }                         from '../../domain/http/http.client.types'
+import { DetailedErrorPayload }                              from '../../domain/http/http.types'
 import { User, UserNoSensitive }                             from '../db-models'
 import { CurrentUser, UserNoSensitiveWithRelationsExtended } from './user.types'
 
@@ -16,7 +16,7 @@ export type USER_DTO_API_V1 = {
   },
 
   CHECK_EMAIL: {
-    REQUEST: Pick<User,'email'>
+    REQUEST: Pick<User, 'email'>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<USER_DTO_API_V1['CHECK_EMAIL']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<USER_DTO_API_V1['CHECK_EMAIL']['REQUEST'], USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE'], USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE_ERROR']>

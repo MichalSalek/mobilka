@@ -1,8 +1,8 @@
-import { NextRouter }                                                                                       from 'next/router'
-import { EVENT_INFO_TYPE }                                                                                  from '../cqrs/events.types'
-import { UserNoSensitiveWithRelations }                                                                     from '../models/user/user.types'
-import { ROUTES_API, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../routing/routing.config'
-import { PERMISSIONS_POLICY }                                                                               from './permissions.policy'
+import { NextRouter }                                                                                                         from 'next/router'
+import { EVENT_INFO_TYPE }                                                                                                    from '../domain/commands-and-queries/cqrs.types'
+import { ROUTES_API, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT, ROUTES_FRONT_APP, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../domain/routing/routing.config'
+import { UserNoSensitiveWithRelations }                                                                                       from '../models/user/user.types'
+import { PERMISSIONS_POLICY }                                                                                                 from './permissions.policy'
 
 
 
@@ -24,6 +24,7 @@ export type ROUTING_POLICY_TYPE = {
       willBeRedirect: boolean,
       redirectAction: () => void
     }
+    IS_APP_PATH: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
   }
 }
 
@@ -61,27 +62,27 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       }
     },
 
-    SESSION_EXPIRED       : (event, currentUser, currentPathname, action) => {
+    SESSION_EXPIRED  : (event, currentUser, currentPathname, action) => {
       if (event === 'SESSION_EXPIRED') {
         action(ROUTES_FRONT.HOME)
       }
     },
-    USER_DELETED_SELF     : (event, currentUser, currentPathname, action) => {
+    USER_DELETED_SELF: (event, currentUser, currentPathname, action) => {
       if (event === 'USER_DELETED_SELF') {
         action(ROUTES_FRONT.HOME)
       }
     },
-    UNAUTHORIZED          : (event, currentUser, currentPathname, action) => {
+    UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
       if (event === 'UNAUTHORIZED') {
         action(ROUTES_FRONT.USER_LOG)
       }
     },
-    CURRENT_USER_NOT_FOUND: (event, currentUser, currentPathname, action) => {
-      if (event === 'CURRENT_USER_NOT_FOUND') {
+    LOGIN_FIRST      : (event, currentUser, currentPathname, action) => {
+      if (event === 'LOGIN_FIRST') {
         action(ROUTES_FRONT.USER_LOG)
       }
     },
-    PAYMENT_DONE          : (event, currentUser, currentPathname, action) => {
+    PAYMENT_DONE     : (event, currentUser, currentPathname, action) => {
       if (event === 'PAYMENT_DONE') {
         action(ROUTES_FRONT.USER_ACCOUNT)
       }
@@ -142,6 +143,11 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         willBeRedirect,
         redirectAction
       }
+    },
+
+    IS_APP_PATH: (requestedRoutePath) => {
+      return Boolean(Object.values(ROUTES_FRONT_APP)
+                           .find((path) => path === requestedRoutePath))
     }
   }
 

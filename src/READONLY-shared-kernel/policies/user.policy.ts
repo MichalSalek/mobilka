@@ -40,7 +40,7 @@ export const USER_POLICY: USER_POLICY_TYPE = {
 
     CAN_USER_HAVE_ACTIVE_ACCOUNT: (user) => {
       return user?.account?.payment_status === 'PAID'
-    },
+    }
   }
 
 } as const

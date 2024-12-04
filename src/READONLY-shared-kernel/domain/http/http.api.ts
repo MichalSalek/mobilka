@@ -1,4 +1,4 @@
-import { EVENT_INFO_TYPE }         from '../cqrs/events.types'
+import { EVENT_INFO_TYPE }         from '../commands-and-queries/cqrs.types'
 import { HTTPStatus }              from './http.config'
 import { InfoEventWithPayloadDTO } from './http.types'
 

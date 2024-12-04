@@ -1,4 +1,4 @@
-import { EVENTS_ALL_TYPE } from './events.types'
+import { EVENTS_ALL_TYPE } from './cqrs.types'
 
 
 

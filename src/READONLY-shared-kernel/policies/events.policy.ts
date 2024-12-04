@@ -1,4 +1,4 @@
-import { EVENT_INFO_TYPE } from '../cqrs/events.types'
+import { EVENT_INFO_TYPE } from '../domain/commands-and-queries/cqrs.types'
 
 
 
@@ -12,8 +12,7 @@ type EVENTS_POLICY_TYPE = {
 export const EVENTS_POLICY: EVENTS_POLICY_TYPE = {
 
   eventsDisallowedForUI: [ 'SUCCESS',
-                           'UNAUTHORIZED',
-                           'CURRENT_USER_NOT_FOUND' ] as const,
+                           'UNAUTHORIZED' ] as const,
 
   utils: {
     IS_EVENT_DISALLOWED_FOR_UI: (event) => {
