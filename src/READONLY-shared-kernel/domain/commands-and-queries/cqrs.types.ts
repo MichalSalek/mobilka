@@ -7,6 +7,7 @@ type EVENTS_TYPES = keyof typeof EVENTS
 
 type EVENTS_GROUPS = keyof typeof EVENTS[EVENTS_TYPES]
 
+export type GROUP_KEY = keyof typeof EVENTS.COMMANDS & keyof typeof EVENTS.QUERIES
 
 
 // GROUPED
@@ -26,3 +27,5 @@ export type EVENT_COMMANDS_AND_QUERIES_TYPE = EVENT_COMMANDS_TYPE | EVENT_QUERIE
 // ALL EVENTS
 //
 export type EVENTS_ALL_TYPE = typeof EVENTS[EVENTS_TYPES][EVENTS_GROUPS][number]
+
+

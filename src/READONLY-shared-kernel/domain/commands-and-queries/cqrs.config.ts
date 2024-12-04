@@ -1,10 +1,9 @@
-import { EVENT_COMMANDS_AND_QUERIES_TYPE, EVENT_COMMANDS_TYPE, EVENT_QUERIES_TYPE } from './cqrs.types'
+import { EVENTS_POLICY_TYPE } from '../../policies/events.policy'
 
 
 
 
 export const EVENTS = Object.freeze({
-
 
   COMMANDS: {
 
@@ -33,7 +32,6 @@ export const EVENTS = Object.freeze({
   },
 
 
-
   QUERIES: {
 
     APPLICATION: [],
@@ -45,7 +43,6 @@ export const EVENTS = Object.freeze({
     ACCOUNT    : [ 'ACCOUNT_PAYMENT_GET_STATUS' ],
     EVENT_LOG  : [ 'EVENT_LOG_GET_ALL' ]
   },
-
 
 
   INFO: {
@@ -99,18 +96,5 @@ export const EVENTS = Object.freeze({
 } as const)
 
 
-type GROUP_KEY = keyof typeof EVENTS.COMMANDS & keyof typeof EVENTS.QUERIES
-
-export const GET_COMMAND_AND_QUERY_EVENTS = (): readonly EVENT_COMMANDS_AND_QUERIES_TYPE[] => {
-  const commands = Object.keys(EVENTS.COMMANDS)
-                         .map((groupKey) => EVENTS.COMMANDS[groupKey as GROUP_KEY])
-                         .flat(Infinity) as EVENT_COMMANDS_TYPE[]
-
-  const queries = Object.keys(EVENTS.QUERIES)
-                        .map((groupKey) => EVENTS.QUERIES[groupKey as GROUP_KEY])
-                        .flat(Infinity) as EVENT_QUERIES_TYPE[]
-
-  return (
-    [ ...commands,
-      ...queries ])
-}
+export const eventsDisallowedForUI: EVENTS_POLICY_TYPE['eventsDisallowedForUI'] = [ 'SUCCESS',
+                                                                                    'UNAUTHORIZED' ] as const

@@ -1,4 +1,4 @@
-import { Session, User, UserNoSensitive, UserRelationsAll } from '../db-models'
+import { Session, User, UserNoSensitive, UserRelationsAll } from '../db_models'
 
 
 

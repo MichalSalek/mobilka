@@ -1,14 +1,14 @@
-import { ALL_LOGGED_ROLES_COLLECTION, RoleValue } from '../../models/db-models'
+import { ALL_LOGGED_ROLES_COLLECTION, RoleValue } from '../../models/db_models'
+import { EVENTS_POLICY }                          from '../../policies/events.policy'
 import { PERMISSIONS_POLICY_TYPE }                from '../../policies/permissions.policy'
-import { GET_COMMAND_AND_QUERY_EVENTS }           from '../commands-and-queries/cqrs.config'
 import { ROUTES_FRONT }                           from '../routing/routing.config'
 
 
 
 
-export const readonlyPermissionsSets: PERMISSIONS_POLICY_TYPE['readonlyPermissionsSets'] = Object.freeze({
+export const readonlyPermissionsSets: PERMISSIONS_POLICY_TYPE['readonlyPermissionsSets'] = {
 
-  MASTER_ADMIN: [ ...GET_COMMAND_AND_QUERY_EVENTS() ]
+  MASTER_ADMIN: [ ...EVENTS_POLICY.utils.GET_COMMAND_AND_QUERY_EVENTS() ]
     .filter((event) => {
       if (event === 'USER_DISABLE_SELF') {
         return false
@@ -34,19 +34,19 @@ export const readonlyPermissionsSets: PERMISSIONS_POLICY_TYPE['readonlyPermissio
 
                                          'EVENT_LOG_GET_ALL' ]
 
-} as const)
+} as const
 
 
-export const runtimePermissionsSets: PERMISSIONS_POLICY_TYPE['runtimePermissionsSets'] = Object.freeze({
+export const runtimePermissionsSets: PERMISSIONS_POLICY_TYPE['runtimePermissionsSets'] = {
 
   ACTIVE_ACCOUNT: [ 'USER_DELETE_EXACTLY',
                     'USER_CREATE' ]
 
 
-} as const)
+} as const
 
 
-export const permissionsForEvents: PERMISSIONS_POLICY_TYPE['permissionsForEvents'] = Object.freeze({
+export const permissionsForEvents: PERMISSIONS_POLICY_TYPE['permissionsForEvents'] = {
   [RoleValue.MASTER_ADMIN]  : [ ...readonlyPermissionsSets.MASTER_ADMIN ],
   [RoleValue.NOT_LOGGED_IN] : [ 'USER_LOGIN',
                                 'USER_REGISTER' ],
@@ -55,10 +55,10 @@ export const permissionsForEvents: PERMISSIONS_POLICY_TYPE['permissionsForEvents
                                 'ACCOUNT_PAYMENT_GET_STATUS',
                                 'ACCOUNT_PAYMENT_MAKE' ],
   [RoleValue.USER_LEVEL_1]  : [ ...readonlyPermissionsSets.LOGGED_USER_LOW_LEVEL_FUNCTIONALITY ]
-} as const)
+} as const
 
 
-export const permissionsForRoutes: PERMISSIONS_POLICY_TYPE['permissionsForRoutes'] = Object.freeze({
+export const permissionsForRoutes: PERMISSIONS_POLICY_TYPE['permissionsForRoutes'] = {
   //
   // EMPTY ARRAY - Everyone is allowed. Including not logged in.
   //
@@ -75,4 +75,4 @@ export const permissionsForRoutes: PERMISSIONS_POLICY_TYPE['permissionsForRoutes
   [ROUTES_FRONT.PRICING]         : [],
   [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION
 
-} as const)
+} as const

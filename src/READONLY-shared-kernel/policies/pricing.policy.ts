@@ -1,62 +1,55 @@
+import { annualDiscountPercentageNumber, bestsellersValues, defaultPricingPlanPeriod, pricingPlanDataPLN } from '../domain/pricing/pricing.config'
+
+
+
+
 export type PricingPlanTypes = 'monthly' | 'annual'
 
 
-type PRICING_POLICY_TYPE = {
-  pricingPlanDataPLN: Record<string, number>
-  bestsellersValues: Record<PricingPlanTypes, PricingPlanValues>
-  defaultPricingPlanPeriod: PricingPlanTypes
-  annualDiscountPercentageNumber: number
+export type PRICING_POLICY_TYPE = {
+
+  pricingPlanDataPLN: Readonly<Record<string, number>>
+  bestsellersValues: Readonly<Record<PricingPlanTypes, PricingPlanValues>>
+  defaultPricingPlanPeriod: Readonly<PricingPlanTypes>
+  annualDiscountPercentageNumber: Readonly<number>
 
   utils: {
-    getAnnualDiscountPercentage: () => string
-    pricingPlansValues: () => PricingPlanValues[]
-    pricingPlanValueTypeNarrower: (maybePricingPlanValue: string | PricingPlanValues | null) => boolean
-    getDefaultPricingPlansValue: (type?: PricingPlanTypes | null) => PricingPlanValues
-    getPricingPlanTypeByValue: (option: PricingPlanValues | null) => PricingPlanTypes
-    getBestsellerByPricingType: (type: PricingPlanTypes) => PricingPlanValues
+    GET_ANNUAL_DISCOUNT_PERCENTAGE: () => string
+    PRICING_PLANS_VALUES: () => PricingPlanValues[]
+    PRICING_PLAN_VALUE_TYPE_NARROWER: (maybePricingPlanValue: string | PricingPlanValues | null) => boolean
+    GET_DEFAULT_PRICING_PLANS_VALUE: (type?: PricingPlanTypes | null) => PricingPlanValues
+    GET_PRICING_PLAN_TYPE_BY_VALUE: (option: PricingPlanValues | null) => PricingPlanTypes
+    GET_BESTSELLER_BY_PRICING_TYPE: (type: PricingPlanTypes) => PricingPlanValues
   }
 }
 export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
-  pricingPlanDataPLN: Object.freeze({
-    '1': 30,
-    '2': 50,
-    '3': 100,
-    '4': 24,
-    '5': 40,
-    '6': 80
-  } as const),
-
-  bestsellersValues: {
-    monthly: '2',
-    annual : '6'
-  },
-
-  defaultPricingPlanPeriod: 'annual',
-
-  annualDiscountPercentageNumber: 30,
+  pricingPlanDataPLN            : Object.freeze(pricingPlanDataPLN),
+  bestsellersValues             : Object.freeze(bestsellersValues),
+  defaultPricingPlanPeriod      : Object.freeze(defaultPricingPlanPeriod),
+  annualDiscountPercentageNumber: Object.freeze(annualDiscountPercentageNumber),
 
   utils: {
 
-    getAnnualDiscountPercentage: () => `-${PRICING_POLICY.annualDiscountPercentageNumber}%`,
+    GET_ANNUAL_DISCOUNT_PERCENTAGE: () => `-${PRICING_POLICY.annualDiscountPercentageNumber}%`,
 
 
-    pricingPlansValues: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN)
-                                    .map((el) => el),
+    PRICING_PLANS_VALUES: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN)
+                                      .map((el) => el),
 
-    pricingPlanValueTypeNarrower: (maybePricingPlanValue): maybePricingPlanValue is PricingPlanValues => {
-      return PRICING_POLICY.utils.pricingPlansValues()
+    PRICING_PLAN_VALUE_TYPE_NARROWER: (maybePricingPlanValue): maybePricingPlanValue is PricingPlanValues => {
+      return PRICING_POLICY.utils.PRICING_PLANS_VALUES()
                            .includes(maybePricingPlanValue as PricingPlanValues)
     },
 
-    getDefaultPricingPlansValue: (pricingType) => {
+    GET_DEFAULT_PRICING_PLANS_VALUE: (pricingType) => {
       if (pricingType) {
         return PRICING_POLICY.bestsellersValues[pricingType]
       }
       return PRICING_POLICY.bestsellersValues[PRICING_POLICY.defaultPricingPlanPeriod]
     },
 
-    getPricingPlanTypeByValue: (pricingValue) => {
+    GET_PRICING_PLAN_TYPE_BY_VALUE: (pricingValue) => {
       if ([ '1',
             '2',
             '3' ].includes(pricingValue ?? '')) {
@@ -70,7 +63,7 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
       return PRICING_POLICY.defaultPricingPlanPeriod
     },
 
-    getBestsellerByPricingType: (pricingValue) => {
+    GET_BESTSELLER_BY_PRICING_TYPE: (pricingValue) => {
       return PRICING_POLICY.bestsellersValues[pricingValue]
     }
 

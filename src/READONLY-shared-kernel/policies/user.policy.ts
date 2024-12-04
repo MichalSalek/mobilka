@@ -1,11 +1,13 @@
-import { AccountStatus, AccountStatusValue, UserNoSensitive } from '../models/db-models'
-import { UserNoSensitiveWithRelations }                       from '../models/user/user.types'
+import { activeAccountStates }            from '../domain/user-and-account/user_and_account.config'
+import { AccountStatus, UserNoSensitive } from '../models/db_models'
+import { UserNoSensitiveWithRelations }   from '../models/user/user.types'
 
 
 
 
-type USER_POLICY_TYPE = {
-  activeAccountStates: AccountStatus[]
+export type USER_POLICY_TYPE = {
+
+  activeAccountStates: Readonly<AccountStatus[]>
 
   utils: {
     IS_USER_HAS_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
@@ -16,9 +18,7 @@ type USER_POLICY_TYPE = {
 }
 export const USER_POLICY: USER_POLICY_TYPE = {
 
-  activeAccountStates: [ AccountStatusValue.ACTIVE,
-                         AccountStatusValue.EXPIRING_IN_PROGRESS ],
-
+  activeAccountStates: Object.freeze(activeAccountStates),
 
   utils: {
     IS_USER_HAS_ACTIVE_ACCOUNT: (user) => {

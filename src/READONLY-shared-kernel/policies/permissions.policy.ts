@@ -1,8 +1,8 @@
 import { EVENT_COMMANDS_AND_QUERIES_TYPE }                                                             from '../domain/commands-and-queries/cqrs.types'
 import { permissionsForEvents, permissionsForRoutes, readonlyPermissionsSets, runtimePermissionsSets } from '../domain/permissions/permissions.config'
 import { PermissionSets }                                                                              from '../domain/permissions/permissions.types'
-import { ROUTES_FRONT_PATH }                                                                           from '../domain/routing/routing.config'
-import { Role, RoleValue, UserNoSensitive }                                                            from '../models/db-models'
+import { ROUTES_FRONT_PATH }                                                                           from '../domain/routing/routing.types'
+import { Role, RoleValue, UserNoSensitive }                                                            from '../models/db_models'
 import { CurrentUser, UserNoSensitiveWithRelations }                                                   from '../models/user/user.types'
 import { ROUTING_POLICY }                                                                              from './routing.policy'
 
@@ -25,17 +25,16 @@ export type PERMISSIONS_POLICY_TYPE = {
 }
 export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
-  runtimePermissionsSets,
-  readonlyPermissionsSets,
-  permissionsForEvents,
-  permissionsForRoutes,
+  runtimePermissionsSets : Object.freeze(runtimePermissionsSets),
+  readonlyPermissionsSets: Object.freeze(readonlyPermissionsSets),
+  permissionsForEvents   : Object.freeze(permissionsForEvents),
+  permissionsForRoutes   : Object.freeze(permissionsForRoutes),
 
   utils: {
     GET_PERMISSION_APPROVAL_FOR_ROUTE: (role = RoleValue.NOT_LOGGED_IN, requestedRoutePath) => {
       // Role array of requested event is empty
       // OR
       // Role is included in requested event permission array.
-      // @TODO DO POPRAWY PO ZMIANACH
       return Boolean(PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.length
         === 0
         || PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.includes(role as Role))

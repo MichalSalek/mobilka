@@ -1,6 +1,6 @@
 import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
 import { ADMIN_DTO_API_V1 }     from '../models/admin/admin.dto'
-import { EventLogTypeValue }    from '../models/db-models'
+import { EventLogTypeValue }    from '../models/db_models'
 import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
 import { USER_DTO_API_V1 }      from '../models/user/user.dto'
@@ -279,7 +279,7 @@ export const VALIDATION_POLICY = {
         returnObject.pricing_plan += 'Enter pricing plan. '
       }
 
-      if (!PRICING_POLICY.utils.pricingPlanValueTypeNarrower(data?.pricing_plan)) {
+      if (!PRICING_POLICY.utils.PRICING_PLAN_VALUE_TYPE_NARROWER(data?.pricing_plan)) {
         returnObject.pricing_plan += 'Enter valid pricing plan. '
       }
 
