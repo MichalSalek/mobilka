@@ -2,7 +2,7 @@ import { EVENT_COMMANDS_AND_QUERIES_TYPE }                                      
 import { permissionsForEvents, permissionsForRoutes, readonlyPermissionsSets, runtimePermissionsSets } from '../domain/permissions/permissions.config'
 import { PermissionSets }                                                                              from '../domain/permissions/permissions.types'
 import { ROUTES_FRONT_PATH }                                                                           from '../domain/routing/routing.types'
-import { Role, RoleValue, UserNoSensitive }                                                            from '../models/db_models'
+import { Role, RoleValue, User, UserNoSensitive }                                                      from '../models/db_models'
 import { CurrentUser, UserNoSensitiveWithRelations }                                                   from '../models/user/user.types'
 import { ROUTING_POLICY }                                                                              from './routing.policy'
 
@@ -21,6 +21,7 @@ export type PERMISSIONS_POLICY_TYPE = {
       user?: UserNoSensitive | UserNoSensitiveWithRelations | CurrentUser | null | undefined,
       requestedEvent?: EVENT_COMMANDS_AND_QUERIES_TYPE | undefined) => boolean
     IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
+    IS_ADMIN: (user: Pick<User, 'role'> | null | undefined) => boolean
   }
 }
 export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
@@ -60,7 +61,14 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
       return Boolean(permissions.includes(requestedEvent))
     },
 
-    IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath) => ROUTING_POLICY.utils.IS_APP_PATH(requestedRoutePath)
+    IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath) => ROUTING_POLICY.utils.IS_APP_PATH(requestedRoutePath),
+
+
+    IS_ADMIN: (user) => {
+      return user?.role === RoleValue.MASTER_ADMIN
+    }
+
+
 
 
   } as const
