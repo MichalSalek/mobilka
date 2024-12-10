@@ -1,6 +1,5 @@
-import { PERMISSIONS_POLICY }  from '../../policies/permissions.policy'
-import { ROUTING_POLICY_TYPE } from '../../policies/routing.policy'
-import { API_VER }             from '../http/http.config'
+import { API_VER }                     from '../http/http.config'
+import { REDIRECTIONS_ON_EVENTS_TYPE } from './routing.types'
 
 
 
@@ -22,6 +21,7 @@ export const ROUTES_FRONT_APP = Object.freeze({
 } as const)
 
 export const ROUTES_FRONT = Object.freeze({...ROUTES_FRONT_STATIC, ...ROUTES_FRONT_APP} as const)
+
 
 
 
@@ -60,61 +60,17 @@ export const ROUTES_API = Object.freeze({
 } as const)
 
 
-export const redirectionsOnEventsRules: ROUTING_POLICY_TYPE['redirectionsOnEventsRules'] = {
-  ALREADY_LOGGED: (event, currentUser, currentPathname, action) => {
-    if (event === 'ALREADY_LOGGED' && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
-      currentUser?.role,
-      currentPathname)) {
-      action(ROUTES_FRONT.APP)
-    }
-  },
-  USER_LOGGED_IN: (event, currentUser, currentPathname, action) => {
-    if (event === 'USER_LOGGED_IN') {
-      action(ROUTES_FRONT.APP)
-    }
-  },
 
-  USER_ENABLED_SELF: (event, currentUser, currentPathname, action) => {
-    if (event === 'USER_ENABLED_SELF') {
-      action(ROUTES_FRONT.APP)
-    }
-  },
 
-  USER_DISABLED_SELF: (event, currentUser, currentPathname, action) => {
-    if (event === 'USER_DISABLED_SELF') {
-      action(ROUTES_FRONT.HOME)
-    }
-  },
+export const REDIRECTIONS_ON_EVENTS: REDIRECTIONS_ON_EVENTS_TYPE = Object.freeze({
+  ALREADY_LOGGED    : ROUTES_FRONT.APP,
+  USER_LOGGED_IN    : ROUTES_FRONT.APP,
+  USER_ENABLED_SELF : ROUTES_FRONT.APP,
+  USER_DISABLED_SELF: ROUTES_FRONT.HOME,
+  USER_LOGGED_OUT   : ROUTES_FRONT.HOME,
+  SESSION_EXPIRED   : ROUTES_FRONT.HOME,
+  USER_DELETED_SELF : ROUTES_FRONT.HOME,
+  UNAUTHORIZED      : ROUTES_FRONT.USER_LOG,
+  LOGIN_FIRST       : ROUTES_FRONT.USER_LOG
+} as const)
 
-  USER_LOGGED_OUT: (event, currentUser, currentPathname, action) => {
-    if (event === 'USER_LOGGED_OUT') {
-      action(ROUTES_FRONT.HOME)
-    }
-  },
-
-  SESSION_EXPIRED  : (event, currentUser, currentPathname, action) => {
-    if (event === 'SESSION_EXPIRED') {
-      action(ROUTES_FRONT.HOME)
-    }
-  },
-  USER_DELETED_SELF: (event, currentUser, currentPathname, action) => {
-    if (event === 'USER_DELETED_SELF') {
-      action(ROUTES_FRONT.HOME)
-    }
-  },
-  UNAUTHORIZED     : (event, currentUser, currentPathname, action) => {
-    if (event === 'UNAUTHORIZED') {
-      action(ROUTES_FRONT.USER_LOG)
-    }
-  },
-  LOGIN_FIRST      : (event, currentUser, currentPathname, action) => {
-    if (event === 'LOGIN_FIRST') {
-      action(ROUTES_FRONT.USER_LOG)
-    }
-  },
-  PAYMENT_DONE     : (event, currentUser, currentPathname, action) => {
-    if (event === 'PAYMENT_DONE') {
-      action(ROUTES_FRONT.USER_ACCOUNT)
-    }
-  }
-} as const

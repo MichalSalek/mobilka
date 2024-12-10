@@ -1,19 +1,19 @@
-import { NextRouter }                                                             from 'next/router'
-import { EVENT_INFO_TYPE }                                                        from '../domain/commands-and-queries/cqrs.types'
-import { redirectionsOnEventsRules, ROUTES_API, ROUTES_FRONT, ROUTES_FRONT_APP }  from '../domain/routing/routing.config'
-import { ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH } from '../domain/routing/routing.types'
-import { UserNoSensitiveWithRelations }                                           from '../models/user/user.types'
+import { NextRouter }                                                                                                                                                  from 'next/router'
+import { EVENT_INFO_TYPE }                                                                                                                                             from '../domain/commands-and-queries/cqrs.types'
+import { REDIRECTIONS_ON_EVENTS, ROUTES_API, ROUTES_FRONT, ROUTES_FRONT_APP, ROUTES_FRONT_STATIC }                                                                     from '../domain/routing/routing.config'
+import { RedirectionHandler, REDIRECTIONS_ON_EVENTS_TYPE, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_API_TYPE, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH, ROUTES_FRONT_TYPE } from '../domain/routing/routing.types'
+import { PERMISSIONS_POLICY }                                                                                                                                          from './permissions.policy'
 
 
 
 
 export type ROUTING_POLICY_TYPE = {
 
-  redirectionsOnEventsRules: Readonly<Record<EVENT_INFO_TYPE | string, (
-    event: EVENT_INFO_TYPE | undefined | null,
-    currentUser: UserNoSensitiveWithRelations | null | undefined,
-    currentPathname: ROUTES_FRONT_PATH,
-    action: (route: ROUTES_FRONT_PATH) => void) => void>>
+  redirectionsSwitch: RedirectionHandler
+  routesFront: ROUTES_FRONT_TYPE
+  routesApi: ROUTES_API_TYPE
+  redirectionsOnEvents: REDIRECTIONS_ON_EVENTS_TYPE
+
 
   utils: {
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_INFO_TYPE | undefined | null) => boolean
@@ -25,12 +25,79 @@ export type ROUTING_POLICY_TYPE = {
       redirectAction: () => void
     }
     IS_APP_PATH: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
+    IS_STATIC_PAGE: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
   }
 }
 
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
-  redirectionsOnEventsRules: Object.freeze(redirectionsOnEventsRules),
+  routesFront         : ROUTES_FRONT,
+  routesApi           : ROUTES_API,
+  redirectionsOnEvents: REDIRECTIONS_ON_EVENTS,
+
+  redirectionsSwitch: (event, action, currentUser, currentPathname) => {
+
+    switch (event) {
+      case 'ALREADY_LOGGED': {
+        if (ROUTING_POLICY.redirectionsOnEvents.ALREADY_LOGGED && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+          currentUser?.role,
+          currentPathname)) {
+          action(ROUTING_POLICY.redirectionsOnEvents.ALREADY_LOGGED)
+        }
+        break
+      }
+      case 'LOGIN_FIRST': {
+        if (ROUTING_POLICY.redirectionsOnEvents.LOGIN_FIRST && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+          currentUser?.role,
+          currentPathname)) {
+          action(ROUTING_POLICY.redirectionsOnEvents.LOGIN_FIRST)
+        }
+        break
+      }
+      case 'USER_LOGGED_IN': {
+        if (ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_IN) {
+          action(ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_IN)
+        }
+        break
+      }
+      case 'USER_ENABLED_SELF': {
+        if (ROUTING_POLICY.redirectionsOnEvents.USER_ENABLED_SELF) {
+          action(ROUTING_POLICY.redirectionsOnEvents.USER_ENABLED_SELF)
+        }
+        break
+      }
+      case 'USER_DISABLED_SELF': {
+        if (ROUTING_POLICY.redirectionsOnEvents.USER_DISABLED_SELF) {
+          action(ROUTING_POLICY.redirectionsOnEvents.USER_DISABLED_SELF)
+        }
+        break
+      }
+      case 'USER_LOGGED_OUT': {
+        if (ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_OUT) {
+          action(ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_OUT)
+        }
+        break
+      }
+      case 'SESSION_EXPIRED': {
+        if (ROUTING_POLICY.redirectionsOnEvents.SESSION_EXPIRED) {
+          action(ROUTING_POLICY.redirectionsOnEvents.SESSION_EXPIRED)
+        }
+        break
+      }
+      case 'USER_DELETED_SELF': {
+        if (ROUTING_POLICY.redirectionsOnEvents.USER_DELETED_SELF) {
+          action(ROUTING_POLICY.redirectionsOnEvents.USER_DELETED_SELF)
+        }
+        break
+      }
+      case 'UNAUTHORIZED': {
+        if (ROUTING_POLICY.redirectionsOnEvents.UNAUTHORIZED) {
+          action(ROUTING_POLICY.redirectionsOnEvents.UNAUTHORIZED)
+        }
+        break
+      }
+    }
+  },
 
   utils: {
 
@@ -48,7 +115,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
 
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => {
-      return Object.keys(ROUTING_POLICY.redirectionsOnEventsRules ?? {})
+      return Object.keys(REDIRECTIONS_ON_EVENTS ?? {})
                    .includes(event ?? '')
     },
     REDIRECT_BY_NEXT_ROUTER               : (route, router, searchParams) => {
@@ -90,6 +157,11 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
     IS_APP_PATH: (requestedRoutePath) => {
       return Boolean(Object.values(ROUTES_FRONT_APP)
+                           .find((path) => path === requestedRoutePath))
+    },
+
+    IS_STATIC_PAGE: (requestedRoutePath) => {
+      return Boolean(Object.values(ROUTES_FRONT_STATIC)
                            .find((path) => path === requestedRoutePath))
     }
   }
