@@ -1,8 +1,8 @@
-import { NextRouter }                                                                                                                                                  from 'next/router'
-import { EVENT_INFO_TYPE }                                                                                                                                             from '../domain/commands-and-queries/cqrs.types'
-import { REDIRECTIONS_ON_EVENTS, ROUTES_API, ROUTES_FRONT, ROUTES_FRONT_APP, ROUTES_FRONT_STATIC }                                                                     from '../domain/routing/routing.config'
-import { RedirectionHandler, REDIRECTIONS_ON_EVENTS_TYPE, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_API_TYPE, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH, ROUTES_FRONT_TYPE } from '../domain/routing/routing.types'
-import { PERMISSIONS_POLICY }                                                                                                                                          from './permissions.policy'
+import { NextRouter }                                                                                                                     from 'next/router'
+import { EVENT_INFO_TYPE }                                                                                                                from '../domain/commands-and-queries/cqrs.types'
+import { REDIRECTIONS_ON_EVENTS, ROUTES_API, ROUTES_FRONT, ROUTES_FRONT_APP, ROUTES_FRONT_STATIC }                                        from '../domain/routing/routing.config'
+import { RedirectionHandler, ROUTES_API_NAME, ROUTES_API_PATH, ROUTES_API_TYPE, ROUTES_FRONT_NAME, ROUTES_FRONT_PATH, ROUTES_FRONT_TYPE } from '../domain/routing/routing.types'
+import { PERMISSIONS_POLICY }                                                                                                             from './permissions.policy'
 
 
 
@@ -12,7 +12,6 @@ export type ROUTING_POLICY_TYPE = {
   redirectionsSwitch: RedirectionHandler
   routesFront: ROUTES_FRONT_TYPE
   routesApi: ROUTES_API_TYPE
-  redirectionsOnEvents: REDIRECTIONS_ON_EVENTS_TYPE
 
 
   utils: {
@@ -31,69 +30,59 @@ export type ROUTING_POLICY_TYPE = {
 
 export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
-  routesFront         : ROUTES_FRONT,
-  routesApi           : ROUTES_API,
-  redirectionsOnEvents: REDIRECTIONS_ON_EVENTS,
+  routesFront: ROUTES_FRONT,
+  routesApi  : ROUTES_API,
 
   redirectionsSwitch: (event, action, currentUser, currentPathname) => {
 
     switch (event) {
       case 'ALREADY_LOGGED': {
-        if (ROUTING_POLICY.redirectionsOnEvents.ALREADY_LOGGED && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+        if (!PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
           currentUser?.role,
           currentPathname)) {
-          action(ROUTING_POLICY.redirectionsOnEvents.ALREADY_LOGGED)
+          action(REDIRECTIONS_ON_EVENTS.ALREADY_LOGGED)
         }
         break
       }
       case 'LOGIN_FIRST': {
-        if (ROUTING_POLICY.redirectionsOnEvents.LOGIN_FIRST && !PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+        if (!PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
           currentUser?.role,
           currentPathname)) {
-          action(ROUTING_POLICY.redirectionsOnEvents.LOGIN_FIRST)
+          action(REDIRECTIONS_ON_EVENTS.LOGIN_FIRST)
         }
         break
       }
       case 'USER_LOGGED_IN': {
-        if (ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_IN) {
-          action(ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_IN)
-        }
+        action(REDIRECTIONS_ON_EVENTS.USER_LOGGED_IN)
         break
       }
       case 'USER_ENABLED_SELF': {
-        if (ROUTING_POLICY.redirectionsOnEvents.USER_ENABLED_SELF) {
-          action(ROUTING_POLICY.redirectionsOnEvents.USER_ENABLED_SELF)
-        }
+        action(REDIRECTIONS_ON_EVENTS.USER_ENABLED_SELF)
+
         break
       }
       case 'USER_DISABLED_SELF': {
-        if (ROUTING_POLICY.redirectionsOnEvents.USER_DISABLED_SELF) {
-          action(ROUTING_POLICY.redirectionsOnEvents.USER_DISABLED_SELF)
-        }
+        action(REDIRECTIONS_ON_EVENTS.USER_DISABLED_SELF)
+
         break
       }
       case 'USER_LOGGED_OUT': {
-        if (ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_OUT) {
-          action(ROUTING_POLICY.redirectionsOnEvents.USER_LOGGED_OUT)
-        }
+        action(REDIRECTIONS_ON_EVENTS.USER_LOGGED_OUT)
+
         break
       }
       case 'SESSION_EXPIRED': {
-        if (ROUTING_POLICY.redirectionsOnEvents.SESSION_EXPIRED) {
-          action(ROUTING_POLICY.redirectionsOnEvents.SESSION_EXPIRED)
-        }
+        action(REDIRECTIONS_ON_EVENTS.SESSION_EXPIRED)
+
         break
       }
       case 'USER_DELETED_SELF': {
-        if (ROUTING_POLICY.redirectionsOnEvents.USER_DELETED_SELF) {
-          action(ROUTING_POLICY.redirectionsOnEvents.USER_DELETED_SELF)
-        }
+        action(REDIRECTIONS_ON_EVENTS.USER_DELETED_SELF)
+
         break
       }
       case 'UNAUTHORIZED': {
-        if (ROUTING_POLICY.redirectionsOnEvents.UNAUTHORIZED) {
-          action(ROUTING_POLICY.redirectionsOnEvents.UNAUTHORIZED)
-        }
+        action(REDIRECTIONS_ON_EVENTS.UNAUTHORIZED)
         break
       }
     }

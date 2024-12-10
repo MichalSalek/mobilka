@@ -1,5 +1,4 @@
-import { API_VER }                     from '../http/http.config'
-import { REDIRECTIONS_ON_EVENTS_TYPE } from './routing.types'
+import { API_VER } from '../http/http.config'
 
 
 
@@ -62,7 +61,7 @@ export const ROUTES_API = Object.freeze({
 
 
 
-export const REDIRECTIONS_ON_EVENTS: REDIRECTIONS_ON_EVENTS_TYPE = Object.freeze({
+export const REDIRECTIONS_ON_EVENTS = Object.freeze({
   ALREADY_LOGGED    : ROUTES_FRONT.APP,
   USER_LOGGED_IN    : ROUTES_FRONT.APP,
   USER_ENABLED_SELF : ROUTES_FRONT.APP,
@@ -73,4 +72,3 @@ export const REDIRECTIONS_ON_EVENTS: REDIRECTIONS_ON_EVENTS_TYPE = Object.freeze
   UNAUTHORIZED      : ROUTES_FRONT.USER_LOG,
   LOGIN_FIRST       : ROUTES_FRONT.USER_LOG
 } as const)
-
