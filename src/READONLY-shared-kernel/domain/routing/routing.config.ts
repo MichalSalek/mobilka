@@ -71,3 +71,4 @@ export const REDIRECTIONS_ON_EVENTS = Object.freeze({
   UNAUTHORIZED      : ROUTES_FRONT.USER_LOG,
   LOGIN_FIRST       : ROUTES_FRONT.USER_LOG
 } as const)
+
