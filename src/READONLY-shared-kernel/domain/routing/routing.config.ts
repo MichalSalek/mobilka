@@ -43,7 +43,6 @@ export const ROUTES_API = Object.freeze({
   USER_DISABLE_SELF  : `${API_VER}user/disable/self`,
   USER_ENABLE_ANY    : `${API_VER}user/enable/any`,
   USER_GET_ALL       : `${API_VER}user/get-all`,
-  USER_GET_CURRENT   : `${API_VER}user/get-current`,
 
   EVENT_LOG_GET_ALL: `${API_VER}event-log/get-all`,
 
@@ -51,7 +50,7 @@ export const ROUTES_API = Object.freeze({
   SESSION_DELETE_EXACTLY: `${API_VER}session/delete/exactly`,
   SESSION_GET_ALL       : `${API_VER}session/get-all`,
   SESSION_REFRESH       : `${API_VER}session/refresh`,
-  SESSION_CHECK         : `${API_VER}session/check`,
+  SESSION_GET_CURRENT   : `${API_VER}session/get-current`,
 
   ACCOUNT_DISPLAY_NAME_CHANGE: `${API_VER}account/display-name-change`,
   ACCOUNT_PAYMENT_MAKE       : `${API_VER}account/payment-make`,

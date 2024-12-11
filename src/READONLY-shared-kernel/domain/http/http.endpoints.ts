@@ -35,7 +35,7 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   ACCOUNT_PAYMENT_MAKE       : (props) => `${URL(props)}${ROUTES_API.ACCOUNT_PAYMENT_MAKE}`, // EVENT LOG
   EVENT_LOG_GET_ALL          : (props) => `${URL(props)}${ROUTES_API.EVENT_LOG_GET_ALL}`, //
   // SESSION
-  SESSION_CHECK         : (props) => `${URL(props)}${ROUTES_API.SESSION_CHECK}`,
+  SESSION_GET_CURRENT         : (props) => `${URL(props)}${ROUTES_API.SESSION_GET_CURRENT}`,
   SESSION_DELETE_ALL    : (props) => `${URL(props)}${ROUTES_API.SESSION_DELETE_ALL}`,
   SESSION_DELETE_EXACTLY: (props) => `${URL(props)}${ROUTES_API.SESSION_DELETE_EXACTLY}`,
   SESSION_GET_ALL       : (props) => `${URL(props)}${ROUTES_API.SESSION_GET_ALL}`,
@@ -48,7 +48,6 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   USER_DELETE_EXACTLY    : (props) => `${URL(props)}${ROUTES_API.USER_DELETE_EXACTLY}`,
   USER_DELETE_SELF       : (props) => `${URL(props)}${ROUTES_API.USER_DELETE_SELF}`,
   USER_GET_ALL           : (props) => `${URL(props)}${ROUTES_API.USER_GET_ALL}`,
-  USER_GET_CURRENT       : (props) => `${URL(props)}${ROUTES_API.USER_GET_CURRENT}`,
   USER_LOGIN             : (props) => `${URL(props)}${ROUTES_API.USER_LOGIN}`,
   USER_LOGOUT            : (props) => `${URL(props)}${ROUTES_API.USER_LOGOUT}`,
   USER_DISABLE_ANY       : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_ANY}`,

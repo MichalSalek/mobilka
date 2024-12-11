@@ -36,10 +36,9 @@ export const EVENTS = Object.freeze({
 
     APPLICATION: [],
     DEBUG      : [],
-    USER       : [ 'USER_GET_CURRENT',
-                   'USER_GET_ALL' ],
+    USER       : [ 'USER_GET_ALL' ],
     SESSION    : [ 'SESSION_GET_ALL',
-                   'SESSION_CHECK' ],
+                   'SESSION_GET_CURRENT' ],
     ACCOUNT    : [ 'ACCOUNT_PAYMENT_GET_STATUS' ],
     EVENT_LOG  : [ 'EVENT_LOG_GET_ALL' ]
   },
