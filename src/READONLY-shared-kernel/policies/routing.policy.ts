@@ -1,3 +1,4 @@
+// @ts-ignore
 import { NextRouter }                                                                                                                     from 'next/router'
 import { EVENT_INFO_TYPE }                                                                                                                from '../domain/commands-and-queries/cqrs.types'
 import { REDIRECTIONS_ON_EVENTS, ROUTES_API, ROUTES_FRONT, ROUTES_FRONT_APP, ROUTES_FRONT_STATIC }                                        from '../domain/routing/routing.config'
