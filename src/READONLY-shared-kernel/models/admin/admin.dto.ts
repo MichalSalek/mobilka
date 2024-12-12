@@ -1,7 +1,7 @@
 import { IOClientFunctionReqResErr } from '../../domain/http/http.client.types'
-import { DetailedErrorPayload }      from '../../domain/http/http.types'
-import { User }                      from '../db_models'
-import { CurrentUser }               from '../user/user.types'
+import { DetailedErrorPayload } from '../../domain/http/http.types'
+import { Admin, User }          from '../db_models'
+import { CurrentUser }          from '../user/user.types'
 
 
 
@@ -30,24 +30,38 @@ export type ADMIN_DTO_API_V1 = {
   },
 
   DISABLE_ANY: {
-    REQUEST: (Pick<User, 'user_id'>)
+    REQUEST: Pick<User, 'user_id'>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['DISABLE_ANY']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['DISABLE_ANY']['REQUEST'], ADMIN_DTO_API_V1['DISABLE_ANY']['RESPONSE'], ADMIN_DTO_API_V1['DISABLE_ANY']['RESPONSE_ERROR']>
   },
 
   ENABLE_ANY: {
-    REQUEST: (Pick<User, 'user_id'>)
+    REQUEST: Pick<User, 'user_id'>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST'], ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE'], ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR']>
   },
 
   DELETE_ANY: {
-    REQUEST: (Pick<User, 'user_id'>)
+    REQUEST: Pick<User, 'user_id'>
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['DELETE_ANY']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['DELETE_ANY']['REQUEST'], ADMIN_DTO_API_V1['DELETE_ANY']['RESPONSE'], ADMIN_DTO_API_V1['DELETE_ANY']['RESPONSE_ERROR']>
+  },
+
+  GET_NOTES: {
+    REQUEST: undefined
+    RESPONSE: Pick<Admin, 'notes'>
+    RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['GET_NOTES']['REQUEST']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['GET_NOTES']['REQUEST'], ADMIN_DTO_API_V1['GET_NOTES']['RESPONSE'], ADMIN_DTO_API_V1['GET_NOTES']['RESPONSE_ERROR']>
+  },
+
+  SET_NOTES: {
+    REQUEST: Pick<Admin, 'notes'>
+    RESPONSE: undefined
+    RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['SET_NOTES']['REQUEST']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['SET_NOTES']['REQUEST'], ADMIN_DTO_API_V1['SET_NOTES']['RESPONSE'], ADMIN_DTO_API_V1['SET_NOTES']['RESPONSE_ERROR']>
   },
 
 

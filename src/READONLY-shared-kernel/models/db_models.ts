@@ -52,6 +52,10 @@ type UserMetadataPartial = {
 }
 
 
+export type Admin = {
+  id: number
+  notes: string
+}
 
 
 export const EventLogTypeValue = Object.freeze({

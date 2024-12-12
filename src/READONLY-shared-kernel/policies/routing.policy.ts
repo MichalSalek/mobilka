@@ -86,6 +86,10 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         action(REDIRECTIONS_ON_EVENTS.UNAUTHORIZED)
         break
       }
+      case 'USER_SWITCHED_BACK_TO_SELF': {
+        action(REDIRECTIONS_ON_EVENTS.USER_SWITCHED_BACK_TO_SELF)
+        break
+      }
     }
   },
 

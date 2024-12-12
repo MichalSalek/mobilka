@@ -25,23 +25,25 @@ export const ROUTES_FRONT = Object.freeze({...ROUTES_FRONT_STATIC, ...ROUTES_FRO
 
 
 export const ROUTES_API = Object.freeze({
-  CHECK_WEBAPP_SIMPLE      : '/api/dev-cheats/check-access/get',
-  CHECK_WEBAPP_CROSS       : '/api/dev-cheats/check-access/post',
-  SWITCH_BACKEND_DEBUG_MODE: '/api/dev-cheats/debug-mode',
-  BECOME_USER              : '/api/dev-cheats/become-user',
-  SWITCH_BACK_BECOME_USER  : '/api/dev-cheats/switch-back-become-user',
+  CHECK_WEBAPP_SIMPLE      : `${API_VER}admin/check-access/get`,
+  CHECK_WEBAPP_CROSS       : `${API_VER}admin/check-access/post`,
+  SWITCH_BACKEND_DEBUG_MODE: `${API_VER}admin/debug-mode`,
+  BECOME_USER              : `${API_VER}admin/become-user`,
+  SWITCH_BACK_BECOME_USER  : `${API_VER}admin/switch-back-become-user`,
+  USER_DELETE_ANY          : `${API_VER}admin/user/delete/any`,
+  USER_DISABLE_ANY         : `${API_VER}admin/user/disable/any`,
+  USER_ENABLE_ANY          : `${API_VER}admin/user/enable/any`,
+  GET_NOTES                : `${API_VER}admin/get-notes`,
+  SET_NOTES                : `${API_VER}admin/set-notes`,
 
   USER_REGISTER      : `${API_VER}user/register`,
   CHECK_EMAIL        : `${API_VER}user/check-email`,
   USER_CREATE        : `${API_VER}user/create`,
   USER_LOGIN         : `${API_VER}user/login`,
   USER_LOGOUT        : `${API_VER}user/logout`,
-  USER_DELETE_ANY    : `${API_VER}user/delete/any`,
   USER_DELETE_EXACTLY: `${API_VER}user/delete/exactly`,
   USER_DELETE_SELF   : `${API_VER}user/delete/self`,
-  USER_DISABLE_ANY   : `${API_VER}user/disable/any`,
   USER_DISABLE_SELF  : `${API_VER}user/disable/self`,
-  USER_ENABLE_ANY    : `${API_VER}user/enable/any`,
   USER_GET_ALL       : `${API_VER}user/get-all`,
 
   EVENT_LOG_GET_ALL: `${API_VER}event-log/get-all`,
@@ -61,14 +63,15 @@ export const ROUTES_API = Object.freeze({
 
 
 export const REDIRECTIONS_ON_EVENTS = Object.freeze({
-  ALREADY_LOGGED    : ROUTES_FRONT.APP,
-  USER_LOGGED_IN    : ROUTES_FRONT.APP,
-  USER_ENABLED_SELF : ROUTES_FRONT.APP,
-  USER_DISABLED_SELF: ROUTES_FRONT.HOME,
-  USER_LOGGED_OUT   : ROUTES_FRONT.HOME,
-  SESSION_EXPIRED   : ROUTES_FRONT.HOME,
-  USER_DELETED_SELF : ROUTES_FRONT.HOME,
-  UNAUTHORIZED      : ROUTES_FRONT.USER_LOG,
-  LOGIN_FIRST       : ROUTES_FRONT.USER_LOG
+  ALREADY_LOGGED            : ROUTES_FRONT.APP,
+  USER_LOGGED_IN            : ROUTES_FRONT.APP,
+  USER_ENABLED_SELF         : ROUTES_FRONT.APP,
+  USER_DISABLED_SELF        : ROUTES_FRONT.HOME,
+  USER_LOGGED_OUT           : ROUTES_FRONT.HOME,
+  SESSION_EXPIRED           : ROUTES_FRONT.HOME,
+  USER_DELETED_SELF         : ROUTES_FRONT.HOME,
+  UNAUTHORIZED              : ROUTES_FRONT.USER_LOG,
+  LOGIN_FIRST               : ROUTES_FRONT.USER_LOG,
+  USER_SWITCHED_BACK_TO_SELF: ROUTES_FRONT.ADMIN
 } as const)
 

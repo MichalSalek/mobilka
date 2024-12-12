@@ -8,9 +8,10 @@ export const EVENTS = Object.freeze({
   COMMANDS: {
 
     APPLICATION: [],
-    DEBUG      : [ 'SWITCH_BACKEND_DEBUG_MODE',
+    ADMIN      : [ 'SWITCH_BACKEND_DEBUG_MODE',
                    'BECOME_USER',
-                   'SWITCH_BACK_BECOME_USER' ],
+                   'SWITCH_BACK_BECOME_USER',
+                   'SET_NOTES' ],
     USER       : [ 'USER_LOGIN',
                    'USER_LOGOUT',
                    'USER_CREATE',
@@ -35,7 +36,7 @@ export const EVENTS = Object.freeze({
   QUERIES: {
 
     APPLICATION: [],
-    DEBUG      : [],
+    ADMIN      : [ 'GET_NOTES' ],
     USER       : [ 'USER_GET_ALL' ],
     SESSION    : [ 'SESSION_GET_ALL',
                    'SESSION_GET_CURRENT' ],
@@ -50,10 +51,11 @@ export const EVENTS = Object.freeze({
                    'SUCCESS',
                    'NOT_FOUND',
                    'VALIDATION_FAILED' ],
-    DEBUG      : [ 'DEBUG_MODE_ENABLED',
+    ADMIN      : [ 'DEBUG_MODE_ENABLED',
                    'DEBUG_MODE_DISABLED',
                    'USER_BECAME_SOMEONE_ELSE',
-                   'USER_SWITCHED_BACK_TO_SELF' ],
+                   'USER_SWITCHED_BACK_TO_SELF',
+                   'NOTES_FETCHED' ],
     USER       : [ 'USER_LOGGED_IN',
                    'USER_LOGGED_OUT',
                    'CANNOT_LOGIN',
@@ -95,5 +97,4 @@ export const EVENTS = Object.freeze({
 } as const)
 
 
-export const eventsDisallowedForUI: EVENTS_POLICY_TYPE['eventsDisallowedForUI'] = [ 'SUCCESS',
-                                                                                    'UNAUTHORIZED' ] as const
+export const eventsDisallowedForUI: EVENTS_POLICY_TYPE['eventsDisallowedForUI'] = [ 'SUCCESS' ] as const
