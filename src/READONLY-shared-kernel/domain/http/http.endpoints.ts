@@ -24,7 +24,7 @@ export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCO
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}${ROUTES_API.CHECK_WEBAPP_CROSS}`
 
 
-//@TODO zamiast eventsów, może kierować się ilością ROUTÓW API?
+//@TODO zamiast eventsów, może kierować się ilością ROUTÓW API? - na razie jest ok, bo podpowiada po dodaniu eventu.
 export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: EndpointProps) => string> = {
   //
   // ADMIN
@@ -35,12 +35,14 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   USER_DISABLE_ANY         : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_ANY}`,
   USER_ENABLE_ANY          : (props) => `${URL(props)}${ROUTES_API.USER_ENABLE_ANY}`,
   BECOME_USER              : (props) => `${URL(props)}${ROUTES_API.BECOME_USER}`,
-  SWITCH_BACK_BECOME_USER  : (props) => `${URL(props)}${ROUTES_API.SWITCH_BACK_BECOME_USER}`, //
+  SWITCH_BACK_BECOME_USER  : (props) => `${URL(props)}${ROUTES_API.SWITCH_BACK_BECOME_USER}`,
+  MASTER_ADMIN_INIT        : (props) => `${URL(props)}${ROUTES_API.MASTER_ADMIN_INIT}`, //
   // ACCOUNT
   ACCOUNT_DISPLAY_NAME_CHANGE: (props) => `${URL(props)}${ROUTES_API.ACCOUNT_DISPLAY_NAME_CHANGE}`,
   ACCOUNT_PAYMENT_GET_STATUS : (props) => `${URL(props)}${ROUTES_API.ACCOUNT_PAYMENT_GET_STATUS}`,
-  ACCOUNT_PAYMENT_MAKE       : (props) => `${URL(props)}${ROUTES_API.ACCOUNT_PAYMENT_MAKE}`, // EVENT LOG
-  EVENT_LOG_GET_ALL          : (props) => `${URL(props)}${ROUTES_API.EVENT_LOG_GET_ALL}`, //
+  ACCOUNT_PAYMENT_MAKE       : (props) => `${URL(props)}${ROUTES_API.ACCOUNT_PAYMENT_MAKE}`, //
+  // EVENT LOG
+  EVENT_LOG_GET_ALL: (props) => `${URL(props)}${ROUTES_API.EVENT_LOG_GET_ALL}`, //
   // SESSION
   SESSION_GET_CURRENT   : (props) => `${URL(props)}${ROUTES_API.SESSION_GET_CURRENT}`,
   SESSION_DELETE_ALL    : (props) => `${URL(props)}${ROUTES_API.SESSION_DELETE_ALL}`,
@@ -58,6 +60,5 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: Endpoint
   USER_LOGOUT        : (props) => `${URL(props)}${ROUTES_API.USER_LOGOUT}`,
   USER_DISABLE_SELF  : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_SELF}`,
   USER_ENABLE_SELF   : (props) => ''
-
 
 } as const

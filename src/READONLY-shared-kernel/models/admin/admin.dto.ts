@@ -1,7 +1,7 @@
 import { IOClientFunctionReqResErr } from '../../domain/http/http.client.types'
-import { DetailedErrorPayload } from '../../domain/http/http.types'
-import { Admin, User }          from '../db_models'
-import { CurrentUser }          from '../user/user.types'
+import { DetailedErrorPayload }      from '../../domain/http/http.types'
+import { Admin, User }               from '../db_models'
+import { CurrentUser }               from '../user/user.types'
 
 
 
@@ -62,6 +62,13 @@ export type ADMIN_DTO_API_V1 = {
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['SET_NOTES']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['SET_NOTES']['REQUEST'], ADMIN_DTO_API_V1['SET_NOTES']['RESPONSE'], ADMIN_DTO_API_V1['SET_NOTES']['RESPONSE_ERROR']>
+  },
+
+  MASTER_ADMIN_INIT: {
+    REQUEST: undefined
+    RESPONSE: undefined
+    RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['MASTER_ADMIN_INIT']['REQUEST']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['MASTER_ADMIN_INIT']['REQUEST'], ADMIN_DTO_API_V1['MASTER_ADMIN_INIT']['RESPONSE'], ADMIN_DTO_API_V1['MASTER_ADMIN_INIT']['RESPONSE_ERROR']>
   },
 
 

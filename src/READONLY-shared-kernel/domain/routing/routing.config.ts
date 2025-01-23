@@ -35,6 +35,7 @@ export const ROUTES_API = Object.freeze({
   USER_ENABLE_ANY          : `${API_VER}admin/user/enable/any`,
   GET_NOTES                : `${API_VER}admin/get-notes`,
   SET_NOTES                : `${API_VER}admin/set-notes`,
+  MASTER_ADMIN_INIT        : `${API_VER}admin/master-admin-init`,
 
   USER_REGISTER      : `${API_VER}user/register`,
   CHECK_EMAIL        : `${API_VER}user/check-email`,

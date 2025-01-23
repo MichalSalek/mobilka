@@ -8,7 +8,8 @@ import { ROUTES_FRONT }                           from '../routing/routing.confi
 
 export const readonlyPermissionsSets: PERMISSIONS_POLICY_TYPE['readonlyPermissionsSets'] = {
 
-  ALWAYS_ALLOWED: [ 'SESSION_GET_CURRENT' ],
+  ALWAYS_ALLOWED: [ 'SESSION_GET_CURRENT',
+                    'MASTER_ADMIN_INIT' ],
 
   MASTER_ADMIN: [ ...EVENTS_POLICY.utils.GET_COMMAND_AND_QUERY_EVENTS() ]
     .filter((event) => {
