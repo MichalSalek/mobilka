@@ -1,15 +1,17 @@
 import { EVENT_COMMANDS_AND_QUERIES_TYPE }   from '../commands-and-queries/cqrs.types'
 import { ROUTES_API }                        from '../routing/routing.config'
-import { HTTP_PROTOCOL, HTTP_WEB1_APP_HOST } from './http.config'
 
 
 
 
-const URL = (props: EndpointProps) => `${HTTP_PROTOCOL}${HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}`
+const URL = (props: EndpointProps) => `${props.ENV_VARS.HTTP_PROTOCOL}${props.ENV_VARS.HTTP_WEB1_APP_HOST}:${props.ENV_VARS.WEB_1_EXTERNAL_PORT}`
 
 
 type EndpointProps = {
   ENV_VARS: {
+    readonly HTTP_PROTOCOL?: string | undefined,
+    readonly HTTP_WEB1_APP_HOST?: string | undefined,
+
     readonly WEB_1_INTERNAL_NAME?: string | undefined,
     readonly WEB_2_INTERNAL_NAME?: string | undefined,
     readonly WEB_1_EXTERNAL_PORT?: string | undefined,
@@ -20,8 +22,8 @@ type EndpointProps = {
 
 //
 // DEBUG
-export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string) => `${HTTP_PROTOCOL}${appName}${ROUTES_API.CHECK_WEBAPP_SIMPLE}`
-export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string) => `${HTTP_PROTOCOL}${appName}${ROUTES_API.CHECK_WEBAPP_CROSS}`
+export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (appName: string, props: EndpointProps) => `${props.ENV_VARS.HTTP_PROTOCOL}${appName}${ROUTES_API.CHECK_WEBAPP_SIMPLE}`
+export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string, props: EndpointProps) => `${props.ENV_VARS.HTTP_PROTOCOL}${appName}${ROUTES_API.CHECK_WEBAPP_CROSS}`
 
 
 //@TODO zamiast eventsów, może kierować się ilością ROUTÓW API? - na razie jest ok, bo podpowiada po dodaniu eventu.
