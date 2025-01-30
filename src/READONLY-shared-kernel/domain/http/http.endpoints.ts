@@ -9,16 +9,13 @@ const URL = (props: EndpointProps) => `${props.ENV_VARS.HTTP_PROTOCOL}${props.EN
 
 type EndpointProps = {
   ENV_VARS: {
-    readonly HTTP_PROTOCOL?: string | undefined,
-    readonly HTTP_WEB1_APP_HOST?: string | undefined,
-
-    readonly WEB_1_INTERNAL_NAME?: string | undefined,
-    readonly WEB_2_INTERNAL_NAME?: string | undefined,
-    readonly WEB_1_EXTERNAL_PORT?: string | undefined,
-    readonly WEB_2_EXTERNAL_PORT?: string | undefined
+    readonly HTTP_PROTOCOL: string,
+    readonly HTTP_WEB1_APP_HOST: string,
+    readonly WEB_1_EXTERNAL_PORT: string
   }
 }
 
+export type EndpointURLFunction = (props: EndpointProps) => string
 
 //
 // DEBUG
@@ -27,7 +24,7 @@ export const ENDPOINT_CHECK_WEBAPP_CROSS = (appName: string, props: EndpointProp
 
 
 //@TODO zamiast eventsów, może kierować się ilością ROUTÓW API? - na razie jest ok, bo podpowiada po dodaniu eventu.
-export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, (props: EndpointProps) => string> = {
+export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, EndpointURLFunction> = {
   //
   // ADMIN
   SWITCH_BACKEND_DEBUG_MODE: (props) => `${URL(props)}${ROUTES_API.SWITCH_BACKEND_DEBUG_MODE}`,
