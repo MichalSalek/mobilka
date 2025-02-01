@@ -70,6 +70,8 @@ export const permissionsForRoutes: PERMISSIONS_POLICY_TYPE['permissionsForRoutes
   //
   [ROUTES_FRONT.ADMIN]: [ RoleValue.MASTER_ADMIN ],
 
+  [ROUTES_FRONT.CONNECTION_CHECK]: [],
+
 
   [ROUTES_FRONT.HOME]   : [],
   [ROUTES_FRONT.PRICING]: [],
