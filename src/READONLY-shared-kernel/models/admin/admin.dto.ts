@@ -1,3 +1,4 @@
+import { IDType }                    from '../../application.types'
 import { IOClientFunctionReqResErr } from '../../domain/http/http.client.types'
 import { DetailedErrorPayload }      from '../../domain/http/http.types'
 import { Admin, User }               from '../db_models'
@@ -51,8 +52,14 @@ export type ADMIN_DTO_API_V1 = {
   },
 
   GET_NOTES: {
-    REQUEST: undefined
-    RESPONSE: Pick<Admin, 'notes'>
+    REQUEST: {
+      id?: Admin['id'] | undefined
+    }
+    RESPONSE: Pick<Admin, 'notes'> & {
+      versions: (Pick<Admin, 'created_at'> & Pick<Admin, 'id'> & {
+        length: string
+      })[]
+    }
     RESPONSE_ERROR: DetailedErrorPayload<ADMIN_DTO_API_V1['GET_NOTES']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<ADMIN_DTO_API_V1['GET_NOTES']['REQUEST'], ADMIN_DTO_API_V1['GET_NOTES']['RESPONSE'], ADMIN_DTO_API_V1['GET_NOTES']['RESPONSE_ERROR']>
   },
