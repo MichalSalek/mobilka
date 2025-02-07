@@ -30,7 +30,8 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, EndpointURLFunct
   // ADMIN
   SWITCH_BACKEND_DEBUG_MODE: (props) => `${URL(props)}${ROUTES_API.SWITCH_BACKEND_DEBUG_MODE}`,
   GET_NOTES                : (props) => `${URL(props)}${ROUTES_API.GET_NOTES}`,
-  SET_NOTES                : (props) => `${URL(props)}${ROUTES_API.SET_NOTES}`,
+  SAVE_NOTE                : (props) => `${URL(props)}${ROUTES_API.SAVE_NOTE}`,
+  SET_MAIN_NOTE            : (props) => `${URL(props)}${ROUTES_API.SET_MAIN_NOTE}`,
   USER_DELETE_ANY          : (props) => `${URL(props)}${ROUTES_API.USER_DELETE_ANY}`,
   USER_DISABLE_ANY         : (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_ANY}`,
   USER_ENABLE_ANY          : (props) => `${URL(props)}${ROUTES_API.USER_ENABLE_ANY}`,
