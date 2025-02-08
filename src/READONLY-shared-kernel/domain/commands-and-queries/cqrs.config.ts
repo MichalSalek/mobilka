@@ -101,4 +101,4 @@ export const EVENTS = Object.freeze({
 } as const)
 
 
-export const eventsDisallowedForUI: EVENTS_POLICY_TYPE['eventsDisallowedForUI'] = [ 'SUCCESS' ] as const
+export const eventsDisallowedForUI: EVENTS_POLICY_TYPE['eventsDisallowedForUI'] = [ 'SUCCESS', 'NOTES_FETCHED' ] as const
