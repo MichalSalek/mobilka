@@ -11,17 +11,17 @@ export const readonlyPermissionsSets: PERMISSIONS_POLICY_TYPE['readonlyPermissio
   ALWAYS_ALLOWED: [ 'SESSION_GET_CURRENT',
                     'MASTER_ADMIN_INIT' ],
 
-  MASTER_ADMIN: [ ...EVENTS_POLICY.utils.GET_COMMAND_AND_QUERY_EVENTS() ]
-    .filter((event) => {
-      if (event === 'USER_DISABLE_SELF') {
-        return false
-      }
-      if (event === 'USER_DELETE_SELF') {
-        return false
-      }
+  MASTER_ADMIN: EVENTS_POLICY.utils.GET_COMMAND_AND_QUERY_EVENTS()
+                             .filter((event) => {
+                               if (event === 'USER_DISABLE_SELF') {
+                                 return false
+                               }
+                               if (event === 'USER_DELETE_SELF') {
+                                 return false
+                               }
 
-      return true
-    }),
+                               return true
+                             }),
 
   LOGGED_USER_LOW_LEVEL_FUNCTIONALITY: [ 'USER_LOGOUT',
                                          'USER_DISABLE_SELF',
