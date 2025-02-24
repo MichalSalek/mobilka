@@ -55,6 +55,8 @@ export const EVENTS = Object.freeze({
                    'VALIDATION_FAILED' ],
     ADMIN      : [ 'DEBUG_MODE_ENABLED',
                    'DEBUG_MODE_DISABLED',
+                   'DEBUG_DB_MODE_ENABLED',
+                   'DEBUG_DB_MODE_DISABLED',
                    'USER_BECAME_SOMEONE_ELSE',
                    'USER_SWITCHED_BACK_TO_SELF',
                    'NOTES_FETCHED',
