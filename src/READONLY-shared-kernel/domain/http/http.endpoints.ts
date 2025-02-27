@@ -24,7 +24,7 @@ export const ENDPOINT_CHECK_WEBAPP_SIMPLE = (props: EndpointProps) => `${props.E
 export const ENDPOINT_CHECK_WEBAPP_CROSS = (props: EndpointProps) => `${props.ENV_VARS.HTTP_PROTOCOL}${props.payload}${ROUTES_API.CHECK_WEBAPP_CROSS}`
 
 
-//@TODO zamiast eventsów, może kierować się ilością ROUTÓW API? - na razie jest ok, bo podpowiada po dodaniu eventu.
+
 export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, EndpointURLFunction> = {
   //
   // ADMIN

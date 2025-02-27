@@ -1,1 +1,1 @@
-# [GO UP](https://github.com/MichalSalek/biznesy)
+# [GO UP](https://github.com/MichalSalek/app-FRAMEWORK)
