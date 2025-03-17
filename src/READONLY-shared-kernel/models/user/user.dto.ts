@@ -1,6 +1,6 @@
-import { IOClientFunctionReqResErr }                         from '../../domain/http/http.client.types'
-import { DetailedErrorPayload }                              from '../../domain/http/http.types'
-import { User, UserNoSensitive }                             from '../db_models'
+import { IOClientFunctionReqResErr } from '../../application/http/http.client.types'
+import { DetailedErrorPayload }      from '../../application/http/http.types'
+import { User, UserNoSensitive }     from '../db_models'
 import { CurrentUser, UserNoSensitiveWithRelationsExtended } from './user.types'
 
 

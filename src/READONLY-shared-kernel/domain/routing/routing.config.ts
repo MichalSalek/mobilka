@@ -1,4 +1,6 @@
-import { API_VER } from '../http/http.config'
+import { EVENT_INFO_TYPE } from '../commands-and-queries/cqrs.types'
+import { API_VER }         from '../http/http.config'
+import { ROUTES_FRONT_PATH } from './routing.types'
 
 
 
@@ -65,16 +67,21 @@ export const ROUTES_API = Object.freeze({
 
 
 
-export const REDIRECTIONS_ON_EVENTS = Object.freeze({
-  ALREADY_LOGGED            : ROUTES_FRONT.APP,
+export const CRITICAL_REDIRECTIONS_ON_EVENTS = Object.freeze({
+  UNAUTHORIZED   : ROUTES_FRONT.USER_LOG,
+  ALREADY_LOGGED : ROUTES_FRONT.APP,
+  SESSION_EXPIRED: ROUTES_FRONT.HOME,
+  LOGIN_FIRST    : ROUTES_FRONT.USER_LOG
+} as const)
+
+
+
+export const REDIRECTIONS_ON_EVENTS: Partial<Record<EVENT_INFO_TYPE, ROUTES_FRONT_PATH>> = {
   USER_LOGGED_IN            : ROUTES_FRONT.APP,
   USER_ENABLED_SELF         : ROUTES_FRONT.APP,
   USER_DISABLED_SELF        : ROUTES_FRONT.HOME,
   USER_LOGGED_OUT           : ROUTES_FRONT.HOME,
-  SESSION_EXPIRED           : ROUTES_FRONT.HOME,
   USER_DELETED_SELF         : ROUTES_FRONT.HOME,
-  UNAUTHORIZED              : ROUTES_FRONT.USER_LOG,
-  LOGIN_FIRST               : ROUTES_FRONT.USER_LOG,
   USER_SWITCHED_BACK_TO_SELF: ROUTES_FRONT.ADMIN
-} as const)
+}
 

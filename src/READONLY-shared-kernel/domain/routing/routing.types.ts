@@ -23,7 +23,3 @@ export type RedirectionHandler = (
   currentUser: UserNoSensitiveWithRelations | null | undefined,
   currentPathname: ROUTES_FRONT_PATH) => void
 
-
-
-
-export type REDIRECTIONS_ON_EVENTS_TYPE = Partial<Record<EVENT_INFO_TYPE, ROUTES_FRONT_PATH>>

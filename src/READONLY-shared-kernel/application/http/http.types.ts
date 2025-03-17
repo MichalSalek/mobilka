@@ -1,4 +1,4 @@
-import { EVENT_INFO_TYPE } from '../commands-and-queries/cqrs.types'
+import { EVENT_INFO_TYPE } from '../../domain/commands-and-queries/cqrs.types'
 
 
 
@@ -18,7 +18,7 @@ export type HTTPSuccess<ResPayload> = InfoEventWithPayloadDTO<ResPayload>
 
 export type HTTPErrorCallback<ErrorPayload> = (error: HTTPError<ErrorPayload>) => void
 
-export type HTTPSuccessCallback<ResPayload> = (response: HTTPSuccess<ResPayload>) => void
+export type HTTPSuccessCallback<ResPayload> = (response: HTTPSuccess<ResPayload>) => Promise<void>
 
 
 
