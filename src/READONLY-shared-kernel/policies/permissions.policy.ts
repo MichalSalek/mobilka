@@ -21,6 +21,7 @@ export type PERMISSIONS_POLICY_TYPE = {
       user?: UserNoSensitive | UserNoSensitiveWithRelations | CurrentUser | null | undefined,
       requestedEvent?: EVENT_COMMANDS_AND_QUERIES_TYPE | undefined) => boolean
     IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
+    IS_ROUTE_FOR_EVERYONE: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
     IS_ADMIN: (user: Pick<User, 'role'> | null | undefined) => boolean
   }
 }
@@ -62,6 +63,8 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
     },
 
     IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath) => ROUTING_POLICY.utils.IS_APP_PATH(requestedRoutePath),
+
+    IS_ROUTE_FOR_EVERYONE: (requestedRoutePath) => ROUTING_POLICY.utils.IS_STATIC_PAGE(requestedRoutePath),
 
 
     IS_ADMIN: (user) => {

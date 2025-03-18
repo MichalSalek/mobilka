@@ -46,7 +46,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
     IS_REDIRECTION_NEEDED: (redirectionRoutePath, currentPathname) => (
       currentPathname
       ? currentPathname
-      : location.pathname) !== redirectionRoutePath,
+      : window.location.pathname) !== redirectionRoutePath,
 
 
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event) => {
