@@ -63,6 +63,13 @@ export const VALIDATION_POLICY = {
       }
       const reg = /\s+/g
       return !value.match(reg)
+    },
+
+    normalizeString: (value: string | undefined | null): string => {
+      if (!value) {
+        return ''
+      }
+      return value.replace(/\s+/g, '').toLowerCase();
     }
   },
 
