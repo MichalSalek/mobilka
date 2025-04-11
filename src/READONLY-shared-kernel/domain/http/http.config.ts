@@ -6,7 +6,9 @@ export const API_VER = '/api/v1/'
 
 export const CUSTOM_HEADERS = {
   authorization: 'authorization',
-  userMetadata : 'user-metadata',
-  becomeUser   : 'become-user'
+  userMetadata: 'user-metadata',
+  becomeUser: 'become-user',
+  pathname: 'pathname'
 } as const
+
 
