@@ -9,13 +9,18 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.michsaw.mobilka",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.michsaw.mobilka"
     },
     "web": {
       "bundler": "metro",
@@ -42,7 +47,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "e98ff46f-ba77-4162-aaf9-d532cf804951"
+        "projectId": "6cbcdb28-de75-4064-b8fc-f26d123b671b"
       }
     },
     "owner": "michsaw"
