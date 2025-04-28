@@ -1,67 +1,20 @@
-import FontAwesome          from '@expo/vector-icons/FontAwesome'
-import { useFonts }         from 'expo-font'
-import { Stack }            from 'expo-router'
-import * as SplashScreen    from 'expo-splash-screen'
-import React, { useEffect } from 'react'
+import WebView from "react-native-webview";
+// import Constants from 'expo-constants';
+import {StyleSheet} from 'react-native';
 
-
-
-
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary
-} from 'expo-router'
-
-export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: '(tabs)'
-}
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-void SplashScreen.preventAutoHideAsync()
-
-
-
-
-function RootLayoutNav() {
-  return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{headerShown: false}}/>
-      <Stack.Screen name="modal-users" options={{
-        presentation: 'modal',
-        title       : 'All users in DB'
-      }}/>
-    </Stack>
-
-  )
-}
-
-
-
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 0 // Constants.statusBarHeight,
+  },
+});
 
 export default function RootLayout() {
-  const [ loaded, error ] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    ...FontAwesome.font
-  })
 
-  // Expo Router uses Error Boundaries to catch errors in the navigation tree.
-  useEffect(() => {
-    if (error) throw error
-  }, [ error ])
-
-  useEffect(() => {
-    if (loaded) {
-      void SplashScreen.hideAsync()
-    }
-  }, [ loaded ])
-
-  if (!loaded) {
-    return null
-  }
-
-  return <RootLayoutNav/>
+  return (
+    <WebView
+      style={styles.container}
+      source={{uri: 'http://192.168.1.34/'}}
+    />
+  );
 }
-
-
-
