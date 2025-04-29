@@ -20,11 +20,10 @@ export default function RootLayout() {
       // androidLayerType={'hardware'}
 
       domStorageEnabled={true}
-      userAgent={true}
       mixedContentMode={'compatibility'}
       setBuiltInZoomControls={false}
 
-      useWebView2={true} //@TODO TEST
+      useWebView2={true}
       style={styles.container}
       source={{uri: 'http://192.168.1.34/'}}
       originWhitelist={['*']}
