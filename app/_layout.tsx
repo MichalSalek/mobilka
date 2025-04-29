@@ -15,6 +15,7 @@ export default function RootLayout() {
     <WebView
       style={styles.container}
       source={{uri: 'http://192.168.1.34/'}}
+      originWhitelist={['*']}
     />
   );
 }
