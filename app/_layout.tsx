@@ -25,7 +25,7 @@ export default function RootLayout() {
 
       useWebView2={true}
       style={styles.container}
-      source={{uri: 'http://192.168.1.34/'}}
+      source={{uri: 'http://192.168.1.28:3000/'}}
       originWhitelist={['*']}
     />
   );
