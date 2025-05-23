@@ -1,108 +1,25 @@
 import WebView from "react-native-webview";
 // import Constants from 'expo-constants';
-import {Animated, BackHandler, Button, StyleSheet} from 'react-native';
-import {useEffect, useRef} from "react";
-import View = Animated.View;
-
-
-// https://github.com/react-native-webview/react-native-webview/blob/1ddfe70521725c365cf8accf2a1bdf82eb4db80f/docs/Reference.md
-
+import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 0 // Constants.statusBarHeight,
   },
-  loading: {
-    color: '#333',
-    fontSize: 15,
-    marginTop: 8,
-    textAlign: 'center',
-  },
-  loadingWrapper: {
-    backgroundColor: "#ddd",
-    bottom: 0,
-    flex: 1,
-    justifyContent: 'center',
-    left: 0,
-    marginBottom: 'auto',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginTop: 'auto',
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  },
-  retry: {
-    alignSelf: 'center',
-    paddingHorizontal: 2,
-    paddingVertical: 2 / 2,
-  },
-  webView: {
-    flex: 1,
-  },
-  wrapper: {
-    backgroundColor: "pink",
-    flex: 1,
-  },
 });
 
-
-const Loading = () => {
-  return (
-    <View style={styles.loadingWrapper}>
-      <Text style={styles.loading}>{'loading'}</Text>
-    </View>
-  );
-};
-const Error = ({reload}) => {
-  return (
-    <View style={styles.loadingWrapper}>
-      <Button
-        style={styles.retry}
-        label={'retry'}
-        primary
-        onPress={reload}
-        title={'retry2'}/>
-    </View>
-  );
-}
-
+// https://github.com/react-native-webview/react-native-webview/blob/1ddfe70521725c365cf8accf2a1bdf82eb4db80f/docs/Reference.md
 
 export default function RootLayout() {
 
-  const webview = useRef<WebView | null>(null)
-
-  const canGoBackRef = useRef(false)
-
-  const onAndroidBackPress = () => {
-    if (canGoBackRef.current && webview.current) {
-      webview.current.goBack();
-      return true
-    }
-    return false
-  };
-
-  useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
-    return () => {
-      BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress);
-    };
-  }, []);
-
-  const onNavigationStateChange = ({canGoBack}) => {
-    canGoBackRef.current = canGoBack
-  }
-
-  const reload = () => webview.current?.reload();
-
-
-  return (<View style={styles.wrapper}>
+  return (
     <WebView
       // cacheMode // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
       // overScrollMode={'never'} // https://developer.android.com/reference/android/view/View#setOverScrollMode(int)
-      androidLayerType={'hardware'}
+      // androidLayerType={'hardware'}
 
+      domStorageEnabled={true}
       mixedContentMode={'compatibility'}
       setBuiltInZoomControls={false}
 
@@ -110,14 +27,6 @@ export default function RootLayout() {
       style={styles.container}
       source={{uri: 'http://192.168.1.34/'}}
       originWhitelist={['*']}
-
-      onNavigationStateChange={onNavigationStateChange}
-      javaScriptEnabled={true}
-      domStorageEnabled={true}
-      renderLoading={() => <Loading/>}
-      renderError={() => <Error reload={reload}/>}
-      startInLoadingState
     />
-  </View>);
+  );
 }
-
