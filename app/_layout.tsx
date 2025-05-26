@@ -101,14 +101,14 @@ export default function RootLayout() {
     <WebView
       // cacheMode // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
       // overScrollMode={'never'} // https://developer.android.com/reference/android/view/View#setOverScrollMode(int)
-      androidLayerType={'hardware'}
+      // androidLayerType={'hardware'}
 
       mixedContentMode={'compatibility'}
       setBuiltInZoomControls={false}
 
-      useWebView2={true}
+      // useWebView2={true}
       style={styles.container}
-      source={{uri: 'http://192.168.1.34/'}}
+      source={{uri: 'http://192.168.1.28:3000/'}}
       originWhitelist={['*']}
 
       onNavigationStateChange={onNavigationStateChange}
