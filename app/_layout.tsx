@@ -86,7 +86,7 @@ export default function RootLayout() {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
     return () => {
-      BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress);
+      // BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress);
     };
   }, []);
 
