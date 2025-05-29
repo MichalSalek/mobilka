@@ -116,7 +116,7 @@ export default function RootLayout() {
       domStorageEnabled={true}
       renderLoading={() => <Loading/>}
       renderError={() => <Error reload={reload}/>}
-      startInLoadingState
+      // startInLoadingState
     />
   </View>);
 }
