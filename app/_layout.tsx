@@ -1,8 +1,9 @@
 import WebView from "react-native-webview";
-// import Constants from 'expo-constants';
 import {Animated, BackHandler, Button, StyleSheet} from 'react-native';
 import {useEffect, useRef} from "react";
+import {SafeAreaView} from "react-native-safe-area-context";
 import View = Animated.View;
+import {COLORS} from '@/src/READONLY-shared-kernel/domain/color-theme/colors'
 
 
 // https://github.com/react-native-webview/react-native-webview/blob/1ddfe70521725c365cf8accf2a1bdf82eb4db80f/docs/Reference.md
@@ -11,7 +12,9 @@ import View = Animated.View;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 0 // Constants.statusBarHeight,
+    marginTop: 0
+
+
   },
   loading: {
     color: '#333',
@@ -42,7 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   wrapper: {
-    backgroundColor: "pink",
+    backgroundColor: COLORS.primary,
     flex: 1,
   },
 });
@@ -71,7 +74,7 @@ const Error = ({reload}) => {
 
 export default function RootLayout() {
 
-  const webview = useRef<WebView | null>(null)
+  const webview = useRef(null)
 
   const canGoBackRef = useRef(false)
 
@@ -86,7 +89,6 @@ export default function RootLayout() {
   useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
     return () => {
-      // BackHandler.removeEventListener('hardwareBackPress', onAndroidBackPress);
     };
   }, []);
 
@@ -97,11 +99,13 @@ export default function RootLayout() {
   const reload = () => webview.current?.reload();
 
 
-  return (<View style={styles.wrapper}>
+  return (<SafeAreaView style={styles.wrapper}>
     <WebView
       // cacheMode // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
       // overScrollMode={'never'} // https://developer.android.com/reference/android/view/View#setOverScrollMode(int)
       // androidLayerType={'hardware'}
+
+      ref={webview}
 
       mixedContentMode={'compatibility'}
       setBuiltInZoomControls={false}
@@ -118,6 +122,6 @@ export default function RootLayout() {
       renderError={() => <Error reload={reload}/>}
       // startInLoadingState
     />
-  </View>);
+  </SafeAreaView>);
 }
 
