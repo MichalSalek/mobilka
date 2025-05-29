@@ -1,3 +1,4 @@
 export const COLORS = Object.freeze({
-  primary: '#31409e'
+  primary: '#28379e',
+  mobileBackground: '#fff'
 } as const)
