@@ -1,5 +1,6 @@
 import {IOClientFunctionReqResErr} from '../../application/http/http.client.types'
 import {DetailedErrorPayload} from '../../application/http/http.types'
+import {IDType} from "../../application.types";
 
 
 export type GALLERY_DTO_API_V1 = {
@@ -11,6 +12,15 @@ export type GALLERY_DTO_API_V1 = {
     RESPONSE: undefined
     RESPONSE_ERROR: DetailedErrorPayload<GALLERY_DTO_API_V1['UPLOAD_ASSET']['REQUEST']>
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<GALLERY_DTO_API_V1['UPLOAD_ASSET']['REQUEST'], GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE'], GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE_ERROR']>
+  },
+
+  GET_ASSETS: {
+    REQUEST: {
+      ids: IDType[]
+    }
+    RESPONSE: undefined
+    RESPONSE_ERROR: DetailedErrorPayload<GALLERY_DTO_API_V1['GET_ASSETS']['REQUEST']>
+    IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<GALLERY_DTO_API_V1['GET_ASSETS']['REQUEST'], GALLERY_DTO_API_V1['GET_ASSETS']['RESPONSE'], GALLERY_DTO_API_V1['GET_ASSETS']['RESPONSE_ERROR']>
   }
 
 }

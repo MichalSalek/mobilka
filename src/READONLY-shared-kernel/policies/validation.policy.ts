@@ -5,6 +5,7 @@ import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
 import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
 import { USER_DTO_API_V1 }      from '../models/user/user.dto'
 import { PRICING_POLICY }       from './pricing.policy'
+import {GALLERY_DTO_API_V1} from "../models/gallery/gallery.dto";
 
 
 
@@ -286,7 +287,7 @@ export const VALIDATION_POLICY = {
         returnObject.pricing_plan += 'Enter pricing plan. '
       }
 
-      if (!PRICING_POLICY.utils.PRICING_PLAN_VALUE_TYPE_NARROWER(data?.pricing_plan)) {
+      if (!PRICING_POLICY.utils.PRICING_PLAN_VALUE_TYPE_NARROWER(data.pricing_plan)) {
         returnObject.pricing_plan += 'Enter valid pricing plan. '
       }
 
@@ -316,6 +317,35 @@ export const VALIDATION_POLICY = {
                  .includes(data.type)) {
         returnObject.type += 'Wrong logs type. '
       }
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
+
+
+
+    galleryUploadAsset: (data: GALLERY_DTO_API_V1['UPLOAD_ASSET']['REQUEST']): GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE_ERROR'] => {
+
+      const returnObject: GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        asset_body     : ''
+      }
+
+      if (!data.asset_body) {
+        returnObject.asset_body += 'Missing asset to upload. '
+      }
+
+      console.log("DOKOŃCZYĆ TEN WALIDATOR...")
+
+      console.log("DOKOŃCZYĆ TEN WALIDATOR...")
+
+      console.log("DOKOŃCZYĆ TEN WALIDATOR...")
+
+      console.log(typeof data.asset_body)
+
+      console.log(data.asset_body)
 
 
       returnObject.__isValid = hasReturnObjectValidationError(returnObject)

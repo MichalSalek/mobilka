@@ -26,7 +26,8 @@ export const EVENTS = Object.freeze({
       'SESSION_REFRESH'],
     ACCOUNT: ['ACCOUNT_DISPLAY_NAME_CHANGE',
       'ACCOUNT_PAYMENT_MAKE'],
-    EVENT_LOG: []
+    EVENT_LOG: [],
+    GALLERY: ['GALLERY_UPLOAD_ASSET']
   },
 
 
@@ -38,7 +39,8 @@ export const EVENTS = Object.freeze({
     SESSION: ['SESSION_GET_ALL',
       'SESSION_GET_CURRENT'],
     ACCOUNT: ['ACCOUNT_PAYMENT_GET_STATUS'],
-    EVENT_LOG: ['EVENT_LOG_GET_ALL']
+    EVENT_LOG: ['EVENT_LOG_GET_ALL'],
+    GALLERY: ['GALLERY_GET_ASSETS']
   },
 
 
@@ -95,7 +97,8 @@ export const EVENTS = Object.freeze({
       'CANNOT_CHANGE_DISPLAY_NAME',
       'PRICING_PLAN_CHANGED',
       'CANNOT_CHANGE_PRICING_PLAN'],
-    EVENT_LOG: []
+    EVENT_LOG: [],
+    GALLERY: ['ASSET_UPLOADED']
   }
 } as const)
 

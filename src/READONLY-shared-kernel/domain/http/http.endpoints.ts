@@ -57,6 +57,9 @@ export const ENDPOINTS: Record<EVENT_COMMANDS_AND_QUERIES_TYPE, EndpointURLFunct
   USER_LOGIN: (props) => `${URL(props)}${ROUTES_API.USER_LOGIN}`,
   USER_LOGOUT: (props) => `${URL(props)}${ROUTES_API.USER_LOGOUT}`,
   USER_DISABLE_SELF: (props) => `${URL(props)}${ROUTES_API.USER_DISABLE_SELF}`,
-  USER_ENABLE_SELF: (props) => ''
+  USER_ENABLE_SELF: (props) => '',
+
+  GALLERY_GET_ASSETS: (props) => `${URL(props)}${ROUTES_API.GALLERY_GET_ASSETS}`,
+  GALLERY_UPLOAD_ASSET: (props) => `${URL(props)}${ROUTES_API.GALLERY_UPLOAD_ASSET}`,
 
 } as const
