@@ -1,13 +1,11 @@
-import { ACCOUNT_DTO_API_V1 }   from '../models/account/account.dto'
-import { ADMIN_DTO_API_V1 }     from '../models/admin/admin.dto'
-import { EventLogTypeValue }    from '../models/db_models'
-import { EVENT_LOG_DTO_API_V1 } from '../models/event-log/event_log.dto'
-import { SESSION_DTO_API_V1 }   from '../models/session/session.dto'
-import { USER_DTO_API_V1 }      from '../models/user/user.dto'
-import { PRICING_POLICY }       from './pricing.policy'
+import {ACCOUNT_DTO_API_V1} from '../models/account/account.dto'
+import {ADMIN_DTO_API_V1} from '../models/admin/admin.dto'
+import {EventLogTypeValue} from '../models/db_models'
+import {EVENT_LOG_DTO_API_V1} from '../models/event-log/event_log.dto'
+import {SESSION_DTO_API_V1} from '../models/session/session.dto'
+import {USER_DTO_API_V1} from '../models/user/user.dto'
+import {PRICING_POLICY} from './pricing.policy'
 import {GALLERY_DTO_API_V1} from "../models/gallery/gallery.dto";
-
-
 
 
 export type ValidationFlag = {
@@ -18,25 +16,24 @@ export type GenericValidationResult = Record<string, unknown>
 
 export const getErrorDTOWithoutValidationFlag = (validationResult: GenericValidationResult & ValidationFlag): GenericValidationResult => {
   const {
-          __isValid,
-          ...cleaned
-        } = validationResult
+    __isValid,
+    ...cleaned
+  } = validationResult
   return cleaned
 }
-
 
 
 export type ValidationFunction = (data: any) => ValidationFlag | any
 
 const hasReturnObjectValidationError = (obj: ValidationFlag & unknown) => {
   return Object.keys(obj)
-               .every((objKey) => {
-                 const key = objKey as keyof ValidationFlag & unknown
-                 if (objKey === '__isValid') {
-                   return true
-                 }
-                 return !obj[key]
-               })
+    .every((objKey) => {
+      const key = objKey as keyof ValidationFlag & unknown
+      if (objKey === '__isValid') {
+        return true
+      }
+      return !obj[key]
+    })
 }
 
 export const VALIDATION_POLICY = {
@@ -82,8 +79,8 @@ export const VALIDATION_POLICY = {
       const returnObject: USER_DTO_API_V1['REGISTER']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        email    : '',
-        password : ''
+        email: '',
+        password: ''
       }
 
       if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
@@ -110,7 +107,7 @@ export const VALIDATION_POLICY = {
       const returnObject: USER_DTO_API_V1['CHECK_EMAIL']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        email    : ''
+        email: ''
       }
 
       if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
@@ -132,7 +129,7 @@ export const VALIDATION_POLICY = {
       const returnObject: USER_DTO_API_V1['CREATE']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        email    : ''
+        email: ''
       }
 
       if (!VALIDATION_POLICY.utils.validateEmail(data?.email)) {
@@ -154,8 +151,8 @@ export const VALIDATION_POLICY = {
       const returnObject: USER_DTO_API_V1['LOGIN']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        email    : '',
-        password : ''
+        email: '',
+        password: ''
       }
 
       if (!data.email) {
@@ -172,13 +169,12 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     deleteOrDisableSelfUser: (data: USER_DTO_API_V1['DELETE_SELF']['REQUEST']): USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['DELETE_SELF']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        password : ''
+        password: ''
       }
 
       if (!data.password) {
@@ -191,13 +187,12 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     deleteOrDisableOtherUser: (data: USER_DTO_API_V1['DELETE_EXACTLY']['REQUEST']): USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
 
       const returnObject: USER_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        user_id  : ''
+        user_id: ''
       }
 
       if (Object.keys(data).length === 0) {
@@ -208,7 +203,6 @@ export const VALIDATION_POLICY = {
       returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
     },
-
 
 
     enableOtherUser: (data: ADMIN_DTO_API_V1['ENABLE_ANY']['REQUEST']): ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] => {
@@ -216,7 +210,7 @@ export const VALIDATION_POLICY = {
       const returnObject: ADMIN_DTO_API_V1['ENABLE_ANY']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        user_id  : ''
+        user_id: ''
       }
 
       if (Object.keys(data).length === 0) {
@@ -229,12 +223,11 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     deleteSession: (data: SESSION_DTO_API_V1['DELETE_EXACTLY']['REQUEST']): SESSION_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] => {
 
       const returnObject: SESSION_DTO_API_V1['DELETE_EXACTLY']['RESPONSE_ERROR'] & ValidationFlag = {
-        __isValid : false,
-        __general : '',
+        __isValid: false,
+        __general: '',
         session_id: ''
       }
 
@@ -248,12 +241,11 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     accountDisplayNameChange: (data: ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['REQUEST']): ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE_ERROR'] => {
 
       const returnObject: ACCOUNT_DTO_API_V1['DISPLAY_NAME_CHANGE']['RESPONSE_ERROR'] & ValidationFlag = {
-        __isValid   : false,
-        __general   : '',
+        __isValid: false,
+        __general: '',
         display_name: ''
       }
 
@@ -273,13 +265,12 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     accountPaymentMake: (data: ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['REQUEST']): ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['RESPONSE_ERROR'] => {
 
       const returnObject: ACCOUNT_DTO_API_V1['MAKE_PAYMENT']['RESPONSE_ERROR'] & ValidationFlag = {
-        __isValid   : false,
-        __general   : '',
-        payment_id  : '',
+        __isValid: false,
+        __general: '',
+        payment_id: '',
         pricing_plan: ''
       }
 
@@ -300,13 +291,12 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     eventLogGetAll: (data: EVENT_LOG_DTO_API_V1['GET_ALL']['REQUEST']): EVENT_LOG_DTO_API_V1['GET_ALL']['RESPONSE_ERROR'] => {
 
       const returnObject: EVENT_LOG_DTO_API_V1['GET_ALL']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        type     : ''
+        type: ''
       }
 
       if (!data.type) {
@@ -314,7 +304,7 @@ export const VALIDATION_POLICY = {
       }
 
       if (!Object.values(EventLogTypeValue)
-                 .includes(data.type)) {
+        .includes(data.type)) {
         returnObject.type += 'Wrong logs type. '
       }
 
@@ -324,13 +314,12 @@ export const VALIDATION_POLICY = {
     },
 
 
-
     galleryUploadAsset: (data: GALLERY_DTO_API_V1['UPLOAD_ASSET']['REQUEST']): GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE_ERROR'] => {
 
       const returnObject: GALLERY_DTO_API_V1['UPLOAD_ASSET']['RESPONSE_ERROR'] & ValidationFlag = {
         __isValid: false,
         __general: '',
-        asset_body     : ''
+        asset_body: ''
       }
 
       if (!data.asset_body) {
@@ -350,7 +339,28 @@ export const VALIDATION_POLICY = {
 
       returnObject.__isValid = hasReturnObjectValidationError(returnObject)
       return returnObject
-    }
+    },
+
+
+    galleryGetAssets: (data: GALLERY_DTO_API_V1['GET_ASSETS']['REQUEST']): GALLERY_DTO_API_V1['GET_ASSETS']['RESPONSE_ERROR'] => {
+
+      const returnObject: GALLERY_DTO_API_V1['GET_ASSETS']['RESPONSE_ERROR'] & ValidationFlag = {
+        __isValid: false,
+        __general: '',
+        ids: ''
+      }
+
+      if (!data.ids) {
+        returnObject.ids += 'Missing asset to upload. '
+      }
+
+      console.log("DOKOŃCZYĆ TEN WALIDATOR... Tutaj nie będzie na pewno idków bo podczas pobierania się ich nie zna, pewnie user_id i ewentualnie te cechy obrazków.")
+
+
+
+      returnObject.__isValid = hasReturnObjectValidationError(returnObject)
+      return returnObject
+    },
 
   }
 

@@ -1,4 +1,4 @@
-import {ALL_LOGGED_ROLES_COLLECTION, RoleValue} from '../../models/db_models'
+import {ACCOUNT_HOLDER_AND_ADMIN, ALL_LOGGED_ROLES_COLLECTION, RoleValue} from '../../models/db_models'
 import {EVENTS_POLICY} from '../../policies/events.policy'
 import {PERMISSIONS_POLICY_TYPE} from '../../policies/permissions.policy'
 import {ROUTES_FRONT} from '../routing/routing.config'
@@ -89,6 +89,6 @@ export const permissionsForRoutes: PERMISSIONS_POLICY_TYPE['permissionsForRoutes
   [ROUTES_FRONT.USER_ACCOUNT]: ALL_LOGGED_ROLES_COLLECTION,
   [ROUTES_FRONT.USER_ACCOUNT_PAY]: ALL_LOGGED_ROLES_COLLECTION,
 
-  [ROUTES_FRONT.GALLERY_UPLOAD_ASSET]: [RoleValue.ACCOUNT_HOLDER]
+  [ROUTES_FRONT.GALLERY_UPLOAD_ASSET]: ACCOUNT_HOLDER_AND_ADMIN
 
 } as const

@@ -1,42 +1,45 @@
-import { DateAndTime, IDType }             from '../application.types'
-import { EVENT_COMMANDS_AND_QUERIES_TYPE } from '../domain/commands-and-queries/cqrs.types'
-import { PricingPlanValues }               from '../policies/pricing.policy'
-
-
+import {DateAndTime, IDType} from '../application.types'
+import {EVENT_COMMANDS_AND_QUERIES_TYPE} from '../domain/commands-and-queries/cqrs.types'
+import {PricingPlanValues} from '../policies/pricing.policy'
 
 
 export const RoleValue = Object.freeze({
-  NOT_LOGGED_IN : 'NOT_LOGGED_IN',
-  USER_LEVEL_1  : 'USER_LEVEL_1',
+  NOT_LOGGED_IN: 'NOT_LOGGED_IN',
+  USER_LEVEL_1: 'USER_LEVEL_1',
   ACCOUNT_HOLDER: 'ACCOUNT_HOLDER',
-  MASTER_ADMIN  : 'MASTER_ADMIN'
+  MASTER_ADMIN: 'MASTER_ADMIN'
 } as const)
 export type Role = keyof typeof RoleValue
 
 
-
 export const PaymentStatusValue = Object.freeze({
-  UNPAID             : 'UNPAID',
-  PAID               : 'PAID',
+  UNPAID: 'UNPAID',
+  PAID: 'PAID',
   PAYMENT_IN_PROGRESS: 'PAYMENT_IN_PROGRESS',
-  REJECTED           : 'REJECTED'
+  REJECTED: 'REJECTED'
 } as const)
 export type PaymentStatus = keyof typeof PaymentStatusValue
 
 
 export const AccountStatusValue = Object.freeze({
-  ACTIVE              : 'ACTIVE',
-  NOT_ACTIVE          : 'NOT_ACTIVE',
+  ACTIVE: 'ACTIVE',
+  NOT_ACTIVE: 'NOT_ACTIVE',
   EXPIRING_IN_PROGRESS: 'EXPIRING_IN_PROGRESS',
-  EXPIRED             : 'EXPIRED'
+  EXPIRED: 'EXPIRED'
 } as const)
 export type AccountStatus = keyof typeof AccountStatusValue
 
 
+export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [
+  RoleValue.USER_LEVEL_1,
+  RoleValue.ACCOUNT_HOLDER,
+  RoleValue.MASTER_ADMIN
+]
 
-export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [ RoleValue.USER_LEVEL_1,
-                                                     RoleValue.ACCOUNT_HOLDER,
-                                                     RoleValue.MASTER_ADMIN ]
+export const ACCOUNT_HOLDER_AND_ADMIN: Role[] = [
+  RoleValue.ACCOUNT_HOLDER,
+  RoleValue.MASTER_ADMIN
+]
 
 
 type DateAndTimePartial = {
@@ -60,11 +63,9 @@ export type Admin = {
 
 export const EventLogTypeValue = Object.freeze({
   ACCOUNT_EVENT_LOG: 'ACCOUNT_EVENT_LOG',
-  LOGIN_EVENT_LOG  : 'LOGIN_EVENT_LOG'
+  LOGIN_EVENT_LOG: 'LOGIN_EVENT_LOG'
 } as const)
 export type EventLogType = keyof typeof EventLogTypeValue
-
-
 
 
 export type EventLog = {
@@ -92,16 +93,12 @@ export type Account = {
 } & DateAndTimePartial
 
 
-
-
 export const SessionModeValue = Object.freeze({
-  STANDARD    : 'STANDARD',
+  STANDARD: 'STANDARD',
   PRESENTATION: 'PRESENTATION',
-  BECOME_USER : 'BECOME_USER'
+  BECOME_USER: 'BECOME_USER'
 } as const)
 export type SessionMode = keyof typeof SessionModeValue
-
-
 
 
 export type Session = {
@@ -128,6 +125,14 @@ export type User = {
   permissions: EVENT_COMMANDS_AND_QUERIES_TYPE[]
   is_active: boolean
 
+} & DateAndTimePartial
+
+
+export type Gallery = {
+  id: IDType
+  created_by_user_id: IDType
+  asset_url: string
+  asset_features: string[]
 } & DateAndTimePartial
 
 
