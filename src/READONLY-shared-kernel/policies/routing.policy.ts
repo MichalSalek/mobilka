@@ -27,10 +27,11 @@ export type ROUTING_POLICY_TYPE = {
 
   utils: {
     IS_EXISTS_REDIRECTION_FOR_PASSED_EVENT: (event: EVENT_INFO_TYPE | undefined | null) => boolean
-    GET_ROUTE_FRONT: (route: ROUTES_FRONT_NAME) => ROUTES_FRONT_PATH
-    GET_ROUTE_API: (route: ROUTES_API_NAME) => ROUTES_API_PATH
+    GET_ROUTE_FRONT_PATH: (routeName: ROUTES_FRONT_NAME | string | null) => ROUTES_FRONT_PATH | null
+    GET_ROUTE_FRONT_NAME: (routePath: ROUTES_FRONT_PATH | string | null) => ROUTES_FRONT_NAME | null
+    GET_ROUTE_API_PATH: (routeName: ROUTES_API_NAME) => ROUTES_API_PATH
     IS_REDIRECTION_NEEDED: (redirectionRoutePath: ROUTES_FRONT_PATH, currentPathname?: ROUTES_FRONT_PATH) => boolean
-    REDIRECT_BY_NEXT_ROUTER: (route: ROUTES_FRONT_PATH, router: NextRouter) => {
+    REDIRECT_BY_NEXT_ROUTER: (routePath: ROUTES_FRONT_PATH, router: NextRouter) => {
       willBeRedirect: boolean,
       redirectAction: () => Promise<boolean>
     }
@@ -47,11 +48,21 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
 
   utils: {
 
-    GET_ROUTE_FRONT: (route) => {
-      return ROUTES_FRONT[route]
+    GET_ROUTE_FRONT_PATH: (routeName) => {
+      return typeof routeName === 'string' ? ROUTES_FRONT[routeName as ROUTES_FRONT_NAME] : null
     },
-    GET_ROUTE_API: (route) => {
-      return ROUTES_API[route]
+
+    GET_ROUTE_FRONT_NAME: (routePath) => {
+      for (const [name, path] of Object.entries(ROUTES_FRONT)) {
+        if (routePath === path) {
+          return name as ROUTES_FRONT_NAME
+        }
+      }
+      return null
+    },
+
+    GET_ROUTE_API_PATH: (routeName) => {
+      return ROUTES_API[routeName]
     },
 
     IS_REDIRECTION_NEEDED: (redirectionRoutePath, currentPathname) => (
@@ -65,10 +76,10 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
         .includes(event ?? '') || Object.keys(CRITICAL_REDIRECTIONS_ON_EVENTS ?? {})
         .includes(event ?? '')
     },
-    REDIRECT_BY_NEXT_ROUTER: (route, router) => {
-      const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(route)
+    REDIRECT_BY_NEXT_ROUTER: (routePath, router) => {
+      const willBeRedirect = ROUTING_POLICY.utils.IS_REDIRECTION_NEEDED(routePath)
       const redirectAction = async () => {
-        return await router.replace(route)
+        return await router.replace(routePath)
       }
       return {
         willBeRedirect,
@@ -85,6 +96,7 @@ export const ROUTING_POLICY: ROUTING_POLICY_TYPE = {
       return Boolean(Object.values(ROUTES_FRONT_STATIC)
         .find((path) => path === requestedRoutePath))
     }
+
   }
 
 } as const
