@@ -6,7 +6,7 @@ export const STYLES_POLICY = Object.freeze({
 
   spacing: ['0px', '5px', '10px', '20px', '30px'],
 
-  fontSize: ['10px', '16px', '18px', '28px', '32px'],
+  fontSize: ['10px', '16px', '18px', '22px', '28px'],
 
   borderRadius: ['0px', '3px', '15px'],
 
