@@ -35,8 +35,8 @@ export type ROUTING_POLICY_TYPE = {
       willBeRedirect: boolean,
       redirectAction: () => Promise<boolean>
     }
-    IS_APP_PATH: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
-    IS_STATIC_PAGE: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
+    IS_APP_PATH: (requestedRoutePath: ROUTES_FRONT_PATH | string) => boolean
+    IS_STATIC_PAGE: (requestedRoutePath: ROUTES_FRONT_PATH | string) => boolean
   }
 }
 

@@ -1,6 +1,9 @@
-import { annualDiscountPercentageNumber, bestsellersValues, defaultPricingPlanPeriod, pricingPlanDataPLN } from '../domain/pricing/pricing.config'
-
-
+import {
+  annualDiscountPercentageNumber,
+  bestsellersValues,
+  defaultPricingPlanPeriod,
+  pricingPlanDataPLN
+} from '../domain/pricing/pricing.config'
 
 
 export type PricingPlanTypes = 'monthly' | 'annual'
@@ -10,8 +13,8 @@ export type PRICING_POLICY_TYPE = {
 
   pricingPlanDataPLN: Readonly<Record<string, number>>
   bestsellersValues: Readonly<Record<PricingPlanTypes, PricingPlanValues>>
-  defaultPricingPlanPeriod: Readonly<PricingPlanTypes>
-  annualDiscountPercentageNumber: Readonly<number>
+  defaultPricingPlanPeriod: PricingPlanTypes
+  annualDiscountPercentageNumber: number
 
   utils: {
     GET_ANNUAL_DISCOUNT_PERCENTAGE: () => string
@@ -24,10 +27,10 @@ export type PRICING_POLICY_TYPE = {
 }
 export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
-  pricingPlanDataPLN            : Object.freeze(pricingPlanDataPLN),
-  bestsellersValues             : Object.freeze(bestsellersValues),
-  defaultPricingPlanPeriod      : Object.freeze(defaultPricingPlanPeriod),
-  annualDiscountPercentageNumber: Object.freeze(annualDiscountPercentageNumber),
+  pricingPlanDataPLN: Object.freeze(pricingPlanDataPLN),
+  bestsellersValues: Object.freeze(bestsellersValues),
+  defaultPricingPlanPeriod: defaultPricingPlanPeriod,
+  annualDiscountPercentageNumber: annualDiscountPercentageNumber,
 
   utils: {
 
@@ -35,11 +38,11 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
 
 
     PRICING_PLANS_VALUES: () => Object.keys(PRICING_POLICY.pricingPlanDataPLN)
-                                      .map((el) => el),
+      .map((el) => el),
 
     PRICING_PLAN_VALUE_TYPE_NARROWER: (maybePricingPlanValue): maybePricingPlanValue is PricingPlanValues => {
       return PRICING_POLICY.utils.PRICING_PLANS_VALUES()
-                           .includes(maybePricingPlanValue as PricingPlanValues)
+        .includes(maybePricingPlanValue as PricingPlanValues)
     },
 
     GET_DEFAULT_PRICING_PLANS_VALUE: (pricingType) => {
@@ -49,15 +52,15 @@ export const PRICING_POLICY: PRICING_POLICY_TYPE = {
       return PRICING_POLICY.bestsellersValues[PRICING_POLICY.defaultPricingPlanPeriod]
     },
 
-    GET_PRICING_PLAN_TYPE_BY_VALUE: (pricingValue) => {
-      if ([ '1',
-            '2',
-            '3' ].includes(pricingValue ?? '')) {
+    GET_PRICING_PLAN_TYPE_BY_VALUE: (option) => {
+      if (['1',
+        '2',
+        '3'].includes(option ?? '')) {
         return 'monthly'
       }
-      if ([ '4',
-            '5',
-            '6' ].includes(pricingValue ?? '')) {
+      if (['4',
+        '5',
+        '6'].includes(option ?? '')) {
         return 'annual'
       }
       return PRICING_POLICY.defaultPricingPlanPeriod

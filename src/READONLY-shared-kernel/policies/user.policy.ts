@@ -10,10 +10,10 @@ export type USER_POLICY_TYPE = {
   activeAccountStates: Readonly<AccountStatus[]>
 
   utils: {
-    IS_USER_HAS_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
-    IS_USER_NEED_TO_PAY_TO_ACTIVATE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
-    IS_USER_ACTIVE: (user: UserNoSensitive | UserNoSensitiveWithRelations | null | undefined) => boolean
-    CAN_USER_HAVE_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | null | undefined) => boolean
+    IS_USER_HAS_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | undefined) => boolean
+    IS_USER_NEED_TO_PAY_TO_ACTIVATE_ACCOUNT: (user: UserNoSensitiveWithRelations | undefined) => boolean
+    IS_USER_ACTIVE: (user: UserNoSensitive | UserNoSensitiveWithRelations | undefined) => boolean
+    CAN_USER_HAVE_ACTIVE_ACCOUNT: (user: UserNoSensitiveWithRelations | undefined) => boolean
   }
 }
 export const USER_POLICY: USER_POLICY_TYPE = {

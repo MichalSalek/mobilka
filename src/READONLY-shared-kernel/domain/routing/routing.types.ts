@@ -16,6 +16,6 @@ export type ROUTES_API_TYPE = typeof ROUTES_API
 export type RedirectionHandler = (
   event: EVENT_INFO_TYPE | undefined | null,
   action: (route: ROUTES_FRONT_PATH) => void,
-  currentUser: UserNoSensitiveWithRelations | null | undefined,
+  currentUser: UserNoSensitiveWithRelations | undefined,
   currentPathname: ROUTES_FRONT_PATH) => void
 

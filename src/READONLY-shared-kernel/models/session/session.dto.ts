@@ -38,7 +38,7 @@ export type SESSION_DTO_API_V1 = {
 
   GET_CURRENT: {
     REQUEST: undefined
-    RESPONSE: CurrentUser | null
+    RESPONSE: CurrentUser | undefined
     RESPONSE_ERROR: unknown
     IO_CLIENT_FUNCTION: IOClientFunctionReqResErr<SESSION_DTO_API_V1['GET_CURRENT']['REQUEST'], SESSION_DTO_API_V1['GET_CURRENT']['RESPONSE'], SESSION_DTO_API_V1['GET_CURRENT']['RESPONSE_ERROR']>
   },

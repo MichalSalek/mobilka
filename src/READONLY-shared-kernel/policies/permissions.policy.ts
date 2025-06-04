@@ -1,6 +1,6 @@
 import { EVENT_COMMANDS_AND_QUERIES_TYPE }                                                             from '../domain/commands-and-queries/cqrs.types'
 import { permissionsForEvents, permissionsForRoutes, readonlyPermissionsSets, runtimePermissionsSets } from '../domain/permissions/permissions.config'
-import { PermissionSets }                                                                              from '../domain/permissions/permissions.types'
+import {PermissionSets, RoutingPermissionBlockade} from '../domain/permissions/permissions.types'
 import { ROUTES_FRONT_PATH }                                                                           from '../domain/routing/routing.types'
 import { Role, RoleValue, User, UserNoSensitive }                                                      from '../models/db_models'
 import { CurrentUser, UserNoSensitiveWithRelations }                                                   from '../models/user/user.types'
@@ -16,13 +16,14 @@ export type PERMISSIONS_POLICY_TYPE = {
   permissionsForRoutes: Readonly<Record<ROUTES_FRONT_PATH, Role[]>>
 
   utils: {
-    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH) => boolean
+    GET_PERMISSION_APPROVAL_FOR_ROUTE: (role: Role | undefined, requestedRoutePath: ROUTES_FRONT_PATH | string) => boolean
     GET_PERMISSION_APPROVAL_FOR_EVENT: (
-      user?: UserNoSensitive | UserNoSensitiveWithRelations | CurrentUser | null | undefined,
+      user?: UserNoSensitive | UserNoSensitiveWithRelations | CurrentUser | undefined,
       requestedEvent?: EVENT_COMMANDS_AND_QUERIES_TYPE | undefined) => boolean
     IS_ROUTE_FOR_LOGGED_ONLY: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
     IS_ROUTE_FOR_EVERYONE: (requestedRoutePath: ROUTES_FRONT_PATH) => boolean
-    IS_ADMIN: (user: Pick<User, 'role'> | null | undefined) => boolean
+    IS_ADMIN: (user: Pick<User, 'role'> | undefined) => boolean
+    GET_PERMISSION_APPROVAL_FOR_ROUTE_WITH_CALLBACKS: (props: RoutingPermissionBlockade) => boolean
   }
 }
 export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
@@ -37,9 +38,10 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
       // Role array of requested event is empty
       // OR
       // Role is included in requested event permission array.
-      return Boolean(PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.length
+      const typedRoutePath = requestedRoutePath as ROUTES_FRONT_PATH
+      return Boolean(PERMISSIONS_POLICY.permissionsForRoutes[typedRoutePath]?.length
         === 0
-        || PERMISSIONS_POLICY.permissionsForRoutes[requestedRoutePath]?.includes(role as Role))
+        || PERMISSIONS_POLICY.permissionsForRoutes[typedRoutePath]?.includes(role as Role))
     },
     GET_PERMISSION_APPROVAL_FOR_EVENT: (user, requestedEvent) => {
       if (!requestedEvent) {
@@ -56,7 +58,7 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
       const readonlyPermissions = PERMISSIONS_POLICY.permissionsForEvents[userRole]
       const dynamicPermissions: EVENT_COMMANDS_AND_QUERIES_TYPE[] = user?.permissions ?? []
       const permissions: EVENT_COMMANDS_AND_QUERIES_TYPE[] = [ ...readonlyPermissions,
-                                                               ...dynamicPermissions ]
+        ...dynamicPermissions ]
 
       // Finally, check main condition:
       return Boolean(permissions.includes(requestedEvent))
@@ -69,12 +71,48 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
 
     IS_ADMIN: (user) => {
       return user?.role === RoleValue.MASTER_ADMIN
+    },
+
+    GET_PERMISSION_APPROVAL_FOR_ROUTE_WITH_CALLBACKS: (
+      {
+        currentUser,
+        currentPathname,
+        userExistsIsStaticPageCallback,
+        userExistsIsNotStaticPageCallback,
+        userNotExistsCallback
+      }) => {
+
+      if (!PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
+        currentUser?.role,
+        currentPathname)) {
+
+        if (currentUser?.user_id) { // User exists
+
+          if (ROUTING_POLICY.utils.IS_STATIC_PAGE(currentPathname)) { // Login or register page
+
+            // Not permitted route (for logged user):
+            //
+            userExistsIsStaticPageCallback(currentUser)
+            return false
+          } else {
+
+            userExistsIsNotStaticPageCallback(currentUser)
+            return false
+          }
+
+        } else {// User not exists.
+
+          // Not logged and cannot be there:
+          //
+          userNotExistsCallback()
+          return false
+        }
+      }
+      return true
     }
-
-
 
 
   } as const
 
-} as const
 
+} as const
