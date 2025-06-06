@@ -7,6 +7,9 @@ export const criticalRedirectionsSwitch: RedirectionHandler = (event, action, cu
 
   if (event === 'ALREADY_LOGGED') {
 
+    console.log(currentUser?.role)
+   console.log(currentPathname)
+
     if (!PERMISSIONS_POLICY.utils.GET_PERMISSION_APPROVAL_FOR_ROUTE(
       currentUser?.role,
       currentPathname)) {

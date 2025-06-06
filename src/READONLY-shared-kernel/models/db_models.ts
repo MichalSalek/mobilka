@@ -36,6 +36,13 @@ export const ALL_LOGGED_ROLES_COLLECTION: Role[] = [
   RoleValue.MASTER_ADMIN
 ]
 
+export const ALL_ROLES_COLLECTION: Role[] = [
+  RoleValue.USER_LEVEL_1,
+  RoleValue.ACCOUNT_HOLDER,
+  RoleValue.MASTER_ADMIN,
+  RoleValue.NOT_LOGGED_IN
+]
+
 export const ACCOUNT_HOLDER_AND_ADMIN: Role[] = [
   RoleValue.ACCOUNT_HOLDER,
   RoleValue.MASTER_ADMIN

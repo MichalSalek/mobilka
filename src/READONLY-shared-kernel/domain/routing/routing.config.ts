@@ -24,6 +24,7 @@ export const ROUTES_FRONT_APP = Object.freeze({
   USER_ACCOUNT: '/app/user/account',
   USER_ACCOUNT_PAY: '/app/user/account/pay',
 
+  GALLERY_READ_ASSET: '/app/gallery/read-asset',
   GALLERY_UPLOAD_ASSET: '/app/gallery/upload-asset',
 
 } as const)

@@ -39,9 +39,7 @@ export const PERMISSIONS_POLICY: PERMISSIONS_POLICY_TYPE = {
       // OR
       // Role is included in requested event permission array.
       const typedRoutePath = requestedRoutePath as ROUTES_FRONT_PATH
-      return Boolean(PERMISSIONS_POLICY.permissionsForRoutes[typedRoutePath]?.length
-        === 0
-        || PERMISSIONS_POLICY.permissionsForRoutes[typedRoutePath]?.includes(role as Role))
+      return PERMISSIONS_POLICY.permissionsForRoutes[typedRoutePath]?.includes(role as Role) ?? false
     },
     GET_PERMISSION_APPROVAL_FOR_EVENT: (user, requestedEvent) => {
       if (!requestedEvent) {
