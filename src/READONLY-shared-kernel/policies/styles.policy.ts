@@ -4,7 +4,7 @@ export const STYLES_POLICY = Object.freeze({
 
   footerDimension: '70px',
 
-  spacing: ['0px', '5px', '10px', '20px', '30px'],
+  spacing: ['2px', '5px', '10px', '20px', '30px'],
 
   fontSize: ['10px', '16px', '18px', '22px', '28px'],
 
@@ -12,7 +12,7 @@ export const STYLES_POLICY = Object.freeze({
 
   backgroundColor: ['#ffffff', '#fcfcfc'],
 
-  accentColor: ['#1a237e'],
+  accentColor: ['#1a237e', '#404abf'],
 
   contourColor: ['#ccced8']
 
