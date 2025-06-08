@@ -1,8 +1,6 @@
 export const STYLES_POLICY = Object.freeze({
 
-  floatingMenuDimension: '70px',
-
-  footerDimension: '70px',
+  appBarDimension: '70px',
 
   spacing: ['2px', '5px', '10px', '20px', '30px'],
 
@@ -12,7 +10,7 @@ export const STYLES_POLICY = Object.freeze({
 
   backgroundColor: ['#ffffff', '#fcfcfc'],
 
-  backgroundAccentColor: ['#f5f5fc'],
+  backgroundAccentColor: ['#f7f7fc'],
 
   accentColor: ['#1a237e', '#404abf'],
 
