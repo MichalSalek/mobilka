@@ -12,6 +12,8 @@ export const STYLES_POLICY = Object.freeze({
 
   backgroundColor: ['#ffffff', '#fcfcfc'],
 
+  backgroundAccentColor: ['#f5f5fc'],
+
   accentColor: ['#1a237e', '#404abf'],
 
   contourColor: ['#ccced8']
