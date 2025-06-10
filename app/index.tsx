@@ -1,5 +1,5 @@
 import {useEffect, useState} from "react";
-import {WEBVIEW_URL} from "../constants/General";
+import {WEBVIEW_URL} from "../app.config";
 import {WebViewOrganism} from '../components/WebView.organism'
 import {NetworkErrorOrganism} from '../components/NetworkError.organism'
 import {StyleSheet} from "react-native";

@@ -1,5 +1,5 @@
 import WebView from "react-native-webview";
-import {WEBVIEW_URL} from "../constants/General";
+import {WEBVIEW_URL} from "../app.config";
 import {Loading} from "./Loading.atom";
 import {BackHandler, StyleSheet} from "react-native";
 import {useEffect, useRef} from "react";
@@ -49,7 +49,7 @@ export const WebViewOrganism = () => {
 
     setBuiltInZoomControls={false}
 
-    androidLayerType={'hardware'}
+    // androidLayerType={'hardware'}
     mixedContentMode={'compatibility'}
     useWebView2={true}
     javaScriptEnabled={true}

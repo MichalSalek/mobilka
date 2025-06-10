@@ -2,9 +2,11 @@ export const STYLES_POLICY = Object.freeze({
 
   appBarDimension: '70px',
 
-  spacing: ['2px', '5px', '10px', '20px', '30px'],
+  goBackButtonDimension: '36px',
 
-  fontSize: ['10px', '16px', '18px', '20px', '22px'],
+  spacing: ['2px', '5px', '10px', '20px', '30px', '60px'],
+
+  fontSize: ['9px', '14px', '16px', '18px', '20px'],
 
   borderRadius: ['0px', '3px', '15px'],
 
