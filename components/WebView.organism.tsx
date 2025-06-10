@@ -36,24 +36,31 @@ export const WebViewOrganism = () => {
 
 
   return <WebView
-    // cacheMode // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
-    // overScrollMode={'never'} // https://developer.android.com/reference/android/view/View#setOverScrollMode(int)
 
     ref={webViewRef}
-
     style={styles.container}
     source={{uri: WEBVIEW_URL}}
     originWhitelist={['*']}
-
     onNavigationStateChange={onNavigationStateChange}
+    mediaPlaybackRequiresUserAction={true}
+    useWebKit={true}
 
-    setBuiltInZoomControls={false}
+    androidLayerType={'software'}
 
-    // androidLayerType={'hardware'}
+    allowsFullscreenVideo={true}
+    renderLoading={() => <Loading/>}
     mixedContentMode={'compatibility'}
+    setBuiltInZoomControls={false}
     useWebView2={true}
     javaScriptEnabled={true}
     domStorageEnabled={true}
-    renderLoading={() => <Loading/>}
+    cacheEnabled={true} // to active the cache
+    cacheMode={'LOAD_CACHE_ELSE_NETWORK'} // type of cache you want // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
+    useNativeResumeAndPauseLifecycleEvents={true}
+    allowsInlineMediaPlayback={true}
+    automaticallyAdjustContentInsets={false}
+    overScrollMode={'auto'}
+
+
   />
 }
