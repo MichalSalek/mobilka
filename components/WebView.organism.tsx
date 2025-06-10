@@ -1,66 +1,56 @@
-import WebView from "react-native-webview";
+// WebViewOrganism.tsx
+import React, {useEffect, useRef} from 'react';
+import {StyleSheet, BackHandler} from 'react-native';
+import WebView from 'react-native-webview';
 import {WEBVIEW_URL} from "../app.config";
-import {Loading} from "./Loading.atom";
-import {BackHandler, StyleSheet} from "react-native";
-import {useEffect, useRef} from "react";
+import LoadingAtom from "./Loading.atom";
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 0
-  }
+  container: { flex: 1 },
 });
 
-
-export const WebViewOrganism = () => {
-
-  const canGoBackRef = useRef(false)
-  const webViewRef = useRef<WebView | null>(null)
-
-  const onAndroidBackPress = () => {
-    if (canGoBackRef.current && webViewRef.current) {
-      webViewRef.current?.goBack();
-      return true
-    }
-    return false
-  };
-
+export default function WebViewOrganism() {
+  const webViewRef = useRef<WebView | null>(null);
+  const canGoBackRef = useRef(false);
 
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onAndroidBackPress);
+    const onBackPress = () => {
+      if (canGoBackRef.current && webViewRef.current) {
+        webViewRef.current.goBack();
+        return true;
+      }
+      return false;
+    };
+
+    BackHandler.addEventListener('hardwareBackPress', onBackPress);
+    return () => BackHandler.removeEventListener('hardwareBackPress', onBackPress);
   }, []);
 
-  const onNavigationStateChange = ({canGoBack}) => {
-    canGoBackRef.current = canGoBack
-  }
-
-
-  return <WebView
-
-    ref={webViewRef}
-    style={styles.container}
-    source={{uri: WEBVIEW_URL}}
-    originWhitelist={['*']}
-    onNavigationStateChange={onNavigationStateChange}
-    mediaPlaybackRequiresUserAction={true}
-    useWebKit={true}
-
-    androidLayerType={'software'}
-
-    allowsFullscreenVideo={true}
-    renderLoading={() => <Loading/>}
-    mixedContentMode={'compatibility'}
-    setBuiltInZoomControls={false}
-    useWebView2={true}
-    javaScriptEnabled={true}
-    domStorageEnabled={true}
-    cacheEnabled={true} // to active the cache
-    cacheMode={'LOAD_CACHE_ELSE_NETWORK'} // type of cache you want // https://developer.android.com/reference/android/webkit/WebSettings.html#setCacheMode(int)
-    useNativeResumeAndPauseLifecycleEvents={true}
-    allowsInlineMediaPlayback={true}
-    automaticallyAdjustContentInsets={false}
-    overScrollMode={'auto'}
-
-
-  />
+  return (
+    <WebView
+      ref={webViewRef}
+      style={styles.container}
+      source={{uri: WEBVIEW_URL}}
+      originWhitelist={['*']}
+      javaScriptEnabled
+      domStorageEnabled
+      mediaPlaybackRequiresUserAction
+      allowsFullscreenVideo
+      allowsInlineMediaPlayback
+      useWebKit
+      mixedContentMode="compatibility"
+      setBuiltInZoomControls={false}
+      cacheEnabled
+      cacheMode="LOAD_CACHE_ELSE_NETWORK"
+      androidLayerType="hardware"
+      overScrollMode="never"
+      useNativeResumeAndPauseLifecycleEvents
+      startInLoadingState
+      renderLoading={() => <LoadingAtom />}
+      onNavigationStateChange={({canGoBack}) => {
+        canGoBackRef.current = canGoBack;
+      }}
+    />
+  );
 }

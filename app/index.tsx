@@ -1,46 +1,45 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from 'react';
+import {SafeAreaView, StyleSheet} from 'react-native';
 import {WEBVIEW_URL} from "../app.config";
-import {WebViewOrganism} from '../components/WebView.organism'
-import {NetworkErrorOrganism} from '../components/NetworkError.organism'
-import {StyleSheet} from "react-native";
-import {SafeAreaView} from "react-native-safe-area-context";
-import {STYLES_POLICY} from "../src/READONLY-shared-kernel/policies/styles.policy";
-
-
-// https://github.com/react-native-webview/react-native-webview/blob/1ddfe70521725c365cf8accf2a1bdf82eb4db80f/docs/Reference.md
+import NetworkErrorOrganism from "../components/NetworkError.organism";
+import WebViewOrganism from "../components/WebView.organism";
+import LoadingAtom from "../components/Loading.atom";
 
 const styles = StyleSheet.create({
   wrapper: {
-    backgroundColor: STYLES_POLICY.backgroundColor[0],
     flex: 1,
+    backgroundColor: '#fff',
   },
 });
 
+type Status = 'loading' | 'error' | 'ready';
 
 export default function App() {
+  const [status, setStatus] = useState<Status>('loading');
 
-  const [isNetworkError, setIsNetworkError] = useState(false)
-
-  useEffect(() => {
-    fetch(WEBVIEW_URL)
-      .then((response) => {
-        if (response.status === 200) {
-          setIsNetworkError(false)
-        } else {
-          setIsNetworkError(true)
-          alert('error');
-        }
-      })
-      .catch((error) => {
-        setIsNetworkError(true)
-        alert('network error: ' + error);
-      })
+  const checkNetwork = useCallback(async () => {
+    setStatus('loading');
+    try {
+      const response = await fetch(WEBVIEW_URL);
+      if (response.ok) {
+        setStatus('ready');
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   }, []);
 
+  useEffect(() => {
+    void checkNetwork();
+  }, [checkNetwork]);
 
-  return <SafeAreaView style={styles.wrapper}>
-
-    <>{isNetworkError ? <NetworkErrorOrganism/> : <WebViewOrganism/>}</>
-
-  </SafeAreaView>
+  return (
+    <SafeAreaView style={styles.wrapper}>
+      {status === 'loading' && <LoadingAtom />}
+      {status === 'error' && <NetworkErrorOrganism onRetry={checkNetwork} />}
+      {status === 'ready' && <WebViewOrganism />}
+    </SafeAreaView>
+  );
 }
