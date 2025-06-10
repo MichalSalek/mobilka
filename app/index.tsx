@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
 import {WEBVIEW_URL} from "../app.config";
-import NetworkErrorOrganism from "../components/NetworkError.organism";
-import WebViewOrganism from "../components/WebView.organism";
-import LoadingAtom from "../components/Loading.atom";
+import {NetworkErrorOrganism} from "../components/NetworkError.organism";
+import {WebViewOrganism} from "../components/WebView.organism";
+import {LoadingAtom} from "../components/Loading.atom";
 
 const styles = StyleSheet.create({
   wrapper: {
@@ -12,34 +12,36 @@ const styles = StyleSheet.create({
   },
 });
 
-type Status = 'loading' | 'error' | 'ready';
-
 export default function App() {
-  const [status, setStatus] = useState<Status>('loading');
+  const [isNetworkError, setIsNetworkError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true); // Dodajemy stan ładowania
 
-  const checkNetwork = useCallback(async () => {
-    setStatus('loading');
-    try {
-      const response = await fetch(WEBVIEW_URL);
-      if (response.ok) {
-        setStatus('ready');
-      } else {
-        setStatus('error');
-      }
-    } catch {
-      setStatus('error');
-    }
-  }, []);
+  const checkNetwork = () => {
+    setIsLoading(true);
+    fetch(WEBVIEW_URL)
+      .then((response) => {
+        setIsNetworkError(response.status !== 200);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsNetworkError(true);
+        setIsLoading(false);
+      });
+  };
 
   useEffect(() => {
-    void checkNetwork();
-  }, [checkNetwork]);
+    checkNetwork();
+  }, []);
 
   return (
     <SafeAreaView style={styles.wrapper}>
-      {status === 'loading' && <LoadingAtom />}
-      {status === 'error' && <NetworkErrorOrganism onRetry={checkNetwork} />}
-      {status === 'ready' && <WebViewOrganism />}
+      {isLoading ? (
+        <LoadingAtom/>
+      ) : isNetworkError ? (
+        <NetworkErrorOrganism onRetry={checkNetwork}/>
+      ) : (
+        <WebViewOrganism onError={() => setIsNetworkError(true)}/>
+      )}
     </SafeAreaView>
   );
 }

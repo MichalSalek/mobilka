@@ -1,32 +1,35 @@
-// NetworkErrorOrganism.tsx
-import React from 'react';
-import {View, Text, Button, StyleSheet} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+
+export const NetworkErrorOrganism = ({ onRetry }) => {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.text}>No internet connection.</Text>
+      <TouchableOpacity style={styles.button} onPress={onRetry}>
+        <Text style={styles.buttonText}>Retry</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+    backgroundColor: '#f8d7da',
   },
-  message: {
+  text: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  button: {
+    backgroundColor: '#0d6efd',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 6,
+  },
+  buttonText: {
+    color: 'white',
     fontSize: 16,
-    marginBottom: 12,
-    textAlign: 'center',
   },
 });
-
-type Props = {
-  onRetry: () => void;
-};
-
-export default function NetworkErrorOrganism({onRetry}: Props) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.message}>
-        No internet connection.
-      </Text>
-      <Button title="Retry" onPress={onRetry} />
-    </View>
-  );
-}
