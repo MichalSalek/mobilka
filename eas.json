@@ -1,24 +1,46 @@
 {
+  "$schema": "https://json.schemastore.org/eas.json",
   "cli": {
-    "version": ">= 16.3.3",
+    "version": ">= 3.0.0",
     "appVersionSource": "remote"
   },
   "build": {
-    "development": {
-      "environment": "development",
-      "developmentClient": true,
-      "distribution": "internal"
-    },
     "preview": {
-      "environment": "preview",
+      "channel": "preview",
+      "android": {
+        "buildType": "apk",
+        "gradleCommand": ":app:assembleRelease"
+      },
+      "ios": {
+        "buildConfiguration": "Release"
+      },
+      "env": {
+        "APP_ENV": "preview"
+      }
+    },
+    "development": {
+      "channel": "development",
+      "developmentClient": true,
+      "distribution": "internal",
       "android": {
         "buildType": "apk"
       },
-      "distribution": "internal"
+      "env": {
+        "APP_ENV": "development"
+      }
     },
     "production": {
-      "environment": "production",
-      "autoIncrement": true
+      "channel": "production",
+      "autoIncrement": true,
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "ios": {
+        "enterpriseProvisioning": "universal"
+      },
+      "env": {
+        "APP_ENV": "production"
+      }
     }
   },
   "submit": {
