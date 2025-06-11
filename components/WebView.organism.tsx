@@ -1,5 +1,5 @@
 import WebView from "react-native-webview";
-import {WEBVIEW_URL} from "../app.config";
+import {WEBVIEW_URL} from "../appDomain.config";
 import {BackHandler, StyleSheet} from "react-native";
 import {useEffect, useRef} from "react";
 

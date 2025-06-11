@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet} from 'react-native';
-import {WEBVIEW_URL} from "../app.config";
+import {WEBVIEW_URL} from "../appDomain.config";
 import {NetworkErrorOrganism} from "../components/NetworkError.organism";
 import {WebViewOrganism} from "../components/WebView.organism";
 import {LoadingAtom} from "../components/Loading.atom";
