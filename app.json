@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "mobilkaprod",
+    "name": "mobilkapreview",
     "slug": "mobilka",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -13,7 +13,7 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "bundleIdentifier": "com.michsaw.mobilkaprod",
+      "bundleIdentifier": "com.michsaw.mobilkapreview",
       "supportsTablet": true,
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
@@ -23,7 +23,7 @@
       }
     },
     "android": {
-      "package": "com.michsaw.mobilkaprod",
+      "package": "com.michsaw.mobilkapreview",
       "permissions": [
         "android.permission.INTERNET",
         "android.permission.CAMERA"
