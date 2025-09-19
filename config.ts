@@ -1,1 +1,0 @@
-export const WEBVIEW_URL = process.env.EXPO_PUBLIC_WEB_URL

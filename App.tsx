@@ -5,7 +5,6 @@ import {NetworkErrorOrganism} from "./NetworkError.organism";
 import {WebViewOrganism} from "./WebView.organism";
 import {StatusBar} from "expo-status-bar";
 import {StyleSheet} from "react-native";
-import {WEBVIEW_URL} from './config'
 
 
 export default function App() {
@@ -14,7 +13,7 @@ export default function App() {
 
   const checkNetwork = () => {
     setIsLoading(true);
-    fetch(WEBVIEW_URL, {
+    fetch(process.env.EXPO_PUBLIC_API_URL, {
       cache: 'no-store',
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -48,7 +47,7 @@ export default function App() {
           <NetworkErrorOrganism onRetry={checkNetwork}/>
         ) : (
           !isLoading && <WebViewOrganism
-              url={WEBVIEW_URL}
+              url={process.env.EXPO_PUBLIC_API_URL}
               onNetworkError={() => setIsNetworkError(true)}
           />
         )}

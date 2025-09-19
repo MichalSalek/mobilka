@@ -7,7 +7,9 @@
     <list default="true" id="1297cbfe-9be3-4c7e-9819-b22566a44e14" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../main" beforeDir="false" afterPath="$PROJECT_DIR$/../main" afterDir="false" />
       <change beforePath="$PROJECT_DIR$" beforeDir="false" afterPath="$PROJECT_DIR$" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.json" beforeDir="false" afterPath="$PROJECT_DIR$/app.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../web-1" beforeDir="false" afterPath="$PROJECT_DIR$/../web-1" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
